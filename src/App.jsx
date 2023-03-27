@@ -7,8 +7,8 @@ import { LinearProgress, ThemeProvider } from "@mui/material";
 import AuthProvider from "@context/AuthProvider";
 import CheckoutForm from "./pages/checkout-session-new/CheckoutForm";
 
-const StartForm = React.lazy(() => import("@pages/StartForm"));
-const Rejection = React.lazy(() => import("@pages/Rejection"));
+// const StartForm = React.lazy(() => import("@pages/StartForm"));
+// const Rejection = React.lazy(() => import("@pages/Rejection"));
 
 import NotificationPage from "./pages/checkout-session-new/NotificationPage";
 
@@ -43,9 +43,9 @@ const App = () => {
               />
               <Route path="new/notification" element={<NotificationPage />} />
               {/* new checkout */}
-              <Route path="start-form/:token" element={<StartForm />} />
+              {/* <Route path="start-form/:token" element={<StartForm />} />
 
-              <Route path="payment/rejected/:token" element={<Rejection />} />
+              <Route path="payment/rejected/:token" element={<Rejection />} /> */}
             </Route>
           </Routes>
         </ThemeProvider>
