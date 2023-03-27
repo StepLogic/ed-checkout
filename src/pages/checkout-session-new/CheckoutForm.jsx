@@ -248,7 +248,7 @@ const CheckoutForm = () => {
                   <div>Prezzo IVA inclusa</div>
                   <div className="font-bold">{product.price.toDecimalsEuro()}</div>
                 </div> */}
-                <Box sx={priceItemStyle}>
+                {/* <Box sx={priceItemStyle}>
                   <p>Prezzo del percorso</p>
                   <b>
                     {price?.no_iva?.integer}
@@ -276,21 +276,19 @@ const CheckoutForm = () => {
                       </Typography>
                     </b>
                   </Box>
-                ) : null}
+                ) : null} */}
                 <Box sx={priceItemStyle}>
-                  <p className="!font-bold">Totale da pagare</p>
+                  <p className="">Iscrizione</p>
                   <Typography component={"b"} sx={{}} className="!font-bold">
-                    {price?.price?.integer}
-                    <Typography component={"em"} sx={{}} className="!font-bold">
-                      {price?.price?.decimal} €
-                    </Typography>
+                    € {price?.price?.integer}
+                    {","}
+                    {price?.price?.decimal}
                   </Typography>
                 </Box>
+                <div className="my-2  font-bold text-center text-[#2D224C]">
+                  *Questo costo verrà detratto dal prezzo del percorso
+                </div>
               </Box>
-
-              <div className="my-2 italic font-bold">
-                *Questo costo verrà detratto dal prezzo del percorso
-              </div>
             </Box>
             {/* <Button
               color="primary"
