@@ -42,7 +42,7 @@ const App = () => {
                 element={<CheckoutForm />}
               />
               <Route path="new/notification" element={<NotificationPage />} />
-              {/* new checkout */}
+
               {/* <Route path="start-form/:token" element={<StartForm />} />
 
               <Route path="payment/rejected/:token" element={<Rejection />} /> */}
