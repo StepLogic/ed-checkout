@@ -1,0 +1,120 @@
+.root .react-pdf__Document {
+  position: relative;
+}
+
+.root .react-pdf__Page__textContent {
+  display: none !important;
+}
+
+.first {
+  display: none;
+}
+.root .react-pdf__Page {
+  background-color: #fff;
+}
+
+.root .react-pdf__Page.center canvas.react-pdf__Page__canvas {
+  /* box-shadow: 0px 10px 12px 0px rgba(0,0,0,0.66) !important; */
+  position: relative;
+}
+
+canvas {
+  margin: 0 !important;
+}
+
+.root .react-pdf__Page.first {
+  /* box-shadow: 3px 1px 12px 0px rgba(0, 0, 0, 0.63) !important; */
+}
+
+.root .react-pdf__Page.last {
+  /* box-shadow: -4px 1px 12px 0px rgba(0, 0, 0, 0.63) !important; */
+}
+
+.root .react-pdf__Page__canvas {
+  width: 32vw !important;
+  height: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  box-sizing: border-box;
+  display: flex !important;
+  justify-content: center !important;
+  /* box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.36) !important; */
+  box-shadow: 0px 1px 12px 0px rgba(0, 0, 0, 0.36) !important;
+}
+
+.root .react-pdf__Page.first,
+.root .react-pdf__Page.last {
+  width: 40vw !important;
+  zoom: 0.8 !important;
+  height: auto;
+  top: 50%;
+  transform: translate(0, -50%);
+}
+
+.root .react-pdf__Page__annotations.annotationLayer {
+  width: auto !important;
+  height: auto !important;
+}
+
+@media screen and (max-width: 640px) {
+  .root .react-pdf__Page__canvas {
+    width: 90vw !important;
+  }
+}
+@media screen and (max-width: 140px) {
+  .root .react-pdf__Page__canvas {
+    width: 40vw !important;
+  }
+}
+
+@media screen and (min-width: 784px) and (max-width: 920px) {
+  .root .react-pdf__Page__canvas {
+    width: 80vw !important;
+  }
+}
+@media screen and (min-width: 641px) and (max-width: 920px) {
+  .root .react-pdf__Page__canvas {
+    width: 80vw !important;
+  }
+}
+
+/*Swiper*/
+.root .thumbnail {
+  min-width: 96px;
+  width: 15.2vw;
+  max-width: 100px;
+  height: 55px;
+  opacity: 0.4;
+  @apply lg:max-w-[12.5rem] lg:h-[120px];
+}
+.root .thumbnail .root .react-pdf__Page__canvas {
+  min-width: 96px;
+  width: 15.2vw;
+  max-width: 100px;
+  height: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  box-sizing: border-box;
+  display: flex !important;
+  justify-content: center !important;
+  box-shadow: 0px 1px 12px 0px rgba(0, 0, 0, 0.36) !important;
+  @apply lg:max-w-[12.5rem];
+}
+.root .active-thumbnail {
+  /*border: 2px solid #74DFAC;*/
+  opacity: 1;
+}
+.root .track {
+  transition: transform 100s;
+  scrollbar-width: none;
+}
+.root .mySwiper .swiper-slide {
+  min-width: 96px;
+  width: 15.2vw;
+  max-width: 100px;
+  height: 55px;
+  @apply lg:max-w-[12.5rem] lg:h-[120px];
+}
+/*.track ::-webkit-scrollbar{*/
+/*                                     width: 0;*/
+/*                                 }*/

@@ -1,0 +1,167 @@
+{
+  "Admission Support": [
+    {
+      "video": "18.Francesca.mp4",
+      "poster": "18.Francesca.png?v=1.0.1"
+    },
+    {
+      "video": "2.Caterina.mp4",
+      "poster": "2.Caterina.png?v=1.0.1"
+    },
+    {
+      "video": "4.Francesco.mp4",
+      "poster": "4.Francesco.png?v=1.0.1"
+    },
+    {
+      "video": "5.Giovanni.mp4",
+      "poster": "5.Giovanni.png?v=1.0.1"
+    },
+    {
+      "video": "6.Fabio.mp4",
+      "poster": "6.Fabio.png?v=1.0.1"
+    },
+    {
+      "video": "7.Giulio.mp4",
+      "poster": "7.Giulio.png?v=1.0.1"
+    },
+    {
+      "video": "8.Lorenzo.mp4",
+      "poster": "8.Lorenzo.png?v=1.0.1"
+    },
+    {
+      "video": "9.Gian Andrea.mp4",
+      "poster": "9.Gian Andrea.png?v=1.0.2"
+    },
+    {
+      "video": "10.Lorenzo-2.mp4",
+      "poster": "10.Lorenzo-2.png?v=1.0.1"
+    },
+    {
+      "video": "11.Serena.mp4",
+      "poster": "11.Serena.png?v=1.0.1"
+    },
+    {
+      "video": "13.Nicolo.mp4",
+      "poster": "13.Nicolo.png?v=1.0.1"
+    },
+    {
+      "video": "14.Silvio.mp4",
+      "poster": "14.Silvio.png?v=1.0.1"
+    },
+    {
+      "video": "15.Pietro.mp4",
+      "poster": "15.Pietro.png?v=1.0.1"
+    },
+    {
+      "video": "17.Domenico.mp4",
+      "poster": "17.Domenico.png?v=1.0.1"
+    },
+    {
+      "video": "18.Francesca.mp4",
+      "poster": "18.Francesca.png?v=1.0.1"
+    }
+  ],
+  "Inglese": [
+    {
+      "video": "15.Flaminia.mp4",
+      "poster": "15.Flaminia.png?v=1.0.1"
+    },
+    {
+      "video": "16.Emanuele.mp4",
+      "poster": "16.Emanuele.png?v=1.0.1"
+    },
+    {
+      "video": "17.Jessica.mp4",
+      "poster": "17.Jessica.png?v=1.0.1"
+    },
+    {
+      "video": "11.Gabriela.mp4?v=1.0.1",
+      "poster": "11.Gabriela.png?v=1.0.2"
+    },
+    {
+      "video": "12.Federica.mp4",
+      "poster": "12.Federica.png?v=1.0.1"
+    },
+    {
+      "video": "13.Nicole.mp4",
+      "poster": "13.Nicole.png?v=1.0.1"
+    },
+    {
+      "video": "14.Piero.mp4",
+      "poster": "14.Piero.png?v=1.0.1"
+    },
+    {
+      "video": "1.Alessia.mp4",
+      "poster": "1.Alessia.png?v=1.0.1"
+    },
+    {
+      "video": "2.Alice.mp4",
+      "poster": "2.Alice.png?v=1.0.1"
+    },
+    {
+      "video": "3.Davide.mp4",
+      "poster": "3.Davide.png?v=1.0.1"
+    },
+    {
+      "video": "4.Chiara.mp4",
+      "poster": "4.Chiara.png?v=1.0.1"
+    },
+    {
+      "video": "5.Francesca.mp4",
+      "poster": "5.Francesca.png?v=1.0.1"
+    },
+    {
+      "video": "6.Giacomo.mp4",
+      "poster": "6.Giacomo.png?v=1.0.1"
+    },
+    {
+      "video": "7.Letizia.mp4",
+      "poster": "7.Letizia.png?v=1.0.1"
+    },
+    {
+      "video": "8.Livia.mp4",
+      "poster": "8.Livia.png?v=1.0.1"
+    },
+    {
+      "video": "9.Mattia.mp4",
+      "poster": "9.Mattia.png?v=1.0.1"
+    },
+    {
+      "video": "10.Sveva.mp4",
+      "poster": "10.Sveva.png?v=1.0.1"
+    }
+  ],
+  "slider": {
+    "infinite": true,
+    "slidesToShow": 4,
+    "dots": false,
+    "arrows": false,
+    "autoplay": true,
+    "pauseOnHover": true,
+    "autoplaySpeed": 3000,
+    "swipeToSlide": true,
+    "touchThreshold": 100,
+    "responsive": [
+      {
+        "breakpoint": 1200,
+        "settings": {
+          "slidesToShow": 3
+        }
+      },
+      {
+        "breakpoint": 992,
+        "settings": {
+          "slidesToShow": 2
+        }
+      },
+      {
+        "breakpoint": 576,
+        "settings": {
+          "slidesToShow": 1,
+          "autoplay": true,
+          "speed": 300
+        }
+      }
+    ]
+  }
+}

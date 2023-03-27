@@ -1,0 +1,508 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+/* add import statement for fonts here to enable bold of login pages */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* COMMON */
+::-webkit-scrollbar {
+  width: 8px; /* width of the entire scrollbar */
+}
+
+::-webkit-scrollbar-track {
+  background: white; /* color of the tracking area */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #8065c9; /* color of the scroll thumb */
+  border-radius: 20px; /* roundness of the scroll thumb */
+  border: 3px solid #8065c9; /* creates padding around scroll thumb */
+}
+input:-webkit-autofill,
+input:-webkit-autofill:focus {
+  transition: background-color 600000s 0s, color 600000s 0s;
+}
+input[data-autocompleted] {
+  background-color: transparent !important;
+}
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Poppins";
+  font-style: normal;
+}
+
+/* UTILITY */
+.index_negativo {
+  z-index: -0;
+}
+.message {
+  background-color: white;
+  color: #8065c9;
+  border-left: 20px solid #8065c9;
+  border-radius: 10px;
+  padding: 20px 20px;
+}
+
+.message_form {
+  background-color: #d9daf3;
+  color: #8065c9;
+  border-left: 20px solid #8065c9;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.color_button {
+  color: #d4145a;
+}
+
+/* NAVBAR */
+
+.img_sfondo_top {
+  width: 100%;
+  /* height: 200px; */
+  color: #2d224c;
+  font-weight: 700;
+  padding: 3rem 1.5rem 0 1.5rem;
+}
+.startForm_page .img_sfondo_top {
+  width: 100%;
+  /* height: 140px; */
+  color: #2d224c;
+  font-weight: 700;
+  padding: 3rem 1.5rem 0 1.5rem;
+}
+
+.img_sfondo_top_form {
+  width: 100%;
+  /* height: 255px; */
+  font-weight: 700;
+  color: white;
+  padding: 3rem 1.5rem 0 1.5rem;
+  background-image: url("./assets/img/top_back.svg");
+  background-repeat: no-repeat;
+  background-position: bottom;
+  background-size: cover;
+}
+
+.progress {
+  width: 100%;
+  height: 265px;
+  z-index: -2;
+  background-image: url("./assets/img/redLine.svg");
+  background-repeat: no-repeat;
+  background-position: bottom;
+  background-size: cover;
+}
+
+.nascondi {
+  height: 265px;
+  z-index: -1;
+}
+
+.logo {
+  width: 94px;
+  height: 42.91px;
+}
+
+.logo img {
+  width: 100%;
+  height: 100%;
+}
+.help {
+  font-weight: 400 !important;
+  cursor: pointer;
+}
+.img_sfondo_top .help {
+  color: #2d224c;
+}
+.img_sfondo_top_form .help {
+  color: white;
+}
+.line {
+  height: 1px;
+  background-color: #2d224c;
+  width: 97%;
+}
+.img_sfondo_top_form .line {
+  background-color: white;
+}
+
+/* MAIN */
+
+.login_page,
+.startForm_page,
+.reset_password {
+  background-color: #d9daf3;
+  height: 100vh;
+  height: calc(var(--vh, 1vh) * 100);
+}
+
+.startForm_page {
+  min-height: 730px;
+}
+
+.startForm {
+  height: calc(100% - 288px);
+  min-height: 319px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.login {
+  height: calc(100% - 348px);
+  min-height: 319px;
+  padding-top: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.form_page {
+  height: 100vh;
+  min-height: 700px;
+  overflow: hidden;
+}
+.form {
+  height: calc(100% - 255px);
+  min-height: 412px;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.timezone-wrapper {
+  text-align: left;
+}
+.timezone-wrapper .css-b62m3t-container > div[class$="Sa"] {
+  width: 100%;
+  position: absolute;
+  top: 100%;
+  left: 0;
+}
+
+.timezone-wrapper .css-1s2u09g-control {
+  border-width: 0px;
+  border-radius: 0;
+  border-bottom: 1px solid #0000006b;
+  color: #2d224c;
+  font-size: 19px;
+  background-color: white;
+  transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+}
+
+.timezone-wrapper .css-1pahdxg-control {
+  border-radius: 0;
+  border-width: 0;
+  border-bottom: 2px solid #8065c9;
+  box-shadow: 0 0 0 0 #8065c9;
+  font-size: 19px;
+  background-color: white;
+  transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+}
+.timezone-wrapper .css-1pahdxg-control:hover {
+  border-color: #8065c9;
+}
+.timezone-wrapper .css-1s2u09g-control:hover {
+  border-color: #8065c9;
+}
+.timezone-wrapper .css-qc6sy-singleValue {
+  color: #2d224c;
+}
+.timezone-wrapper .css-1okebmr-indicatorSeparator {
+  width: 0;
+}
+.timezone-wrapper .css-tlfecz-indicatorContainer svg {
+  fill: #2d224c;
+}
+.timezone-wrapper .css-dwfvof-Sa {
+  max-height: 125px;
+  box-shadow: 0px 5px 5px -3px rgb(0 0 0 / 20%),
+    0px 8px 10px 1px rgb(0 0 0 / 14%), 0px 3px 14px 2px rgb(0 0 0 / 12%);
+  border-radius: 10px;
+}
+.timezone-wrapper .css-17adf03-Sa {
+  padding: 2px 0;
+}
+.timezone-wrapper .css-9gakcf-option {
+  background-color: #d9daf3;
+  color: #8065c9;
+  font-size: 0.75rem;
+}
+
+.timezone-wrapper .css-yt9ioa-option {
+  font-size: 0.75rem;
+}
+.timezone-wrapper .css-yt9ioa-option:hover {
+  background-color: #d9daf3;
+  color: #8065c9;
+}
+.timezone-wrapper .css-1n7v3ny-option:hover {
+  background-color: #d9daf3;
+  color: #8065c9;
+}
+.timezone-wrapper .css-1n7v3ny-option {
+  background-color: #d9daf3;
+  color: #8065c9;
+  font-size: 0.75rem;
+}
+
+.response {
+  box-shadow: 0px 5px 5px -3px rgb(0 0 0 / 20%),
+    0px 8px 10px 1px rgb(0 0 0 / 14%), 0px 3px 14px 2px rgb(0 0 0 / 12%);
+}
+
+.recButton.background {
+  background-image: url("./assets/img/audioWave.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+/* FOOTER */
+.img_sfondo_bottom {
+  padding-top: 4rem;
+  /* background-image: url("./assets/img/bottom_back.svg"); */
+  background-repeat: no-repeat;
+  background-position: top;
+  background-size: cover;
+  height: 148px;
+  color: white;
+}
+@media screen and (min-width: 500px) {
+  .img_sfondo_bottom {
+    padding-top: 6rem;
+    margin-top: -52px;
+    height: 200px;
+    color: white;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .img_sfondo_top {
+    /* height: 200px; */
+  }
+  .img_sfondo_top_form {
+    /* height: 255px; */
+    background-image: url("./assets/img/top_back_desktop.svg");
+  }
+  .progress {
+    height: 265px;
+    background-image: url("./assets/img/redLine_desktop.svg");
+  }
+  .nascondi {
+    height: 270px;
+  }
+  .startForm_page .img_sfondo_top {
+    height: 140px;
+  }
+  .login {
+    height: calc(100vh - 415px);
+  }
+  .startForm {
+    height: calc(100% - 355px);
+  }
+  .form_page {
+    min-height: 750px;
+  }
+
+  .img_sfondo_bottom {
+    /* background-image: url("./assets/img/bottom_back_desktop.svg"); */
+    padding-top: 0;
+    margin-top: -85px;
+    background-position: top;
+    height: 300px;
+  }
+  .message_form {
+    border-left: 20px solid #8065c9;
+    padding: 20px;
+  }
+
+  .timezone-wrapper .css-dwfvof-Sa {
+    max-height: 325px;
+  }
+  .timezone-wrapper .css-qc6sy-singleValue {
+    font-size: 24px;
+  }
+}
+@media screen and (min-width: 1024px) {
+  .img_sfondo_top_form {
+    height: 265px;
+  }
+  .progress {
+    height: 275px;
+  }
+  .nascondi {
+    height: 280px;
+  }
+  .form {
+    height: calc(100% - 265px);
+  }
+  .form_page {
+    min-height: 850px;
+  }
+  .timezone-wrapper .css-qc6sy-singleValue {
+    font-size: 26px;
+  }
+  .timezone-wrapper .css-9gakcf-option,
+  .timezone-wrapper .css-yt9ioa-option,
+  .timezone-wrapper .css-1n7v3ny-option {
+    font-size: 0.875rem;
+  }
+}
+@media screen and (min-width: 1280px) {
+  .form_page {
+    min-height: 860px;
+  }
+  .timezone-wrapper .css-qc6sy-singleValue {
+    font-size: 28px;
+  }
+  .timezone-wrapper .css-9gakcf-option,
+  .timezone-wrapper .css-yt9ioa-option,
+  .timezone-wrapper .css-1n7v3ny-option {
+    font-size: 1rem;
+  }
+}
+@media screen and (min-width: 1920px) {
+  .logo {
+    width: 112.8px;
+    height: 47.892px;
+  }
+  .form_page {
+    min-height: 880px;
+  }
+  .timezone-wrapper .css-qc6sy-singleValue {
+    font-size: 32px;
+  }
+}
+@media screen and (min-width: 2300px) {
+  .img_sfondo_top_form {
+    height: 300px;
+  }
+  .form_page {
+    min-height: 1150px;
+  }
+  .progress {
+    height: 310px;
+  }
+  .nascondi {
+    height: 315px;
+  }
+  .form {
+    height: calc(100% - 400px);
+  }
+  .message,
+  .message_form {
+    border-left: 35px solid #8065c9;
+    padding: 30px 30px;
+  }
+  .startForm_page {
+    min-height: 1100px;
+  }
+  .logo {
+    width: 188px;
+    height: 79.82px;
+  }
+  .img_sfondo_bottom {
+    height: 383px;
+    margin-top: -168px;
+    color: white;
+  }
+  .timezone-wrapper .css-dwfvof-Sa {
+    max-height: 500px;
+  }
+  .timezone-wrapper .css-qc6sy-singleValue {
+    font-size: 36px;
+  }
+  .timezone-wrapper .css-9gakcf-option,
+  .timezone-wrapper .css-yt9ioa-option,
+  .timezone-wrapper .css-1n7v3ny-option {
+    font-size: 1.25rem;
+  }
+}
+@media screen and (min-width: 3500px) {
+  .img_sfondo_top_form {
+    height: 600px;
+  }
+  .progress {
+    height: 615px;
+  }
+  .nascondi {
+    height: 620px;
+  }
+
+  .form {
+    height: calc(100% - 600px);
+  }
+  .form_page {
+    min-height: 1800px;
+  }
+  .message,
+  .message_form {
+    border-left: 40px solid #8065c9;
+    padding: 40px 40px;
+    border-radius: 20px;
+  }
+  .login {
+    height: calc(100vh - 550px);
+  }
+  .startForm {
+    height: calc(100% - 490px);
+  }
+  .startForm_page {
+    min-height: 1590px;
+  }
+  .logo {
+    width: 376px;
+    height: 159.64px;
+  }
+  .img_sfondo_bottom {
+    height: 700px;
+    margin-top: -350px;
+    color: white;
+  }
+  .timezone-wrapper .css-qc6sy-singleValue {
+    font-size: 55px;
+  }
+  .timezone-wrapper .css-9gakcf-option,
+  .timezone-wrapper .css-yt9ioa-option,
+  .timezone-wrapper .css-1n7v3ny-option {
+    font-size: 2.25rem;
+  }
+}
+@media screen and (max-width: 1024px) {
+  body.noscroll {
+    height: 100%;
+    overflow: hidden; /* make sure iOS does not try to scroll the body first */
+  }
+}
+/* MUI-TEl */
+li.MuiTelInput-MenuItem:hover {
+  background-color: rgba(128, 101, 201, 0.12);
+}
+li.MuiTelInput-MenuItem.Mui-selected:hover {
+  background: unset;
+  background: #8065c9;
+  color: white;
+}
+li.MuiTelInput-MenuItem.Mui-selected {
+  background: #8065c9;
+  color: white;
+}
+li.MuiTelInput-MenuItem.Mui-selected > p {
+  /* background: #8065c9; */
+  color: white;
+}
+/* modify date picker */
+.MuiMonthPicker-root .Mui-selected {
+  color: white !important;
+}
+
+.MuiPickersFadeTransitionGroup-root > div {
+  text-transform: capitalize;
+}

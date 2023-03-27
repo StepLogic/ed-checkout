@@ -1,0 +1,67 @@
+.root {
+  display: grid;
+  grid-template-columns: 1fr;
+  /* grid-template-rows: ; */
+  height: fit-content;
+}
+.root > div {
+  border-bottom: 1px solid #cccccc;
+}
+.root > div::before {
+  /* border-bottom: 1px solid #cccccc; */
+  display: none !important;
+}
+.root > div::after {
+  /* border-bottom: 1px solid #cccccc; */
+  display: none !important;
+}
+
+.fieldInput,
+.root > div > div {
+  padding: 8px 0 5px !important;
+  font-family: "Poppins" !important;
+  font-style: normal !important;
+  font-weight: 400 !important;
+  font-size: 1.25rem !important;
+  line-height: 99.5% !important;
+  color: #8065c9 !important;
+  display: flex;
+  align-items: center;
+}
+.placeholder,
+.root > div > div {
+  color: #949494 !important;
+}
+
+.label {
+  font-family: "Poppins" !important;
+  font-style: normal !important;
+  font-weight: 500 !important;
+  font-size: 0.8125rem !important;
+  line-height: 99.5% !important;
+  color: #2d224c !important;
+}
+.fieldRoot > div::before {
+  border-color: #cccccc !important ;
+  background: blue !important;
+  display: none;
+}
+.fieldRoot > div::after {
+  /* border-color: #cccccc !important ; */
+  background: blue !important;
+  display: none;
+}
+.fieldRoot > div {
+  border-bottom: 1px solid #cccccc;
+}
+
+@media only screen and (min-width: 763px) {
+  .fieldInput,
+  .root > div > div {
+    min-height: unset !important;
+    font-weight: 400;
+    font-size: min(calc(var(--vh, 1vh) * 2.4), 32px) !important;
+    padding: 4px 0 5px !important;
+    /* background: red; */
+  }
+}

@@ -1,0 +1,47 @@
+.root {
+  display: grid;
+  grid-template-columns: 1fr;
+  /* grid-template-rows: ; */
+  height: fit-content;
+}
+.fieldInput::placeholder {
+  font-family: "DM Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 1.25rem;
+  line-height: 99.5%;
+  color: #cccccc !important;
+}
+.fieldInput {
+  padding: 8px 0 5px !important;
+  font-family: "Poppins" !important;
+  font-style: normal !important;
+  font-weight: 400 !important;
+  font-size: 20px !important;
+  line-height: 99.5% !important;
+  color: #8065c9 !important;
+}
+.label {
+  font-family: "Poppins" !important;
+  font-style: normal !important;
+  font-weight: 500 !important;
+  font-size: 13px !important;
+  line-height: 99.5% !important;
+  color: #2d224c !important;
+}
+.fieldRoot > div::before {
+  border-color: #cccccc !important ;
+  background: blue !important;
+  display: none;
+}
+.fieldRoot > div::after {
+  /* border-color: #cccccc !important ; */
+  background: blue !important;
+  display: none;
+}
+.fieldRoot > div {
+  border-bottom: 1px solid #cccccc;
+}
+/* .fieldRoot::before {
+
+} */

@@ -1,0 +1,30 @@
+.root {
+  display: grid;
+  grid-template-columns: 1fr;
+  /* grid-template-rows: ; */
+  height: fit-content;
+  width: 100%;
+}
+
+.root input:-webkit-autofill,
+.root input:-webkit-autofill:hover,
+.root input:-webkit-autofill:focus,
+.root input:-webkit-autofill:active {
+  transition: background-color 5000s ease-in-out 0s, color 5000s ease-in-out 0s;
+  transition-delay: background-color 5000s, color 5000s;
+}
+
+.grid {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 3fr 6fr;
+  gap: 1rem;
+}
+.label {
+  font-family: "Poppins" !important;
+  font-style: normal !important;
+  font-weight: 500 !important;
+  font-size: 13px !important;
+  line-height: 99.5% !important;
+  color: #2d224c !important;
+}
