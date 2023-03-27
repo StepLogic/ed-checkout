@@ -31,7 +31,7 @@ import Expired from "./Expired";
 import { CaBackground } from "@components/Icons";
 // IMG
 
-import PDFviewer from "@components/pdf/PDFviewer";
+import PDFviewer from "./pdf";
 
 const pauseAll = async () => {
   let videosBox = document.querySelectorAll(".video-box");
