@@ -3,7 +3,7 @@ const BASE = import.meta.env.VITE_BASE_URL;
 import axios from "axios";
 import { Box, Button, Checkbox, CircularProgress, FormControl, FormControlLabel, FormGroup, IconButton, FormHelperText, Link, Skeleton } from "@mui/material";
 import NavigateBeforeRoundedIcon from "@mui/icons-material/NavigateBeforeRounded";
-import MessageBox from "../../../components/MessageBox";
+import MessageBox from "@components/MessageBox";
 import { useNavigate } from "react-router";
 import { LoadingButton } from "@mui/lab";
 

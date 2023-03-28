@@ -83,7 +83,7 @@ const PaymentForm = ({ iva }) => {
           variant="contained"
           className="mt-8"
           onClick={() => {
-            navigate("/new/notification", {
+            navigate("/thank-you", {
               state: {
                 iva,
               },

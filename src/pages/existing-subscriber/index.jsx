@@ -1,16 +1,25 @@
-import { Box, Button, FormControlLabel, RadioGroup, Radio, FormControl, FormGroup, Checkbox, Link, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Checkbox,
+  FormControlLabel,
+  Link,
+  Radio,
+  RadioGroup,
+  Typography,
+} from "@mui/material";
 import React from "react";
-import bgCheckout from "../../assets/img/bgCheckout.svg";
 import klarna from "../../assets/img/klarna.svg";
-import bgCheckoutMobile from "../../assets/img/bgCheckoutMobile.svg";
-
-import "../../utils";
-import { useWindowSize } from "./LandingPaymentPage";
-import StripeCheckout from "./common/StripeCheckout";
-import KlarnaCheckout from "./common/KlarnaCheckout";
-import TopNav from "./TopNav";
-import PDFviewer from "./common/pdf/PDFviewer";
-import StripeInstallments from "./common/StripeInstallments";
+import bgCheckout from "@assets/img/bgCheckout.svg";
+import bgCheckoutMobile from "@assets/img/bgCheckoutMobile.svg";
+import { useWindowSize } from "../LandingPaymentPage";
+import PDFviewer from "../common/pdf/PDFviewer";
+import TopNav from "../TopNav";
+import useCheckout from "../useCheckout";
+import { LinearProgress } from "@mui/material";
+import StripeCheckout from "../common/StripeCheckout.jsx";
+import KlarnaCheckout from "../common/KlarnaCheckout.jsx";
+import IVAForm from "../common/IVAForm.jsx";
 
 Number.prototype.toDecimalsEuro = function () {
   let parsed = parseFloat(this / 100)
@@ -26,14 +35,21 @@ Number.prototype.toDecimalsEuro = function () {
     </div>
   );
 };
+const ExistingSubscriber = () => {
+  const {
+    data: { user, product },
+    isError,
+    isLoading,
+  } = useCheckout({ session: 1 });
 
-const CheckoutSessionExistingUser = ({ data }) => {
-  const { product, user } = data;
   const [width] = useWindowSize();
   const [paymentType, setPaymentType] = React.useState("Stripe");
   const [showPaymentForm, setShowPaymentForm] = React.useState(false);
   const [checked, setChecked] = React.useState(false);
   const [price, setPrice] = React.useState(null);
+
+  const [state, setState] = React.useState(0);
+  const [iva, setIva] = React.useState(false);
 
   const [showPDF, setShowPDF] = React.useState(false);
 
@@ -57,7 +73,7 @@ const CheckoutSessionExistingUser = ({ data }) => {
     my: 1,
     "& p": {
       lineHeight: "100%",
-
+      fontWeight: "600",
       ["@media (max-width:1180px) and (min-width:763px)"]: {
         fontSize: "calc(10.5px + 0.175vw)",
       },
@@ -82,12 +98,13 @@ const CheckoutSessionExistingUser = ({ data }) => {
       },
     },
   };
-
   React.useEffect(() => {
     if (!product) return;
 
     const priceData = {
-      no_iva: product?.discount ? product?.original_price_no_iva : product?.no_iva,
+      no_iva: product?.discount
+        ? product?.original_price_no_iva
+        : product?.no_iva,
       iva: product?.discount ? product?.original_price_iva : product?.iva,
       discount: product?.discount ? product?.discount : null,
       price: product?.price,
@@ -114,6 +131,14 @@ const CheckoutSessionExistingUser = ({ data }) => {
 
     setPrice(priceDataFormatted);
   }, []);
+
+  if (isError) {
+    return <NoPage />;
+  }
+
+  if (isLoading) {
+    return <LinearProgress />;
+  }
 
   return (
     <Box
@@ -184,7 +209,9 @@ const CheckoutSessionExistingUser = ({ data }) => {
               ["@media (min-width:1180px)"]: {},
             }}
           >
-            <h1 className="font-semibold leading-none text-white text-[24px] text-center lg:text-start lg:text-3xl 3xl:text-4xl max:text-6xl">Il tuo percorso prevede:</h1>
+            <h1 className="font-semibold leading-none text-white text-[24px] text-center lg:text-start lg:text-3xl 3xl:text-4xl max:text-6xl">
+              Il tuo percorso prevede:
+            </h1>
             <Box
               sx={{
                 display: ["grid"],
@@ -205,6 +232,18 @@ const CheckoutSessionExistingUser = ({ data }) => {
                   );
                 })}
               </Box>
+              <Button
+                color="primary"
+                onClick={() => setShowPDF((r) => !r)}
+                sx={{
+                  border: "1px solid #ffffff",
+                  color: "#ffffff!important",
+                  height: "39px",
+                }}
+                variant="outlined"
+              >
+                VIEW THE PRODUCT
+              </Button>
               <Box
                 sx={{
                   backgroundColor: "#D9DAF3",
@@ -216,65 +255,93 @@ const CheckoutSessionExistingUser = ({ data }) => {
                   // color: "#2D224C",
                 }}
               >
-                {/* <div className="flex items-center justify-between">
-                  <div>Prezzo del percorso</div>
-                  <div className="md:ml-10">{product.no_iva.toDecimalsEuro()}</div>
-                </div>
-                <div className="flex items-center justify-between my-3">
-                  <div>IVA (22%)</div>
-                  <div>{product.iva.toDecimalsEuro()}</div>
-                </div>
-                <div className="flex items-center justify-between">
-                  <div>Prezzo IVA inclusa</div>
-                  <div className="font-bold">{product.price.toDecimalsEuro()}</div>
-                </div> */}
                 <Box sx={priceItemStyle}>
                   <p>Prezzo del percorso</p>
                   <b>
                     {price?.no_iva?.integer}
-                    <Typography component={"em"}>{price?.no_iva?.decimal} €</Typography>
+                    <Typography component={"em"}>
+                      {price?.no_iva?.decimal} €
+                    </Typography>
                   </b>
                 </Box>
                 <Box sx={priceItemStyle}>
                   <p>IVA (22%)</p>
                   <b>
                     {price?.iva?.integer}
-                    <Typography component={"em"}>{price?.iva?.decimal} €</Typography>
+                    <Typography component={"em"}>
+                      {price?.iva?.decimal} €
+                    </Typography>
                   </b>
+                </Box>
+                <Box sx={priceItemStyle}>
+                  <p>Meno iscrizione</p>
+                  <b>
+                    -{price?.iva?.integer}
+                    <Typography component={"em"}>
+                      {price?.iva?.decimal} €
+                    </Typography>
+                  </b>
+                </Box>
+                <Box
+                  sx={{
+                    borderRadius: "9px",
+
+                    height: "62px",
+                    position: "relative",
+                    "& input": {
+                      borderRadius: "9px",
+                      background: "#ffffff",
+                      height: "62px",
+                      width: "100%",
+                      paddingLeft: "10px",
+                      paddingRight: "100px",
+                    },
+                    "& input::placeholder": {
+                      fontStyle: "italic",
+                      fontWeight: "400",
+                      fontSize: "24px",
+                      lineHeight: "100%",
+                      display: "flex",
+                      alignItems: "center",
+                      color: "#B4B4B4",
+                    },
+                    "& button": {
+                      width: "79px",
+                      height: "31.76px",
+                      borderRadius: "6px",
+                      border: "2px solid #2D224C",
+                      color: "#2D224C",
+                      fontSize: "14px",
+                      position: "absolute",
+                      top: "14px",
+                      right: "14px",
+                    },
+                  }}
+                >
+                  <input className={"mr-auto"} placeholder={"Discount code"} />
+                  <button className={"semibold active:invert"}>APPLICA</button>
                 </Box>
                 {price?.discount?.integer > 0 ? (
                   <Box sx={priceItemStyle}>
                     <p>Iscrizione pagata</p>
                     <b>
                       -{price?.discount?.integer}
-                      <Typography component={"em"}>{price?.discount?.decimal} €</Typography>
+                      <Typography component={"em"}>
+                        {price?.discount?.decimal} €
+                      </Typography>
                     </b>
                   </Box>
                 ) : null}
                 <Box sx={priceItemStyle}>
-                  <p className="!font-bold">Totale da pagare</p>
+                  <p className="">Totale</p>
                   <Typography component={"b"} sx={{}} className="!font-bold">
-                    {price?.price?.integer}
-                    <Typography component={"em"} sx={{}} className="!font-bold">
-                      {price?.price?.decimal} €
-                    </Typography>
+                    € {price?.price?.integer}
+                    {","}
+                    {price?.price?.decimal}
                   </Typography>
                 </Box>
               </Box>
-
-              {/* <div className="my-2 italic font-bold">*Questo costo verrà detratto dal prezzo del percorso</div> */}
             </Box>
-            <Button
-              color="primary"
-              onClick={() => setShowPDF((r) => !r)}
-              sx={{
-                border: "1px solid #D9DAF3",
-                color: "#D9DAF3!important",
-              }}
-              variant="outlined"
-            >
-              VIEW THE PRODUCT
-            </Button>
           </Box>
         </Box>
 
@@ -283,7 +350,9 @@ const CheckoutSessionExistingUser = ({ data }) => {
           // className="px-4 pt-8 pb-8  lg:pt-8 bg-no-repeat bg-cover md:pl-32 md:p-10 lg:min-h-screen"
           className="pb-8 px-4"
           style={{
-            backgroundImage: `url('${width < 768 ? bgCheckoutMobile : bgCheckout}')`,
+            backgroundImage: `url('${
+              width < 768 ? bgCheckoutMobile : bgCheckout
+            }')`,
             // paddingTop: width < 768 ? 0 : 0,
             backgroundRepeat: "no",
             backgroundSize: "cover",
@@ -369,16 +438,17 @@ const CheckoutSessionExistingUser = ({ data }) => {
               </Box>
             ) : (
               <>
-                <h1 className=" font-semibold text-center lg:text-start  leading-none text-edu-900 text-[24px] lg:text-3xl 3xl:text-4xl max:text-6xl w-full">Scegli il metodo di pagamento</h1>
                 <Box
                   sx={{
                     display: ["grid"],
                     gridTemplateColumns: "1fr",
                     gap: "1rem",
                     marginBottom: "1rem",
-                    gridTemplateRows: ["30vh 20vh"],
+                    gridTemplateRows: ["3rem  30vh 20vh"],
                     ["@media (min-width:1180px)"]: {
-                      gridTemplateRows: ["minmax(18.5rem,30vh) minmax(3rem,15vh)"],
+                      gridTemplateRows: [
+                        "3rem minmax(18.5rem,30vh) minmax(3rem,15vh)",
+                      ],
                       gap: "0px",
                     },
                   }}
@@ -386,38 +456,96 @@ const CheckoutSessionExistingUser = ({ data }) => {
                 >
                   {!showPaymentForm ? (
                     <>
+                      <h1 className=" font-semibold text-center lg:text-start  leading-none text-edu-900 text-[24px] lg:text-3xl 3xl:text-4xl max:text-6xl w-full">
+                        Scegli il metodo di pagamento
+                      </h1>
                       <Box className="grid grid-cols-1">
-                        <RadioGroup className="grid grid-cols-1 gap-4  h-fit" sx={{ gridAutoRows: "min(95px,20vh)" }} aria-labelledby="demo-radio-buttons-group-label" onChange={(e) => setPaymentType(e.target.value)} value={paymentType} name="radio-buttons-group">
+                        <RadioGroup
+                          className="grid grid-cols-1 gap-4  h-fit"
+                          sx={{ gridAutoRows: "min(95px,20vh)" }}
+                          aria-labelledby="demo-radio-buttons-group-label"
+                          onChange={(e) => setPaymentType(e.target.value)}
+                          value={paymentType}
+                          name="radio-buttons-group"
+                        >
                           <div className="py-3 my-1 flex flex-row items-center rounded-lg bg-edu-light-blue">
-                            <FormControlLabel value="Stripe" control={<Radio className="md:ml-8 ml-6 md:mr-4" />} label={<span className=" text-edu-900">PAGA TUTTO SUBITO</span>} />
+                            <FormControlLabel
+                              value="Stripe"
+                              control={
+                                <Radio className="md:ml-8 ml-6 md:mr-4" />
+                              }
+                              label={
+                                <span className=" text-edu-900">
+                                  PAGA TUTTO SUBITO
+                                </span>
+                              }
+                            />
                           </div>
 
                           <div className="py-3 my-1  flex  flex-row  items-center rounded-lg bg-edu-light-blue">
                             <FormControlLabel
                               value="Klarna"
-                              control={<Radio className="md:ml-8 ml-6 md:mr-4" />}
+                              control={
+                                <Radio className="md:ml-8 ml-6 md:mr-4" />
+                              }
                               label={
                                 <div className="flex items-center text-edu-900">
-                                  PAGA IN 3 RATE CON <img src={klarna} className="ml-2 w-[20%] lg:w-auto" />
+                                  PAGA IN 3 RATE CON{" "}
+                                  <img
+                                    src={klarna}
+                                    className="ml-2 w-[20%] lg:w-auto"
+                                  />
                                 </div>
                               }
                             />
                           </div>
                         </RadioGroup>
                       </Box>
-                      <Box className={"flex flex-col max-w-full justify-end flex-auto"}>
+                      <Box
+                        className={
+                          "flex flex-col max-w-full justify-end flex-auto"
+                        }
+                      >
                         <FormControlLabel
                           className="mb-[8px] lg:mb-[10px] ml-0 w-full "
-                          control={<Checkbox id="checkbox" checked={checked} onClick={() => setChecked((prev) => !prev)} />}
+                          control={
+                            <Checkbox
+                              id="checkbox"
+                              checked={state}
+                              onClick={() => setState((prev) => !prev)}
+                            />
+                          }
                           labelPlacement={"end"}
                           label={
                             <div className="text-edu-900 text-[14px] md:text-base">
-                              Accetto i&nbsp;
-                              <Link target={"_blank"} href={product.links.terms}>
+                              Ho la P.IVA. / Paga il corso la mia azienda
+                            </div>
+                          }
+                        />
+                        <FormControlLabel
+                          className="mb-[8px] lg:mb-[10px] ml-0 w-full "
+                          control={
+                            <Checkbox
+                              id="checkbox"
+                              checked={checked}
+                              onClick={() => setChecked((prev) => !prev)}
+                            />
+                          }
+                          labelPlacement={"end"}
+                          label={
+                            <div className="text-edu-900 text-[14px] md:text-base">
+                              Ho letto e accetto i&nbsp;
+                              <Link
+                                target={"_blank"}
+                                href={product.links.terms}
+                              >
                                 Termini e le Condizioni
-                              </Link>{" "}
-                              del servizio e la{" "}
-                              <Link target={"_blank"} href={product.links.policy}>
+                              </Link>
+                              &nbsp; del servizio e la&nbsp;
+                              <Link
+                                target={"_blank"}
+                                href={product.links.policy}
+                              >
                                 Privacy Policy
                               </Link>
                             </div>
@@ -427,21 +555,42 @@ const CheckoutSessionExistingUser = ({ data }) => {
                           type="button"
                           color="buttonGreen"
                           variant="contained"
-                          disabled={!checked}
                           sx={{ mt: 0, width: "100%" }}
                           size="large"
-                          // className="min-w-full px-[20px] py-[14px] font-semibold text-[16px] md:text[18px]"
                           onClick={() => setShowPaymentForm(true)}
                         >
                           procedi
                         </Button>
                       </Box>
                     </>
+                  ) : state ? (
+                    <IVAForm
+                      next={(v) => {
+                        setState(false);
+                      }}
+                    />
                   ) : paymentType === "Stripe" ? (
-                    <StripeCheckout product={product} showFormSelect={setShowPaymentForm} userToken={user.token} />
+                    <>
+                      <h1 className=" font-semibold text-center lg:text-start  leading-none text-edu-900 text-[24px] lg:text-3xl 3xl:text-4xl max:text-6xl w-full">
+                        Scegli il metodo di pagamento
+                      </h1>
+                      <StripeCheckout
+                        product={product}
+                        showFormSelect={setShowPaymentForm}
+                        userToken={user.token}
+                      />
+                    </>
                   ) : (
-                    <KlarnaCheckout showFormSelect={setShowPaymentForm} product={product} user={user.token} />
-                    // <StripeInstallments showFormSelect={setShowPaymentForm} product={product} userToken={user.token} user={user} />
+                    <>
+                      <h1 className=" font-semibold text-center lg:text-start  leading-none text-edu-900 text-[24px] lg:text-3xl 3xl:text-4xl max:text-6xl w-full">
+                        Scegli il metodo di pagamento
+                      </h1>
+                      <KlarnaCheckout
+                        showFormSelect={setShowPaymentForm}
+                        product={product}
+                        user={user.token}
+                      />
+                    </>
                   )}
                 </Box>
               </>
@@ -453,4 +602,4 @@ const CheckoutSessionExistingUser = ({ data }) => {
   );
 };
 
-export default CheckoutSessionExistingUser;
+export default ExistingSubscriber;

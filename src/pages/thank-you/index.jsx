@@ -2,9 +2,9 @@ import { Checkbox, Typography, Button, Box } from "@mui/material";
 import React from "react";
 import Header from "@components/Header";
 import WhatsApp from "@mui/icons-material/WhatsApp";
-import Bottom from "./Bottom";
+import Bottom from "./Bottom.jsx";
 import { useNavigate, useLocation } from "react-router-dom";
-const NotificationPage = () => {
+const Index = () => {
   const location = useLocation();
 
   return (
@@ -95,4 +95,4 @@ Siamo davvero felici che inizierai un percorso con noi!`
     </Box>
   );
 };
-export default NotificationPage;
+export default Index;

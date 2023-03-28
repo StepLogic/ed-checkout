@@ -18,10 +18,10 @@ import { CaBackground } from "../../components/Icons";
 
 import "../../utils";
 import { useWindowSize } from "./LandingPaymentPage";
-import StripeCheckout from "./checkout_existing_user/StripeCheckout";
-import KlarnaCheckout from "./checkout_existing_user/KlarnaCheckout";
+import StripeCheckout from "./common/StripeCheckout";
+import KlarnaCheckout from "./common/KlarnaCheckout";
 import TopNav from "./TopNav";
-import PDFviewer from "./pdf/PDFviewer";
+import PDFviewer from "./common/pdf/PDFviewer";
 
 Number.prototype.toDecimalsEuro = function () {
   let parsed = parseFloat(this / 100)

@@ -15,11 +15,15 @@ import {
   Typography,
 } from "@mui/material";
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
+import { Elements } from "@stripe/react-stripe-js";
+
+const STRIPE_PK = import.meta.env.VITE_STRIPE_PK;
 import NavigateBeforeRoundedIcon from "@mui/icons-material/NavigateBeforeRounded";
 import axios from "axios";
 import { LoadingButton } from "@mui/lab";
 
-import MessageBox from "../../../components/MessageBox";
+import MessageBox from "@components/MessageBox";
 import { useNavigate } from "react-router";
 
 const BASE = import.meta.env.VITE_BASE_URL;
@@ -43,6 +47,7 @@ const cardElementOptions = {
 };
 
 const StripeCheckout = ({ userToken, product }) => {
+
   const StripeIcon = () => (
     <svg
       width="4rem"
@@ -203,27 +208,7 @@ const StripeCheckout = ({ userToken, product }) => {
 
   return (
     <
-      // component={"form"}
-      // className="w-full"
-      // sx={{
-      //   ".MuiInputBase-root": {
-      //     margin: "0.2rem",
-      //   },
-      //   ".MuiInputBase-root input": {
-      //     fontSize: "1.4rem",
-      //     color: "#2D224C",
-      //   },
-      //   display: "grid",
-      //   gap: "1rem",
-      //   // gridTemplateRows: "15fr 6fr",
-      //   ["@media (max-width:1180px)"]: {
-      //     marginTop: "0.5rem",
-      //   },
-      //   ["@media (min-width:1180px)"]: {
-      //     gridTemplateRows: "5.0fr 1.56fr",
-      //     gap: "0px",
-      //   },
-      // }}
+
     >
       <Box
         component={"div"}
@@ -351,4 +336,4 @@ const StripeCheckout = ({ userToken, product }) => {
   );
 };
 
-export default StripeCheckout;
+export default  () =><Elements stripe={loadStripe(STRIPE_PK)}><StripeCheckout/></Elements>

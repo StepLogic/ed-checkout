@@ -3,13 +3,13 @@ import React from "react";
 
 import bgCheckout from "@assets/img/bgCheckout.svg";
 import bgCheckoutMobile from "@assets/img/bgCheckoutMobile.svg";
-import { useWindowSize } from "../LandingPaymentPage";
-import PDFviewer from "../pdf/PDFviewer";
-import TopNav from "../TopNav";
-import UserInfo from "./UserInfo";
-import PaymentForm from "./PaymentForm";
-import IVAForm from "./IVAForm";
-import useCheckout from "../useCheckout";
+import { useWindowSize } from "../LandingPaymentPage.jsx";
+import PDFviewer from "../common/pdf/PDFviewer.jsx";
+import TopNav from "../TopNav.jsx";
+import UserInfo from "../common/UserInfo.jsx";
+import PaymentForm from "../common/PaymentForm.jsx";
+import IVAForm from "../common/IVAForm.jsx";
+import useCheckout from "../useCheckout.tsx";
 // import CheckoutSession from "./CheckoutSession";
 import { LinearProgress } from "@mui/material";
 Number.prototype.toDecimalsEuro = function () {
@@ -27,7 +27,7 @@ Number.prototype.toDecimalsEuro = function () {
   );
 };
 
-const CheckoutForm = () => {
+const NewSubscriber = () => {
   const {
     data: { user, product },
     isError,
@@ -95,27 +95,10 @@ const CheckoutForm = () => {
     if (!product) return;
 
     const priceData = {
-      no_iva: product?.discount
-        ? product?.original_price_no_iva
-        : product?.no_iva,
-      iva: product?.discount ? product?.original_price_iva : product?.iva,
-      discount: product?.discount ? product?.discount : null,
       price: product?.price,
     };
 
     const priceDataFormatted = {
-      no_iva: {
-        integer: Math.floor(Number(priceData.no_iva) / 100),
-        decimal: (Number(priceData.no_iva) % 100).toString().padStart(2, "0"),
-      },
-      iva: {
-        integer: Math.floor(Number(priceData.iva) / 100),
-        decimal: (Number(priceData.iva) % 100).toString().padStart(2, "0"),
-      },
-      discount: {
-        integer: Math.floor(Number(priceData.discount) / 100),
-        decimal: (Number(priceData.discount) % 100).toString().padStart(2, "0"),
-      },
       price: {
         integer: Math.floor(Number(priceData.price) / 100),
         decimal: (Number(priceData.price) % 100).toString().padStart(2, "0"),
@@ -420,4 +403,4 @@ const CheckoutForm = () => {
   );
 };
 
-export default CheckoutForm;
+export default NewSubscriber;

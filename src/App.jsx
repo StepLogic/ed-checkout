@@ -5,14 +5,15 @@ import "./index.css";
 
 import { LinearProgress, ThemeProvider } from "@mui/material";
 import AuthProvider from "@context/AuthProvider";
-import CheckoutForm from "./pages/checkout-session-new/CheckoutForm";
 
 // const StartForm = React.lazy(() => import("@pages/StartForm"));
 // const Rejection = React.lazy(() => import("@pages/Rejection"));
 
-import NotificationPage from "./pages/checkout-session-new/NotificationPage";
+// import Index from "./pages/checkout-session-new/Index";
 
 import LayoutPage from "./pages/LayoutPage";
+import ExistingSubscriber from "./pages/existing-subscriber/";
+import NewSubscriber from "./pages/new-subscriber/index.jsx";
 
 const App = () => {
   return (
@@ -37,11 +38,14 @@ const App = () => {
         <ThemeProvider theme={theme}>
           <Routes>
             <Route path="/" element={<LayoutPage />}>
-              <Route
-                path="form-one/:productTk/:userTk"
-                element={<CheckoutForm />}
-              />
-              <Route path="new/notification" element={<NotificationPage />} />
+                  <Route
+                    path="existing-subscriber/:productTk/:userTk"
+                    element={<ExistingSubscriber />}
+                  /><Route
+                    path="new-subscriber/:productTk/:userTk"
+                    element={<NewSubscriber />}
+                  />
+              {/* <Route path="new/notification" element={<Index />} /> */}
 
               {/* <Route path="start-form/:token" element={<StartForm />} />
 
