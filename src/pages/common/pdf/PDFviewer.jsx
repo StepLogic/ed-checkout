@@ -194,12 +194,12 @@ const PDFviewer = ({ fileBase64 }) => {
           </div>
         </div>
 
-        <PagesThumbnails
+        {/* <PagesThumbnails
           pages={pages}
           currentPage={pdfDetails.currentPage}
           setPdfDetails={setPdfDetails}
           setSwiper={setSwiper}
-        />
+        /> */}
       </div>
     </Document>
   );

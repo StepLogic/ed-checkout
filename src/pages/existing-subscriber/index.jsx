@@ -318,7 +318,10 @@ const ExistingSubscriber = () => {
                     },
                   }}
                 >
-                  <input className={"mr-auto"} placeholder={"Discount code"} />
+                  <input
+                    className={"mr-auto text-[#2D224C]"}
+                    placeholder={"Discount code"}
+                  />
                   <button className={"semibold active:invert"}>APPLICA</button>
                 </Box>
                 {price?.discount?.integer > 0 ? (
@@ -412,6 +415,7 @@ const ExistingSubscriber = () => {
                   },
                   "& .react-pdf__Page__canvas": {
                     width: "80vw!important",
+                    maxHeight: "60vh",
                   },
                   ["@media (min-width:1280px)"]: {
                     "& .swiper": {
