@@ -10,8 +10,10 @@ import UserInfo from "../common/UserInfo.jsx";
 import PaymentForm from "../common/PaymentForm.jsx";
 import IVAForm from "../common/IVAForm.jsx";
 import useCheckout from "../useCheckout.tsx";
+import PaymentOption from "../common/PaymentOptions.jsx";
 // import CheckoutSession from "./CheckoutSession";
 import { LinearProgress } from "@mui/material";
+import Counter from "../common/Counter.jsx";
 Number.prototype.toDecimalsEuro = function () {
   let parsed = parseFloat(this / 100)
     .toFixed(2)
@@ -65,7 +67,7 @@ const NewSubscriber = () => {
     my: 1,
     "& p": {
       lineHeight: "100%",
-
+      fontWeight: "600",
       ["@media (max-width:1180px) and (min-width:763px)"]: {
         fontSize: "calc(10.5px + 0.175vw)",
       },
@@ -93,12 +95,28 @@ const NewSubscriber = () => {
 
   React.useEffect(() => {
     if (!product) return;
-
     const priceData = {
+      no_iva: product?.discount
+        ? product?.original_price_no_iva
+        : product?.no_iva,
+      iva: product?.discount ? product?.original_price_iva : product?.iva,
+      discount: product?.discount ? product?.discount : null,
       price: product?.price,
     };
 
     const priceDataFormatted = {
+      no_iva: {
+        integer: Math.floor(Number(priceData.no_iva) / 100),
+        decimal: (Number(priceData.no_iva) % 100).toString().padStart(2, "0"),
+      },
+      iva: {
+        integer: Math.floor(Number(priceData.iva) / 100),
+        decimal: (Number(priceData.iva) % 100).toString().padStart(2, "0"),
+      },
+      discount: {
+        integer: Math.floor(Number(priceData.discount) / 100),
+        decimal: (Number(priceData.discount) % 100).toString().padStart(2, "0"),
+      },
       price: {
         integer: Math.floor(Number(priceData.price) / 100),
         decimal: (Number(priceData.price) % 100).toString().padStart(2, "0"),
@@ -177,6 +195,7 @@ const NewSubscriber = () => {
             hiddenLink={width > 768 ? true : false}
             className={""}
           />
+
           <Box
             sx={{
               display: "flex",
@@ -208,6 +227,21 @@ const NewSubscriber = () => {
                   );
                 })}
               </Box>
+              <div className={"flex flex-col gap-4"}>
+                <Button
+                  color="primary"
+                  onClick={() => setShowPDF((r) => !r)}
+                  sx={{
+                    border: "1px solid #ffffff",
+                    color: "#ffffff!important",
+                    height: "39px",
+                  }}
+                  variant="outlined"
+                >
+                  VIEW THE PRODUCT
+                </Button>
+                {state === 0 && <Counter />}
+              </div>
               <Box
                 sx={{
                   backgroundColor: "#D9DAF3",
@@ -219,19 +253,7 @@ const NewSubscriber = () => {
                   // color: "#2D224C",
                 }}
               >
-                {/* <div className="flex items-center justify-between">
-                  <div>Prezzo del percorso</div>
-                  <div className="md:ml-10">{product.no_iva.toDecimalsEuro()}</div>
-                </div>
-                <div className="flex items-center justify-between my-3">
-                  <div>IVA (22%)</div>
-                  <div>{product.iva.toDecimalsEuro()}</div>
-                </div>
-                <div className="flex items-center justify-between">
-                  <div>Prezzo IVA inclusa</div>
-                  <div className="font-bold">{product.price.toDecimalsEuro()}</div>
-                </div> */}
-                {/* <Box sx={priceItemStyle}>
+                <Box sx={priceItemStyle}>
                   <p>Prezzo del percorso</p>
                   <b>
                     {price?.no_iva?.integer}
@@ -249,6 +271,60 @@ const NewSubscriber = () => {
                     </Typography>
                   </b>
                 </Box>
+                <Box sx={priceItemStyle}>
+                  <p>Meno iscrizione</p>
+                  <b>
+                    -{price?.iva?.integer}
+                    <Typography component={"em"}>
+                      {price?.iva?.decimal} €
+                    </Typography>
+                  </b>
+                </Box>
+                {state === 0 && (
+                  <Box
+                    sx={{
+                      borderRadius: "9px",
+                      height: "62px",
+                      position: "relative",
+                      "& input": {
+                        borderRadius: "9px",
+                        background: "#ffffff",
+                        height: "62px",
+                        width: "100%",
+                        paddingLeft: "10px",
+                        paddingRight: "100px",
+                      },
+                      "& input::placeholder": {
+                        fontStyle: "italic",
+                        fontWeight: "400",
+                        fontSize: "24px",
+                        lineHeight: "100%",
+                        display: "flex",
+                        alignItems: "center",
+                        color: "#B4B4B4",
+                      },
+                      "& button": {
+                        width: "79px",
+                        height: "31.76px",
+                        borderRadius: "6px",
+                        border: "2px solid #2D224C",
+                        color: "#2D224C",
+                        fontSize: "14px",
+                        position: "absolute",
+                        top: "14px",
+                        right: "14px",
+                      },
+                    }}
+                  >
+                    <input
+                      className={"mr-auto text-[#2D224C]"}
+                      placeholder={"Discount code"}
+                    />
+                    <button className={"semibold active:invert"}>
+                      APPLICA
+                    </button>
+                  </Box>
+                )}
                 {price?.discount?.integer > 0 ? (
                   <Box sx={priceItemStyle}>
                     <p>Iscrizione pagata</p>
@@ -259,31 +335,17 @@ const NewSubscriber = () => {
                       </Typography>
                     </b>
                   </Box>
-                ) : null} */}
+                ) : null}
                 <Box sx={priceItemStyle}>
-                  <p className="">Iscrizione</p>
+                  <p className="">Totale</p>
                   <Typography component={"b"} sx={{}} className="!font-bold">
                     € {price?.price?.integer}
                     {","}
                     {price?.price?.decimal}
                   </Typography>
                 </Box>
-                <div className="my-2  font-bold text-center text-[#2D224C]">
-                  *Questo costo verrà detratto dal prezzo del percorso
-                </div>
               </Box>
             </Box>
-            {/* <Button
-              color="primary"
-              onClick={() => setShowPDF((r) => !r)}
-              sx={{
-                border: "1px solid #D9DAF3",
-                color: "#D9DAF3!important",
-              }}
-              variant="outlined"
-            >
-              VIEW THE PRODUCT
-            </Button> */}
           </Box>
         </Box>
 
@@ -381,26 +443,20 @@ const NewSubscriber = () => {
             ) : (
               <>
                 {state == 0 && (
-                  <UserInfo
-                    next={(v) => {
-                      if (v) {
-                        setState(2);
-                        setIva(true);
-                      } else {
-                        setState(1);
-                      }
+                  <PaymentOption
+                    showTerms={true}
+                    setPaymentType={(v, _) => {
+                      setPaymentType(v);
+                      setIva(_);
+                      setState(_ ? 1 : 2);
                     }}
+                    paymentType={paymentType}
                   />
                 )}
-                {state == 1 && (
-                  <PaymentForm
-                    iva={iva}
-                    product={product}
-                    user={user}
-                    paymentType={"Stripe"}
-                  />
+                {state == 1 && <IVAForm next={() => setState(2)} />}
+                {state == 2 && (
+                  <PaymentForm iva={iva} paymentType={paymentType} />
                 )}
-                {state == 2 && <IVAForm next={() => setState(1)} />}
               </>
             )}
           </Box>

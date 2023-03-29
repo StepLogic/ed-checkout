@@ -20,6 +20,8 @@ import { LinearProgress } from "@mui/material";
 import StripeCheckout from "../common/StripeCheckout.jsx";
 import KlarnaCheckout from "../common/KlarnaCheckout.jsx";
 import IVAForm from "../common/IVAForm.jsx";
+import PaymentOption from "../common/PaymentOptions";
+import PaymentForm from "../common/PaymentForm";
 
 Number.prototype.toDecimalsEuro = function () {
   let parsed = parseFloat(this / 100)
@@ -282,48 +284,51 @@ const ExistingSubscriber = () => {
                     </Typography>
                   </b>
                 </Box>
-                <Box
-                  sx={{
-                    borderRadius: "9px",
-
-                    height: "62px",
-                    position: "relative",
-                    "& input": {
+                {state === 0 && (
+                  <Box
+                    sx={{
                       borderRadius: "9px",
-                      background: "#ffffff",
                       height: "62px",
-                      width: "100%",
-                      paddingLeft: "10px",
-                      paddingRight: "100px",
-                    },
-                    "& input::placeholder": {
-                      fontStyle: "italic",
-                      fontWeight: "400",
-                      fontSize: "24px",
-                      lineHeight: "100%",
-                      display: "flex",
-                      alignItems: "center",
-                      color: "#B4B4B4",
-                    },
-                    "& button": {
-                      width: "79px",
-                      height: "31.76px",
-                      borderRadius: "6px",
-                      border: "2px solid #2D224C",
-                      color: "#2D224C",
-                      fontSize: "14px",
-                      position: "absolute",
-                      top: "14px",
-                      right: "14px",
-                    },
-                  }}
-                >
-                  <input
-                    className={"mr-auto text-[#2D224C]"}
-                    placeholder={"Discount code"}
-                  />
-                  <button className={"semibold active:invert"}>APPLICA</button>
-                </Box>
+                      position: "relative",
+                      "& input": {
+                        borderRadius: "9px",
+                        background: "#ffffff",
+                        height: "62px",
+                        width: "100%",
+                        paddingLeft: "10px",
+                        paddingRight: "100px",
+                      },
+                      "& input::placeholder": {
+                        fontStyle: "italic",
+                        fontWeight: "400",
+                        fontSize: "24px",
+                        lineHeight: "100%",
+                        display: "flex",
+                        alignItems: "center",
+                        color: "#B4B4B4",
+                      },
+                      "& button": {
+                        width: "79px",
+                        height: "31.76px",
+                        borderRadius: "6px",
+                        border: "2px solid #2D224C",
+                        color: "#2D224C",
+                        fontSize: "14px",
+                        position: "absolute",
+                        top: "14px",
+                        right: "14px",
+                      },
+                    }}
+                  >
+                    <input
+                      className={"mr-auto text-[#2D224C]"}
+                      placeholder={"Discount code"}
+                    />
+                    <button className={"semibold active:invert"}>
+                      APPLICA
+                    </button>
+                  </Box>
+                )}
                 {price?.discount?.integer > 0 ? (
                   <Box sx={priceItemStyle}>
                     <p>Iscrizione pagata</p>
@@ -458,144 +463,37 @@ const ExistingSubscriber = () => {
                   }}
                   className=" "
                 >
-                  {!showPaymentForm ? (
-                    <>
-                      <h1 className=" font-semibold text-center lg:text-start  leading-none text-edu-900 text-[24px] lg:text-3xl 3xl:text-4xl max:text-6xl w-full">
-                        Scegli il metodo di pagamento
-                      </h1>
-                      <Box className="grid grid-cols-1">
-                        <RadioGroup
-                          className="grid grid-cols-1 gap-4  h-fit"
-                          sx={{ gridAutoRows: "min(95px,20vh)" }}
-                          aria-labelledby="demo-radio-buttons-group-label"
-                          onChange={(e) => setPaymentType(e.target.value)}
-                          value={paymentType}
-                          name="radio-buttons-group"
-                        >
-                          <div className="py-3 my-1 flex flex-row items-center rounded-lg bg-edu-light-blue">
-                            <FormControlLabel
-                              value="Stripe"
-                              control={
-                                <Radio className="md:ml-8 ml-6 md:mr-4" />
-                              }
-                              label={
-                                <span className=" text-edu-900">
-                                  PAGA TUTTO SUBITO
-                                </span>
-                              }
-                            />
-                          </div>
+                  <>
+                    {state == 0 && (
+                      <PaymentOption
+                        setPaymentType={(v, _) => {
+                          setPaymentType(v);
+                          setIva(_);
+                          setState(_ ? 1 : 3);
+                        }}
+                        showTerms={true}
+                        paymentType={paymentType}
+                        product={product}
+                      />
+                    )}
 
-                          <div className="py-3 my-1  flex  flex-row  items-center rounded-lg bg-edu-light-blue">
-                            <FormControlLabel
-                              value="Klarna"
-                              control={
-                                <Radio className="md:ml-8 ml-6 md:mr-4" />
-                              }
-                              label={
-                                <div className="flex items-center text-edu-900">
-                                  PAGA IN 3 RATE CON{" "}
-                                  <img
-                                    src={klarna}
-                                    className="ml-2 w-[20%] lg:w-auto"
-                                  />
-                                </div>
-                              }
-                            />
-                          </div>
-                        </RadioGroup>
-                      </Box>
-                      <Box
-                        className={
-                          "flex flex-col max-w-full justify-end flex-auto"
-                        }
-                      >
-                        <FormControlLabel
-                          className="mb-[8px] lg:mb-[10px] ml-0 w-full "
-                          control={
-                            <Checkbox
-                              id="checkbox"
-                              checked={state}
-                              onClick={() => setState((prev) => !prev)}
-                            />
-                          }
-                          labelPlacement={"end"}
-                          label={
-                            <div className="text-edu-900 text-[14px] md:text-base">
-                              Ho la P.IVA. / Paga il corso la mia azienda
-                            </div>
-                          }
-                        />
-                        <FormControlLabel
-                          className="mb-[8px] lg:mb-[10px] ml-0 w-full "
-                          control={
-                            <Checkbox
-                              id="checkbox"
-                              checked={checked}
-                              onClick={() => setChecked((prev) => !prev)}
-                            />
-                          }
-                          labelPlacement={"end"}
-                          label={
-                            <div className="text-edu-900 text-[14px] md:text-base">
-                              Ho letto e accetto i&nbsp;
-                              <Link
-                                target={"_blank"}
-                                href={product.links.terms}
-                              >
-                                Termini e le Condizioni
-                              </Link>
-                              &nbsp; del servizio e la&nbsp;
-                              <Link
-                                target={"_blank"}
-                                href={product.links.policy}
-                              >
-                                Privacy Policy
-                              </Link>
-                            </div>
-                          }
-                        />
-                        <Button
-                          type="button"
-                          color="buttonGreen"
-                          variant="contained"
-                          sx={{ mt: 0, width: "100%" }}
-                          size="large"
-                          onClick={() => setShowPaymentForm(true)}
-                        >
-                          procedi
-                        </Button>
-                      </Box>
-                    </>
-                  ) : state ? (
-                    <IVAForm
-                      next={(v) => {
-                        setState(false);
-                      }}
-                    />
-                  ) : paymentType === "Stripe" ? (
-                    <>
-                      <h1 className=" font-semibold text-center lg:text-start  leading-none text-edu-900 text-[24px] lg:text-3xl 3xl:text-4xl max:text-6xl w-full">
-                        Scegli il metodo di pagamento
-                      </h1>
-                      <StripeCheckout
-                        product={product}
-                        showFormSelect={setShowPaymentForm}
-                        userToken={user.token}
+                    {state == 1 && (
+                      <IVAForm
+                        next={(v) => {
+                          setState(3);
+                        }}
                       />
-                    </>
-                  ) : (
-                    <>
-                      <h1 className=" font-semibold text-center lg:text-start  leading-none text-edu-900 text-[24px] lg:text-3xl 3xl:text-4xl max:text-6xl w-full">
-                        Scegli il metodo di pagamento
-                      </h1>
-                      <KlarnaCheckout
-                        showFormSelect={setShowPaymentForm}
+                    )}
+
+                    {state == 3 && (
+                      <PaymentForm
+                        iva={iva}
                         product={product}
-                        user={user.token}
+                        user={user}
+                        paymentType={paymentType}
                       />
-                    </>
-                  )}
+                    )}
+                  </>
                 </Box>
               </>
             )}

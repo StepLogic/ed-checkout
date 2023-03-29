@@ -4,9 +4,9 @@ import Header from "@components/Header";
 import WhatsApp from "@mui/icons-material/WhatsApp";
 import Bottom from "./Bottom.jsx";
 import { useNavigate, useLocation } from "react-router-dom";
-const Index = () => {
+const ThankYou = () => {
   const location = useLocation();
-
+  console.log("location", location);
   return (
     <Box
       sx={{
@@ -95,4 +95,4 @@ Siamo davvero felici che inizierai un percorso con noi!`
     </Box>
   );
 };
-export default Index;
+export default ThankYou;

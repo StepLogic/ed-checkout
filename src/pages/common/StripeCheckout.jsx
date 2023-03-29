@@ -19,7 +19,7 @@ import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 
 const STRIPE_PK = import.meta.env.VITE_STRIPE_PK;
-import NavigateBeforeRoundedIcon from "@mui/icons-material/NavigateBeforeRounded";
+
 import axios from "axios";
 import { LoadingButton } from "@mui/lab";
 
@@ -46,8 +46,7 @@ const cardElementOptions = {
   },
 };
 
-const StripeCheckout = ({ userToken, product }) => {
-
+const StripeCheckout = ({ userToken, product, iva }) => {
   const StripeIcon = () => (
     <svg
       width="4rem"
@@ -151,65 +150,64 @@ const StripeCheckout = ({ userToken, product }) => {
       });
 
     if (data) {
-      navigate("/thank-you", { replace: true });
+      navigate("/thank-you", { replace: true, state: { iva } });
     }
 
     if (error) {
       setMessage({ type: "error", message: error });
     }
   };
-
+  //uncomment during integration
   const handleSubmit = async () => {
-    const errors = await checkErrors();
+    navigate("/thank-you", { state: { iva: iva } });
+    // const errors = await checkErrors();
+    // //
+    // if (errors) return;
     //
-    if (errors) return;
+    // setMessage(false);
+    // if (!stripe || !elements) return;
+    //
+    // setIsLoadingPayment(true);
+    //
+    // let clientSecret;
+    //
+    // try {
+    //   const { error: backendError, data } = await axios.post(
+    //     BASE + "v1/checkout/stripe/create-intent",
+    //     {
+    //       product: product.token,
+    //       user_token: userToken,
+    //       customer: cardHolderDetails,
+    //     }
+    //   );
+    //
+    //   clientSecret = data.clientSecret;
+    // } catch (error) {}
 
-    setMessage(false);
-    if (!stripe || !elements) return;
-
-    setIsLoadingPayment(true);
-
-    let clientSecret;
-
-    try {
-      const { error: backendError, data } = await axios.post(
-        BASE + "v1/checkout/stripe/create-intent",
-        {
-          product: product.token,
-          user_token: userToken,
-          customer: cardHolderDetails,
-        }
-      );
-
-      clientSecret = data.clientSecret;
-    } catch (error) {}
-
-    const { error: stripeError, paymentIntent } =
-      await stripe.confirmCardPayment(clientSecret, {
-        payment_method: {
-          card: elements.getElement(CardElement),
-        },
-      });
-
-    if (stripeError) {
-      setMessage({ type: "error", message: stripeError.message });
-      setIsLoadingPayment(false);
-    }
-
-    if (paymentIntent) {
-      setIsLoadingPayment(false);
-      setMessage({
-        type: "success",
-        message: "Pagamento avvenuto con successo a breve verrai reindirizzato",
-      });
-      savePayment(paymentIntent.id);
-    }
+    // const { error: stripeError, paymentIntent } =
+    //   await stripe.confirmCardPayment(clientSecret, {
+    //     payment_method: {
+    //       card: elements.getElement(CardElement),
+    //     },
+    //   });
+    //
+    // if (stripeError) {
+    //   setMessage({ type: "error", message: stripeError.message });
+    //   setIsLoadingPayment(false);
+    // }
+    //
+    // if (paymentIntent) {
+    //   setIsLoadingPayment(false);
+    //   setMessage({
+    //     type: "success",
+    //     message: "Pagamento avvenuto con successo a breve verrai reindirizzato",
+    //   });
+    //   savePayment(paymentIntent.id);
+    // }
   };
 
   return (
-    <
-
-    >
+    <>
       <Box
         component={"div"}
         sx={{
@@ -323,7 +321,6 @@ const StripeCheckout = ({ userToken, product }) => {
             disabled={isLoadingPayment || error}
             loading={isLoadingPayment}
             onClick={() => handleSubmit()}
-            loadingPosition="end"
           >
             PAGA
           </LoadingButton>
@@ -336,4 +333,8 @@ const StripeCheckout = ({ userToken, product }) => {
   );
 };
 
-export default  () =><Elements stripe={loadStripe(STRIPE_PK)}><StripeCheckout/></Elements>
+export default (props) => (
+  <Elements stripe={loadStripe(STRIPE_PK)}>
+    <StripeCheckout {...props} />
+  </Elements>
+);

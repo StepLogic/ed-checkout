@@ -8,12 +8,14 @@ import AuthProvider from "@context/AuthProvider";
 
 // const StartForm = React.lazy(() => import("@pages/StartForm"));
 // const Rejection = React.lazy(() => import("@pages/Rejection"));
-
 // import Index from "./pages/checkout-session-new/Index";
 
 import LayoutPage from "./pages/LayoutPage";
 import ExistingSubscriber from "./pages/existing-subscriber/";
-import NewSubscriber from "./pages/new-subscriber/index.jsx";
+import NewSubscriber from "./pages/new-subscriber";
+import NewUser from "./pages/new-user";
+import ExistingUser from "./pages/existing-user";
+import ThankYou from "./pages/thank-you";
 
 const App = () => {
   return (
@@ -38,13 +40,20 @@ const App = () => {
         <ThemeProvider theme={theme}>
           <Routes>
             <Route path="/" element={<LayoutPage />}>
-                  <Route
-                    path="existing-subscriber/:productTk/:userTk"
-                    element={<ExistingSubscriber />}
-                  /><Route
-                    path="new-subscriber/:productTk/:userTk"
-                    element={<NewSubscriber />}
-                  />
+              <Route
+                path="existing-subscriber/:productTk/:userTk"
+                element={<ExistingSubscriber />}
+              />
+              <Route
+                path="new-subscriber/:productTk/:userTk"
+                element={<NewSubscriber />}
+              />
+              <Route path="new-user/:productTk/:userTk" element={<NewUser />} />
+              <Route
+                path="existing-user/:productTk/:userTk"
+                element={<ExistingUser />}
+              />
+              <Route path="thank-you/" element={<ThankYou />} />
               {/* <Route path="new/notification" element={<Index />} /> */}
 
               {/* <Route path="start-form/:token" element={<StartForm />} />
