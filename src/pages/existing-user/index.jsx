@@ -3,13 +3,13 @@ import React from "react";
 
 import bgCheckout from "@assets/img/bgCheckout.svg";
 import bgCheckoutMobile from "@assets/img/bgCheckoutMobile.svg";
-import { useWindowSize } from "../LandingPaymentPage.jsx";
+import { useWindowSize } from "../useWindowSize.jsx";
 import PDFviewer from "../common/pdf/PDFviewer.jsx";
 import TopNav from "../TopNav.jsx";
-import UserInfo from "../common/UserInfo.jsx";
+
 import PaymentForm from "../common/PaymentForm.jsx";
 import IVAForm from "../common/IVAForm.jsx";
-import useCheckout from "../useCheckout.tsx";
+import useCheckout from "../useCheckout.jsx";
 import PaymentOption from "../common/PaymentOptions.jsx";
 // import CheckoutSession from "./CheckoutSession";
 import { LinearProgress } from "@mui/material";
