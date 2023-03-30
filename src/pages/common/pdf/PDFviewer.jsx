@@ -4,6 +4,13 @@ import NavigateBeforeRoundedIcon from "@mui/icons-material/NavigateBeforeRounded
 import NavigateNextRoundedIcon from "@mui/icons-material/NavigateNextRounded";
 import { Box } from "@mui/material";
 import s from "./index.module.css";
+import "./style.css";
+// Import Swiper styles
+import "swiper/css";
+import "swiper/css/free-mode";
+import "swiper/css/navigation";
+import "swiper/css/thumbs";
+
 import cn from "classnames";
 import { FreeMode, Navigation, Thumbs } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -194,12 +201,12 @@ const PDFviewer = ({ fileBase64 }) => {
           </div>
         </div>
 
-        {/* <PagesThumbnails
+        <PagesThumbnails
           pages={pages}
           currentPage={pdfDetails.currentPage}
           setPdfDetails={setPdfDetails}
           setSwiper={setSwiper}
-        /> */}
+        />
       </div>
     </Document>
   );

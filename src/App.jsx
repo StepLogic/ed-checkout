@@ -40,6 +40,8 @@ const App = () => {
       <AuthProvider>
         <ThemeProvider theme={theme}>
           <Routes>
+            <Route path="thank-you" element={<ThankYou />} />
+            <Route path="not-found" element={<NoPage />} />
             <Route path="/" element={<LayoutPage />}>
               <Route
                 path="existing-subscriber/:productTk/:userTk"
@@ -54,12 +56,6 @@ const App = () => {
                 path="existing-user/:productTk/:userTk"
                 element={<ExistingUser />}
               />
-              <Route path="thank-you" element={<ThankYou />} />
-               <Route path="not-found" element={<NoPage />} />
-
-              {/* <Route path="start-form/:token" element={<StartForm />} />
-
-              <Route path="payment/rejected/:token" element={<Rejection />} /> */}
             </Route>
           </Routes>
         </ThemeProvider>

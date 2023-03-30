@@ -15,6 +15,7 @@ const IVAForm = (props) => {
       CAP: "",
     },
     isInitialValid: false,
+    validateOnChange: false,
     validationSchema: Yup.object({
       denominazioneERagioneSociale: Yup.string().required("Required"),
       partitaIVA: Yup.string().required("Required"),
@@ -116,9 +117,12 @@ const IVAForm = (props) => {
           }}
           variant="contained"
           className="mt-8"
-          disabled={!formik.isValid}
           onClick={() => {
-            props?.next && props?.next();
+            formik.validateForm().then((r) => {
+              if (Object.keys(r).length === 0) {
+                props?.next && props?.next();
+              }
+            });
           }}
         >
           Procedi

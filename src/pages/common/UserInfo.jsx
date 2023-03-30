@@ -26,6 +26,7 @@ const UserInfo = ({ product, next }) => {
     },
 
     isInitialValid: false,
+    validateOnChange: false,
     validationSchema: Yup.object({
       nome: Yup.string().required("Required"),
       cognome: Yup.string().required("Required"),
@@ -181,9 +182,12 @@ const UserInfo = ({ product, next }) => {
           }}
           variant="contained"
           className="mt-8"
-          disabled={!formik.isValid}
           onClick={() => {
-            next && next(checked);
+            formik.validateForm().then((r) => {
+              if (Object.keys(r).length === 0) {
+                next && next(checked);
+              }
+            });
           }}
         >
           Procedi
