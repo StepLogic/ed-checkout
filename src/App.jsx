@@ -10,12 +10,13 @@ import AuthProvider from "@context/AuthProvider";
 // const Rejection = React.lazy(() => import("@pages/Rejection"));
 // import Index from "./pages/checkout-session-new/Index";
 
-import LayoutPage from "./pages/LayoutPage";
-import ExistingSubscriber from "./pages/existing-subscriber/";
-import NewSubscriber from "./pages/new-subscriber";
-import NewUser from "./pages/new-user";
-import ExistingUser from "./pages/existing-user";
+import LayoutPage from "./pages/common/LayoutPage.jsx";
+import ExistingSubscriber from "./pages/ExistingSubscriber.jsx";
+import NewSubscriber from "./pages/NewSubscriber.jsx";
+import NewUser from "./pages/NewUser.jsx";
+import ExistingUser from "./pages/ExistingUser.jsx";
 import ThankYou from "./pages/thank-you";
+import NoPage from "./pages/NoPage.jsx";
 
 const App = () => {
   return (
@@ -53,8 +54,8 @@ const App = () => {
                 path="existing-user/:productTk/:userTk"
                 element={<ExistingUser />}
               />
-              <Route path="thank-you/" element={<ThankYou />} />
-              {/* <Route path="new/notification" element={<Index />} /> */}
+              <Route path="thank-you" element={<ThankYou />} />
+               <Route path="not-found" element={<NoPage />} />
 
               {/* <Route path="start-form/:token" element={<StartForm />} />
 

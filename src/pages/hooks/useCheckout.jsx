@@ -1,6 +1,7 @@
 import axios from "axios";
 import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import {is} from "date-fns/locale";
 
 export default function useCheckout({ session }) {
   const { productTk, userTk } = useParams();
@@ -50,5 +51,7 @@ export default function useCheckout({ session }) {
   React.useEffect(() => {
     userData();
   }, []);
+  if(isError) navigate("not-found",{replace:true})
+  // if(isError) navigate("not-found",{replace:true})
   return { data, isError, isLoading };
 }

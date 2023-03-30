@@ -213,6 +213,7 @@ const StripeCheckout = ({ userToken, product, iva }) => {
         sx={{
           display: "flex",
           flexDirection: "column",
+
           gap: error ? "0rem" : "1rem",
           ".MuiInputBase-root": {
             margin: "0.2rem",
@@ -222,7 +223,7 @@ const StripeCheckout = ({ userToken, product, iva }) => {
             color: "#2D224C",
           },
         }}
-        className=""
+        className="h-full"
       >
         <FormControl fullWidth>
           <Input
@@ -290,7 +291,7 @@ const StripeCheckout = ({ userToken, product, iva }) => {
 
       <Box
         sx={{ height: "!fit-content", flexDirection: "row" }}
-        className={"flex max-w-full items-end justify-end flex-auto"}
+        className={"flex max-w-full items-end justify-end flex-auto mt-auto"}
       >
         {/* <IconButton
           onClick={() => showFormSelect(false)}

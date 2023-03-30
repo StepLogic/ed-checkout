@@ -18,7 +18,8 @@ const PaymentOption = ({
   showTerms = false,
   product,
 }) => {
-  const [checked, setChecked] = useState();
+  const [checked, setChecked] = useState(false);
+  const [accettoTerms, setAccettoTerms] = useState(false);
   const [selection, setSelection] = useState(paymentType);
   return (
     <>
@@ -80,8 +81,8 @@ const PaymentOption = ({
               control={
                 <Checkbox
                   id="checkbox"
-                  // checked={checked}
-                  // onClick={() => setChecked((prev) => !prev)}
+                  checked={accettoTerms}
+                  onClick={() => setAccettoTerms((prev) => !prev)}
                 />
               }
               labelPlacement={"end"}
@@ -105,6 +106,7 @@ const PaymentOption = ({
           color="buttonGreen"
           variant="contained"
           sx={{ mt: 0, width: "100%" }}
+          disabled={showTerms && !accettoTerms}
           size="large"
           onClick={() => setPaymentType(selection, checked)}
         >

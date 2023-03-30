@@ -1,9 +1,44 @@
-import { Box, Button, Checkbox, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Checkbox,
+  FormControlLabel,
+  Link,
+  Typography,
+} from "@mui/material";
 import React, { useState } from "react";
-
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import cn from "classnames";
 import { TextField } from "@components/textfield";
-const UserInfo = (props) => {
-  const [state, setState] = useState(false);
+const UserInfo = ({ product, next }) => {
+  const [checked, setChecked] = useState(false);
+
+  const formik = useFormik({
+    initialValues: {
+      nome: "",
+      cognome: "",
+      email: "",
+      citta: "",
+      indirizzo: "",
+      cap: "",
+      accettoTerms: false,
+    },
+
+    isInitialValid: false,
+    validationSchema: Yup.object({
+      nome: Yup.string().required("Required"),
+      cognome: Yup.string().required("Required"),
+      email: Yup.string().email("Invalid email address").required("Required"),
+      citta: Yup.string().required("Required"),
+      indirizzo: Yup.string().required("Required"),
+      cap: Yup.string().required("Required"),
+      accettoTerms: Yup.boolean()
+        .oneOf([true], "You must accept Terms and Conditions")
+        .required("Required"),
+    }),
+  });
+
   return (
     <>
       <h1 className=" font-semibold text-center lg:text-start  leading-none text-edu-900 text-[24px] lg:text-3xl 3xl:text-4xl max:text-6xl w-full">
@@ -15,18 +50,14 @@ const UserInfo = (props) => {
           gridTemplateColumns: "1fr",
           gap: "1rem",
           marginBottom: "1rem",
-          gridTemplateRows: ["30vh 20vh"],
-          ["@media (min-width:1180px)"]: {
-            gridTemplateRows: ["minmax(18.5rem,30vh) minmax(3rem,15vh)"],
-            gap: "0px",
-          },
         }}
-        className=" "
+        className="h-full "
       >
         <Box
           component="form"
           sx={{
             height: "100%",
+            maxHeight: "35vh",
             overflowY: "scroll",
             "&::-webkit-scrollbar": {
               width: "5px",
@@ -43,44 +74,106 @@ const UserInfo = (props) => {
           }}
           className="flex flex-col gap-8"
         >
-          <TextField placeholder="Nome" />
-          <TextField placeholder="Cogome" />
-          <TextField placeholder="Email" />
-          <TextField placeholder="Citta" />
-          <TextField placeholder="Indirizo" />
-          <TextField placeholder="CAP" />
-          <div className="flex flex-col gap-4 my-2">
-            <div className="flex flex-row gap-4 items-center">
-              <Checkbox
-                checked={state}
-                onChange={(event) => setState(event.target?.checked)}
-              />
-              <Typography
-                sx={{
-                  fontWeight: 500,
-                  fontSize: "20px",
-                  color: "#2D224C",
-                }}
-              >
-                Ho la P.IVA. / Paga il corso la mia azienda
-              </Typography>
-            </div>
-            <div className="flex flex-row gap-4 items-center">
-              <Checkbox />
-              <Typography
-                sx={{
-                  fontWeight: 500,
-                  fontSize: "20px",
-                  color: "#2D224C",
-                }}
-              >
-                Ho letto e accetto i Termini e le Condizioni del servizio e la
-                Privacy Policy
-              </Typography>
-            </div>
-          </div>
+          <TextField
+            placeholder="Nome"
+            name="nome"
+            onChange={formik.handleChange}
+            type="text"
+            value={formik.values.nome}
+            error={formik.errors.nome}
+            helperText={formik.errors.nome}
+          />
+          <TextField
+            placeholder="Cogome"
+            name="cognome"
+            type="text"
+            onChange={formik.handleChange}
+            value={formik.values.cognome}
+            error={formik.errors.cognome}
+            helperText={formik.errors.cognome}
+          />
+          <TextField
+            placeholder="Email"
+            name="email"
+            type="email"
+            onChange={formik.handleChange}
+            value={formik.values.email}
+            helperText={formik.errors.email}
+            error={formik.errors.email}
+          />
+          <TextField
+            placeholder="Citta"
+            name="citta"
+            onChange={formik.handleChange}
+            value={formik.values.citta}
+            helperText={formik.errors.citta}
+            error={formik.errors.citta}
+          />
+          <TextField
+            placeholder="Indirizzo"
+            name="indirizzo"
+            onChange={formik.handleChange}
+            value={formik.values.indirizzo}
+            error={formik.errors.indirizzo}
+            helperText={formik.errors.indirizzo}
+          />
+          <TextField
+            placeholder="CAP"
+            name="cap"
+            onChange={formik.handleChange}
+            value={formik.values.cap}
+            error={formik.errors.cap}
+            helperText={formik.errors.cap}
+          />
         </Box>
 
+        <>
+          <FormControlLabel
+            className="mb-[8px] lg:mb-[10px] ml-0 w-full "
+            control={
+              <Checkbox
+                id="checkbox"
+                checked={checked}
+                onClick={() => setChecked((prev) => !prev)}
+              />
+            }
+            labelPlacement={"end"}
+            label={
+              <div className="text-edu-900 text-[14px] md:text-base">
+                Ho la P.IVA. / Paga il corso la mia azienda
+              </div>
+            }
+          />
+          <FormControlLabel
+            className="mb-[8px] lg:mb-[10px] ml-0 w-full "
+            onChange={formik.handleChange}
+            name="accettoTerms"
+            control={
+              <Checkbox id="checkbox" checked={formik.values.accettoTerms} />
+            }
+            labelPlacement={"end"}
+            label={
+              <div
+                className={cn(
+                  " text-edu-900 formik.values.accettoTerms text-[14px] md:text-base",
+                  {
+                    ["!text-[#d32f2f]"]: formik.errors.accettoTerms,
+                    ["!text-edu-900"]: !formik.errors.accettoTerms,
+                  }
+                )}
+              >
+                Ho letto e accetto i&nbsp;
+                <Link target={"_blank"} href={product?.links?.terms}>
+                  Termini e le Condizioni
+                </Link>
+                &nbsp; del servizio e la&nbsp;
+                <Link target={"_blank"} href={product?.links?.policy}>
+                  Privacy Policy
+                </Link>
+              </div>
+            }
+          />
+        </>
         <Button
           color="green"
           sx={{
@@ -88,8 +181,9 @@ const UserInfo = (props) => {
           }}
           variant="contained"
           className="mt-8"
+          disabled={!formik.isValid}
           onClick={() => {
-            props?.next && props?.next(state);
+            next && next(checked);
           }}
         >
           Procedi
