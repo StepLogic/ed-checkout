@@ -253,7 +253,6 @@ body {
 /* FOOTER */
 .img_sfondo_bottom {
   padding-top: 4rem;
-  /* background-image: url("./assets/img/bottom_back.svg"); */
   background-repeat: no-repeat;
   background-position: top;
   background-size: cover;
