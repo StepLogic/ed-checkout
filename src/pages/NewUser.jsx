@@ -28,6 +28,7 @@ const NewSubscriber = () => {
         setShowPDF={setShowPDF}
         enableDiscount={step === 0}
         enableCounter={step === 0}
+        onProductQuantityChange={setProductQuantity}
       />
       <Content showPDF={showPDF}>
         <>

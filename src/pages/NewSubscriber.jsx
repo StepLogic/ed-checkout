@@ -22,19 +22,20 @@ const NewSubscriber = () => {
   return (
     <>
       <SideBar
-        enableViewProduct={true}
+        enableViewProduct={false}
         setShowPDF={setShowPDF}
-        enableDiscount={step === 0}
-        enableCounter={step === 0}
+        enableDiscount={false}
+        enableCounter={false}
+        isNewSubscriber={true}
       />
       <Content showPDF={showPDF}>
         <>
           <>
             {step == 0 && (
               <UserInfo
-                            product={product}
+                product={product}
                 next={(v) => {
-                    console.log("hh",v)
+                  console.log("hh", v);
                   goTo(v ? 1 : 2);
                   setIva(v);
                 }}
@@ -54,7 +55,6 @@ const NewSubscriber = () => {
       </Content>
     </>
   );
-
 };
 
 export default NewSubscriber;

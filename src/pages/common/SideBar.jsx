@@ -31,6 +31,7 @@ const SideBar = ({
   enableViewProduct,
   enableDiscount,
   enableCounter,
+  isNewSubscriber = false,
 }) => {
   const {
     data: { user, product },
@@ -74,8 +75,8 @@ const SideBar = ({
       display: "flex",
       flexDirection: "row",
       alignItems: "center",
-      fontWeight: "400",
-      fontSize: "calc(16px + 0.2vh)",
+      fontWeight: "600",
+      fontSize: "calc(32px + 0.2vh)",
       lineHeight: "100%",
       ["@media (min-width:1180px)"]: {
         fontSize: "24px!important",
@@ -84,7 +85,7 @@ const SideBar = ({
         fontSize: "calc(8px + 0.2vh)",
         mb: "auto",
         lineHeight: "100%",
-
+        fontWeight: "600",
         fontStyle: "normal",
         whiteSpace: "nowrap",
       },
@@ -224,105 +225,120 @@ const SideBar = ({
               borderRadius: "9px",
               py: "2vh",
               px: "min(2vw,1.5rem)",
-              gap: "2vh",
+              gap: "0.5rem",
+              display: "grid",
+              gridTemplateColumns: "1fr",
               // color: "#2D224C",
             }}
           >
-            <Box sx={priceItemStyle}>
-              <p>Prezzo del percorso</p>
-              <b>
-                {price?.no_iva?.integer}
-                <Typography component={"em"}>
-                  {price?.no_iva?.decimal} €
-                </Typography>
-              </b>
-            </Box>
-            <Box sx={priceItemStyle}>
-              <p>IVA (22%)</p>
-              <b>
-                {price?.iva?.integer}
-                <Typography component={"em"}>
-                  {price?.iva?.decimal} €
-                </Typography>
-              </b>
-            </Box>
-            <Box sx={priceItemStyle}>
-              <p>Meno iscrizione</p>
-              <b>
-                -{price?.iva?.integer}
-                <Typography component={"em"}>
-                  {price?.iva?.decimal} €
-                </Typography>
-              </b>
-            </Box>
+            {!isNewSubscriber && (
+              <>
+                <Box sx={priceItemStyle}>
+                  <p>Prezzo del percorso</p>
+                  <b>
+                    {price?.no_iva?.integer}
+                    <Typography component={"em"}>
+                      {price?.no_iva?.decimal} €
+                    </Typography>
+                  </b>
+                </Box>
+                <Box sx={priceItemStyle}>
+                  <p>IVA (22%)</p>
+                  <b>
+                    {price?.iva?.integer}
+                    <Typography component={"em"}>
+                      {price?.iva?.decimal} €
+                    </Typography>
+                  </b>
+                </Box>
 
-            <Box
-              sx={{
-                borderRadius: "9px",
-                height: "62px",
-                position: "relative",
-                pointerEvents: enableDiscount ? "auto" : "none",
-                opacity: enableDiscount ? "100%" : "0",
-                "& input": {
-                  borderRadius: "9px",
-                  background: "#ffffff",
-                  height: "62px",
-                  width: "100%",
-                  paddingLeft: "10px",
-                  paddingRight: "100px",
-                },
-                "& input::placeholder": {
-                  fontStyle: "italic",
-                  fontWeight: "400",
-                  fontSize: "24px",
-                  lineHeight: "100%",
-                  display: "flex",
-                  alignItems: "center",
-                  color: "#B4B4B4",
-                },
-                "& input:focus": {
-                  outline: "none",
-                  border: "none",
-                },
-                "& button": {
-                  width: "79px",
-                  height: "31.76px",
-                  borderRadius: "6px",
-                  border: "2px solid #2D224C",
-                  color: "#2D224C",
-                  fontSize: "14px",
-                  position: "absolute",
-                  top: "14px",
-                  right: "14px",
-                },
-              }}
-            >
-              <input
-                className={"mr-auto font-semibold text-2xl text-[#2D224C]"}
-                placeholder={"Discount code"}
-              />
-              <button className={"font-semibold active:invert"}>APPLICA</button>
-            </Box>
+                {price?.discount?.integer > 0 && (
+                  <Box sx={priceItemStyle}>
+                    <p>Meno iscrizione</p>
+                    <b>
+                      -{price?.iva?.integer}
+                      <Typography component={"em"}>
+                        {price?.iva?.decimal} €
+                      </Typography>
+                    </b>
+                  </Box>
+                )}
+                <Box
+                  sx={{
+                    borderRadius: "9px",
+                    height: "62px",
+                    position: "relative",
+                    pointerEvents: enableDiscount ? "auto" : "none",
+                    opacity: enableDiscount ? "100%" : "0",
+                    "& input": {
+                      borderRadius: "9px",
+                      background: "#ffffff",
+                      height: "62px",
+                      width: "100%",
+                      paddingLeft: "10px",
+                      paddingRight: "100px",
+                    },
+                    "& input::placeholder": {
+                      fontStyle: "italic",
+                      fontWeight: "400",
+                      fontSize: "24px",
+                      lineHeight: "100%",
+                      display: "flex",
+                      alignItems: "center",
+                      color: "#B4B4B4",
+                    },
+                    "& input:focus": {
+                      outline: "none",
+                      border: "none",
+                    },
+                    "& button": {
+                      width: "79px",
+                      height: "31.76px",
+                      borderRadius: "6px",
+                      border: "2px solid #2D224C",
+                      color: "#2D224C",
+                      fontSize: "14px",
+                      position: "absolute",
+                      top: "14px",
+                      right: "14px",
+                    },
+                  }}
+                >
+                  <input
+                    className={"mr-auto font-semibold text-2xl text-[#2D224C]"}
+                    placeholder={"Discount code"}
+                  />
+                  <button className={"font-semibold active:invert"}>
+                    APPLICA
+                  </button>
+                </Box>
+              </>
+            )}
 
-            {price?.discount?.integer > 0 ? (
+            {isNewSubscriber ? (
               <Box sx={priceItemStyle}>
-                <p>Iscrizione pagata</p>
-                <b>
-                  -{price?.discount?.integer}
-                  <Typography component={"em"}>
-                    {price?.discount?.decimal} €
-                  </Typography>
-                </b>
+                <p className="!font-normal italic">Iscrizione</p>
+                <Typography component={"b"} sx={{}} className="">
+                  € {price?.price?.integer * productQuantity}
+                  {","}
+                  {price?.price?.decimal}
+                </Typography>
               </Box>
-            ) : null}
-            <Box sx={priceItemStyle}>
-              <p className="">Totale</p>
-              <Typography component={"b"} sx={{}} className="!font-bold">
-                € {price?.price?.integer * productQuantity}
-                {","}
-                {price?.price?.decimal}
-              </Typography>
-            </Box>
+            ) : (
+              <Box sx={priceItemStyle}>
+                <p className="">Totale</p>
+                <Typography component={"b"} sx={{}} className="!text-[40px]">
+                  € {price?.price?.integer * productQuantity}
+                  {","}
+                  {price?.price?.decimal}
+                </Typography>
+              </Box>
+            )}
+            {isNewSubscriber && (
+              <div className="text-[#2D224C] text-center font-semibold">
+                *Questo costo verrà detratto dal prezzo del percorso
+              </div>
+            )}
           </Box>
         </Box>
       </Box>
