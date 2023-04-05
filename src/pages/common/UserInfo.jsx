@@ -11,6 +11,8 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import cn from "classnames";
 import { TextField } from "@components/textfield";
+import InputAdornment from "@mui/material/InputAdornment";
+import NearMeIcon from "@mui/icons-material/NearMe";
 const UserInfo = ({ product, next }) => {
   const [checked, setChecked] = useState(false);
 
@@ -117,6 +119,19 @@ const UserInfo = ({ product, next }) => {
             value={formik.values.indirizzo}
             error={formik.errors.indirizzo}
             helperText={formik.errors.indirizzo}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <NearMeIcon
+                    sx={{
+                      color: "#886FCC",
+                      fontSize: "2rem",
+                      marginRight: "1rem",
+                    }}
+                  />
+                </InputAdornment>
+              ),
+            }}
           />
           <TextField
             placeholder="CAP"
@@ -128,9 +143,9 @@ const UserInfo = ({ product, next }) => {
           />
         </Box>
 
-        <>
+        <div className="mt-4">
           <FormControlLabel
-            className="mb-[8px] lg:mb-[10px] ml-0 w-full "
+            className="mb-[8px] lg:mb-[0px] mx-0 w-full "
             control={
               <Checkbox
                 id="checkbox"
@@ -146,7 +161,7 @@ const UserInfo = ({ product, next }) => {
             }
           />
           <FormControlLabel
-            className="mb-[8px] lg:mb-[10px] ml-0 w-full "
+            className="mb-[8px] lg:mb-[0px] mx-0 w-full "
             onChange={formik.handleChange}
             name="accettoTerms"
             control={
@@ -174,14 +189,18 @@ const UserInfo = ({ product, next }) => {
               </div>
             }
           />
-        </>
+        </div>
         <Button
-          color="green"
+          type="button"
+          color="buttonGreen"
+          variant="contained"
           sx={{
             height: "59px",
+            width: "100%",
+            // mt: 0,
           }}
-          variant="contained"
-          className="mt-8"
+          // className="mt-8"
+          disabled={!formik.values.accettoTerms}
           onClick={() => {
             formik.validateForm().then((r) => {
               if (Object.keys(r).length === 0) {

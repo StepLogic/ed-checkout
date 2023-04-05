@@ -316,7 +316,11 @@ const StripeCheckout = ({ userToken, product, iva }) => {
           <LoadingButton
             type="submit"
             color="buttonGreen"
-            sx={{ mt: 0, width: "100%" }}
+            sx={{
+              height: "59px",
+              width: "100%",
+              mt: 0,
+            }}
             size="large"
             variant="contained"
             disabled={isLoadingPayment || error}

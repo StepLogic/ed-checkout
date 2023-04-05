@@ -114,6 +114,8 @@ const IVAForm = (props) => {
           color="green"
           sx={{
             height: "59px",
+            width: "100%",
+            mt: 0,
           }}
           variant="contained"
           className="mt-8"

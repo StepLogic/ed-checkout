@@ -61,7 +61,7 @@ const PaymentOption = ({
         {showTerms && (
           <>
             <FormControlLabel
-              className="mb-[8px] lg:mb-[10px] ml-0 w-full "
+              className="mb-[8px] lg:mb-[0px] mx-0 w-full "
               control={
                 <Checkbox
                   id="checkbox"
@@ -77,7 +77,7 @@ const PaymentOption = ({
               }
             />
             <FormControlLabel
-              className="mb-[8px] lg:mb-[10px] ml-0 w-full "
+              className="mb-[8px] lg:mb-[0px] mx-0 w-full "
               control={
                 <Checkbox
                   id="checkbox"
@@ -104,8 +104,10 @@ const PaymentOption = ({
         <Button
           type="button"
           color="buttonGreen"
+          sx={{
+            height: "59px",
+          }}
           variant="contained"
-          sx={{ mt: 0, width: "100%" }}
           disabled={showTerms && !accettoTerms}
           size="large"
           onClick={() => setPaymentType(selection, checked)}

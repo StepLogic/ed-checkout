@@ -163,7 +163,7 @@ const KlarnaCheckout = ({ product, showFormSelect, user, iva }) => {
             loading={authorizing}
             color="buttonGreen"
             variant="contained"
-            sx={{ mt: 0, width: "100%" }}
+            sx={{ mt: 0, width: "100%", height: "59px" }}
             size="large"
             onClick={() => authorizePayment()}
           >
