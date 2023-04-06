@@ -32,6 +32,7 @@ const SideBar = ({
   enableDiscount,
   enableCounter,
   isNewSubscriber = false,
+  showPdf = false,
 }) => {
   const {
     data: { user, product },
@@ -210,7 +211,7 @@ const SideBar = ({
               }}
               variant="outlined"
             >
-              VIEW THE PRODUCT
+              {showPdf ? "CLOSE SLIDES" : "VIEW SLIDES"}
             </Button>
             <Counter
               enableCounter={enableCounter}

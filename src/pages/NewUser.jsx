@@ -26,6 +26,7 @@ const NewSubscriber = () => {
       <SideBar
         enableViewProduct={true}
         setShowPDF={setShowPDF}
+        showPdf={showPDF}
         enableDiscount={step === 0}
         enableCounter={step === 0}
         onProductQuantityChange={setProductQuantity}

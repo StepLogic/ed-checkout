@@ -27,6 +27,7 @@ const ExistingUser = () => {
       <SideBar
         enableViewProduct={true}
         setShowPDF={setShowPDF}
+        showPdf={showPDF}
         enableDiscount={step === 0}
         enableCounter={step === 0}
       />
