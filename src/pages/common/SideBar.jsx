@@ -63,7 +63,9 @@ const SideBar = ({
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
-    my: 1,
+    ["@media (min-width:1180px)"]: {
+      my: 1,
+    },
     "& p": {
       lineHeight: "100%",
       fontWeight: "600",
@@ -223,9 +225,12 @@ const SideBar = ({
               backgroundColor: "#D9DAF3",
               height: "fit-content",
               borderRadius: "9px",
-              py: "2vh",
+              py: "min(2vh,8px)",
               px: "min(2vw,1.5rem)",
-              gap: "0.5rem",
+              gap: "1vh",
+              ["@media (min-height:763px)"]: {
+                gap: "0.5rem",
+              },
               display: "grid",
               gridTemplateColumns: "1fr",
               // color: "#2D224C",
@@ -266,14 +271,17 @@ const SideBar = ({
                 <Box
                   sx={{
                     borderRadius: "9px",
-                    height: "62px",
+                    height: "min(62px,5vh)",
+                    ["@media (min-height:763px)"]: {
+                      height: "62px",
+                    },
                     position: "relative",
                     pointerEvents: enableDiscount ? "auto" : "none",
                     opacity: enableDiscount ? "100%" : "0",
                     "& input": {
                       borderRadius: "9px",
                       background: "#ffffff",
-                      height: "62px",
+                      height: "100%",
                       width: "100%",
                       paddingLeft: "10px",
                       paddingRight: "100px",
@@ -299,8 +307,11 @@ const SideBar = ({
                       color: "#2D224C",
                       fontSize: "14px",
                       position: "absolute",
-                      top: "14px",
+                      top: "10%",
                       right: "14px",
+                      ["@media (min-height:763px)"]: {
+                        top: "14px",
+                      },
                     },
                   }}
                 >
