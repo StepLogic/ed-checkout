@@ -183,7 +183,7 @@ const SideBar = ({
             gridTemplateColumns: "1fr",
             gap: "3rem",
             ["@media (min-width:1180px)"]: {
-              gridTemplateRows: ["8fr 5fr"],
+              gridTemplateRows: ["25fr 100px 40fr"],
               gap: "1rem",
             },
           }}
@@ -271,10 +271,10 @@ const SideBar = ({
                 <Box
                   sx={{
                     borderRadius: "9px",
-                    height: "min(62px,5vh)",
-                    ["@media (min-height:763px)"]: {
-                      height: "62px",
-                    },
+                    // height: "min(62px,5vh)",
+                    // ["@media (min-height:763px)"]: {
+                    height: "62px",
+                    // },
                     position: "relative",
                     pointerEvents: enableDiscount ? "auto" : "none",
                     opacity: enableDiscount ? "100%" : "0",
@@ -307,11 +307,11 @@ const SideBar = ({
                       color: "#2D224C",
                       fontSize: "14px",
                       position: "absolute",
-                      top: "10%",
+                      // top: "10%",
                       right: "14px",
-                      ["@media (min-height:763px)"]: {
-                        top: "14px",
-                      },
+                      // ["@media (min-height:763px)"]: {
+                      top: "14px",
+                      // },
                     },
                   }}
                 >
