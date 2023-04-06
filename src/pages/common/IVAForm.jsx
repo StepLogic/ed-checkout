@@ -10,9 +10,8 @@ const IVAForm = (props) => {
       denominazioneERagioneSociale: "",
       partitaIVA: "",
       codicDestinatario: "",
-      cittaECap: "",
+      inserisciIndirizzo: "",
       PECDesitinatatio: "",
-      CAP: "",
     },
     isInitialValid: false,
     validateOnChange: false,
@@ -20,9 +19,8 @@ const IVAForm = (props) => {
       denominazioneERagioneSociale: Yup.string().required("Required"),
       partitaIVA: Yup.string().required("Required"),
       codicDestinatario: Yup.string().required("Required"),
-      cittaECap: Yup.string().required("Required"),
+      inserisciIndirizzo: Yup.string().required("Required"),
       PECDesitinatatio: Yup.string().required("Required"),
-      CAP: Yup.string().required("Required"),
     }),
   });
 
@@ -84,14 +82,7 @@ const IVAForm = (props) => {
             error={formik.errors.codicDestinatario}
             helper={formik.errors.codicDestinatario}
           />
-          <TextField
-            placeholder="Città, indirizzo e CAP"
-            name="cittaECap"
-            value={formik.values.cittaECap}
-            onChange={formik.handleChange}
-            error={formik.errors.cittaECap}
-            helper={formik.errors.cittaECap}
-          />
+
           <TextField
             placeholder="PEC Destinatatio"
             name="PECDesitinatatio"
@@ -101,12 +92,12 @@ const IVAForm = (props) => {
             helper={formik.errors.PECDesitinatatio}
           />
           <TextField
-            placeholder="CAP"
-            name="CAP"
-            value={formik.values.CAP}
+            placeholder="Inserisci indirizzo"
+            name="Inserisci indirizzo"
+            value={formik.values.inserisciIndirizzo}
             onChange={formik.handleChange}
-            error={formik.errors.CAP}
-            helper={formik.errors.CAP}
+            error={formik.errors.inserisciIndirizzo}
+            helper={formik.errors.inserisciIndirizzo}
           />
         </Box>
 

@@ -6,15 +6,21 @@ import {
   Link,
   Typography,
 } from "@mui/material";
-import React, { useState } from "react";
+import Autocomplete from "@mui/material/Autocomplete";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import cn from "classnames";
 import { TextField } from "@components/textfield";
 import InputAdornment from "@mui/material/InputAdornment";
 import NearMeIcon from "@mui/icons-material/NearMe";
+
+import * as _ from "lodash";
+const TOMTOM_KEY = import.meta.env.VITE_TOMTOM_API;
 const UserInfo = ({ product, next }) => {
   const [checked, setChecked] = useState(false);
+  const [autoComplete, setAutoComplete] = useState({ status: false });
 
   const formik = useFormik({
     initialValues: {
@@ -41,6 +47,25 @@ const UserInfo = ({ product, next }) => {
         .required("Required"),
     }),
   });
+  const handleAddressChange = (value) => {
+    if (value !== "") {
+      const u = () => autoCompleteAddressHandler(value);
+      _.delay(u, 1000);
+    }
+  };
+  const autoCompleteAddressHandler = (value) => {
+    axios
+      .get(
+        `https://api.tomtom.com/search/2/geocode/${value}.json?key=${TOMTOM_KEY}&language=it-IT&typeahead=true&limit=10&type=Address&lat=41.9102415&lon=12.395915&radius=100000000`
+      )
+      .then((response) => {
+        setAutoComplete({
+          status: true,
+          response: response.data.results,
+        });
+      })
+      .catch((er) => formik.setFieldValue("indirizzo", value));
+  };
 
   return (
     <>
@@ -75,7 +100,7 @@ const UserInfo = ({ product, next }) => {
             "scrollbar-width": "thin",
             "scrollbar-color": "#8065C9 green",
           }}
-          className="flex flex-col gap-8"
+          className="flex flex-col gap-8 overflow-x-hidden"
         >
           <TextField
             placeholder="Nome"
@@ -112,27 +137,58 @@ const UserInfo = ({ product, next }) => {
             helperText={formik.errors.citta}
             error={formik.errors.citta}
           />
-          <TextField
-            placeholder="Indirizzo"
-            name="indirizzo"
-            onChange={formik.handleChange}
+          <Autocomplete
+            freeSolo
+            onChange={(e, v) => {
+              console.log("event", e, "value", v);
+              const streetAddress = v.split(",");
+              formik.setFieldValue("indirizzo", streetAddress[0]);
+              const address = autoComplete.response?.find(
+                (l) => l.address.freeformAddress === v
+              );
+
+              if (
+                address &&
+                address.address?.municipality &&
+                address.address?.postalCode
+              ) {
+                formik.setFieldValue("citta", address.address?.municipality);
+                formik.setFieldValue("cap", address.address?.postalCode);
+              }
+            }}
             value={formik.values.indirizzo}
             error={formik.errors.indirizzo}
             helperText={formik.errors.indirizzo}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <NearMeIcon
-                    sx={{
-                      color: "#886FCC",
-                      fontSize: "2rem",
-                      marginRight: "1rem",
-                    }}
-                  />
-                </InputAdornment>
-              ),
-            }}
+            options={
+              autoComplete.response?.map((r) => r?.address.freeformAddress) ?? [
+                "Rome",
+              ]
+            }
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                placeholder="Indirizzo"
+                name="indirizzo"
+                onChange={(e) => handleAddressChange(e.target?.value)}
+                InputProps={{
+                  ...params.InputProps,
+                  type: "search",
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <NearMeIcon
+                        sx={{
+                          color: "#886FCC",
+                          fontSize: "2rem",
+                          marginRight: "1rem",
+                        }}
+                      />
+                    </InputAdornment>
+                  ),
+                }}
+              />
+            )}
           />
+          {/* <TextField /> */}
           <TextField
             placeholder="CAP"
             name="cap"
