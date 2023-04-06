@@ -41,7 +41,7 @@ const NewSubscriber = () => {
                 }}
               />
             )}
-            {step == 1 && <IVAForm next={() => goTo(1)} />}
+            {step == 1 && <IVAForm next={() => goTo(2)} />}
             {step == 2 && (
               <PaymentForm
                 iva={iva}

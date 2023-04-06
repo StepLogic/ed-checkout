@@ -177,6 +177,7 @@ const IVAForm = (props) => {
           onClick={() => {
             formik.validateForm().then((r) => {
               if (Object.keys(r).length === 0) {
+                console.log("herere");
                 props?.next && props?.next();
               }
             });
