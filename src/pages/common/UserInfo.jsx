@@ -15,11 +15,20 @@ import cn from "classnames";
 import { TextField } from "@components/textfield";
 import InputAdornment from "@mui/material/InputAdornment";
 import NearMeIcon from "@mui/icons-material/NearMe";
+import Snackbar from "@mui/material/Snackbar";
+// import MuiAlert, { AlertProps } from "@mui/material/Alert";
+import MuiAlert from "@mui/material/Alert";
 
 import * as _ from "lodash";
 const TOMTOM_KEY = import.meta.env.VITE_TOMTOM_API;
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
+
 const UserInfo = ({ product, next }) => {
   const [checked, setChecked] = useState(false);
+  const [openSnackbar, setOpenSnackbar] = useState(false);
   const [autoComplete, setAutoComplete] = useState({ status: false });
 
   const formik = useFormik({
@@ -51,6 +60,43 @@ const UserInfo = ({ product, next }) => {
       _.delay(u, 1000);
     }
   };
+
+  const geoLocate = () => {
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition(function (position) {
+        console.log("Latitude is :", position.coords.latitude);
+        console.log("Longitude is :", position.coords.longitude);
+        const url = `https://api.tomtom.com/search/2/geocode/structuredGeocode.json?key=${TOMTOM_KEY}&language=it-IT&typeahead=true&limit=10&type=Address&lat=${position.coords.latitude}&lon=${position.coords.longitude}&radius=100`;
+        console.log("url", url);
+        axios
+          .get(url)
+          .then((response) => {
+            setAutoComplete({
+              status: true,
+              response: response.data.results,
+            });
+            const l = response?.data?.results?.map(
+              (r) =>
+                `${r?.address.freeformAddress.split(",")[0]}${
+                  r?.address?.municipality
+                    ? " , " + r?.address?.municipality
+                    : ""
+                }${
+                  r?.address?.postalCode ? " , " + r?.address?.postalCode : ""
+                }`
+            );
+            if (l.length > 0) {
+              formik.setFieldValue("indirizzo", l[0]);
+            } else {
+              setOpenSnackbar(true);
+            }
+          })
+          .catch((er) => setOpenSnackbar(true));
+      });
+    } else {
+      console.log("Not Available");
+    }
+  };
   const autoCompleteAddressHandler = (value) => {
     axios
       .get(
@@ -70,6 +116,21 @@ const UserInfo = ({ product, next }) => {
       <h1 className=" font-semibold text-center lg:text-start  leading-none text-edu-900 text-[24px] lg:text-3xl 3xl:text-4xl max:text-6xl w-full">
         Finalizza la tua iscrizione
       </h1>
+      <Snackbar
+        open={openSnackbar}
+        autoHideDuration={2000}
+        onClose={() => setOpenSnackbar(false)}
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+      >
+        <Alert
+          onClose={() => setOpenSnackbar(false)}
+          severity="primary"
+          sx={{ width: "100%" }}
+        >
+          No Address Found
+        </Alert>
+      </Snackbar>
+
       <Box
         sx={{
           display: ["grid"],
@@ -145,7 +206,7 @@ const UserInfo = ({ product, next }) => {
                   }${
                     r?.address?.postalCode ? " , " + r?.address?.postalCode : ""
                   }`
-              ) ?? ["Rome"]
+              ) ?? []
             }
             renderInput={(params) => (
               <TextField
@@ -158,13 +219,19 @@ const UserInfo = ({ product, next }) => {
                   type: "search",
                   endAdornment: (
                     <InputAdornment position="end">
-                      <NearMeIcon
-                        sx={{
-                          color: "#886FCC",
-                          fontSize: "2rem",
-                          marginRight: "1rem",
-                        }}
-                      />
+                      <button
+                        type="button"
+                        className="active:invert"
+                        onClick={() => geoLocate()}
+                      >
+                        <NearMeIcon
+                          sx={{
+                            color: "#886FCC",
+                            fontSize: "2rem",
+                            marginRight: "1rem",
+                          }}
+                        />
+                      </button>
                     </InputAdornment>
                   ),
                 }}
