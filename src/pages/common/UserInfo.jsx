@@ -27,9 +27,7 @@ const UserInfo = ({ product, next }) => {
       nome: "",
       cognome: "",
       email: "",
-      citta: "",
       indirizzo: "",
-      cap: "",
       accettoTerms: false,
     },
 
@@ -39,9 +37,9 @@ const UserInfo = ({ product, next }) => {
       nome: Yup.string().required("Required"),
       cognome: Yup.string().required("Required"),
       email: Yup.string().email("Invalid email address").required("Required"),
-      citta: Yup.string().required("Required"),
+
       indirizzo: Yup.string().required("Required"),
-      cap: Yup.string().required("Required"),
+
       accettoTerms: Yup.boolean()
         .oneOf([true], "You must accept Terms and Conditions")
         .required("Required"),
@@ -132,33 +130,27 @@ const UserInfo = ({ product, next }) => {
           <Autocomplete
             freeSolo
             onChange={(e, v) => {
-              const streetAddress = v.split(",");
-              formik.setFieldValue("indirizzo", streetAddress[0]);
-              const address = autoComplete.response?.find(
-                (l) => l.address.freeformAddress === v
-              );
-
-              if (
-                address &&
-                address.address?.municipality &&
-                address.address?.postalCode
-              ) {
-                formik.setFieldValue("citta", address.address?.municipality);
-                formik.setFieldValue("cap", address.address?.postalCode);
-              }
+              formik.setFieldValue("indirizzo", v);
             }}
             value={formik.values.indirizzo}
             error={formik.errors.indirizzo}
             helperText={formik.errors.indirizzo}
             options={
-              autoComplete.response?.map((r) => r?.address.freeformAddress) ?? [
-                "Rome",
-              ]
+              autoComplete.response?.map(
+                (r) =>
+                  `${r?.address.freeformAddress.split(",")[0]}${
+                    r?.address?.municipality
+                      ? " , " + r?.address?.municipality
+                      : ""
+                  }${
+                    r?.address?.postalCode ? " , " + r?.address?.postalCode : ""
+                  }`
+              ) ?? ["Rome"]
             }
             renderInput={(params) => (
               <TextField
                 {...params}
-                placeholder="Indirizzo"
+                placeholder="Inserisci indirizzo"
                 name="indirizzo"
                 onChange={(e) => handleAddressChange(e.target?.value)}
                 InputProps={{
@@ -179,7 +171,7 @@ const UserInfo = ({ product, next }) => {
               />
             )}
           />
-          <TextField
+          {/* <TextField
             placeholder="Citta"
             name="citta"
             onChange={formik.handleChange}
@@ -187,16 +179,16 @@ const UserInfo = ({ product, next }) => {
             helperText={formik.errors.citta}
             error={formik.errors.citta}
           />
+ */}
 
-          {/* <TextField /> */}
-          <TextField
+          {/* <TextField
             placeholder="CAP"
             name="cap"
             onChange={formik.handleChange}
             value={formik.values.cap}
             error={formik.errors.cap}
             helperText={formik.errors.cap}
-          />
+          /> */}
         </Box>
 
         <div className="mt-4">

@@ -4,13 +4,21 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import cn from "classnames";
 import { TextField } from "@components/textfield";
+import Autocomplete from "@mui/material/Autocomplete";
+import NearMeIcon from "@mui/icons-material/NearMe";
+import * as _ from "lodash";
+import axios from "axios";
+import InputAdornment from "@mui/material/InputAdornment";
+const TOMTOM_KEY = import.meta.env.VITE_TOMTOM_API;
+
 const IVAForm = (props) => {
+  const [autoComplete, setAutoComplete] = React.useState({ status: false });
   const formik = useFormik({
     initialValues: {
       denominazioneERagioneSociale: "",
       partitaIVA: "",
       codicDestinatario: "",
-      inserisciIndirizzo: "",
+      indirizzo: "",
       PECDesitinatatio: "",
     },
     isInitialValid: false,
@@ -19,10 +27,30 @@ const IVAForm = (props) => {
       denominazioneERagioneSociale: Yup.string().required("Required"),
       partitaIVA: Yup.string().required("Required"),
       codicDestinatario: Yup.string().required("Required"),
-      inserisciIndirizzo: Yup.string().required("Required"),
+      indirizzo: Yup.string().required("Required"),
       PECDesitinatatio: Yup.string().required("Required"),
     }),
   });
+
+  const handleAddressChange = (value) => {
+    if (value !== "") {
+      const u = () => autoCompleteAddressHandler(value);
+      _.delay(u, 1000);
+    }
+  };
+  const autoCompleteAddressHandler = (value) => {
+    axios
+      .get(
+        `https://api.tomtom.com/search/2/geocode/${value}.json?key=${TOMTOM_KEY}&language=it-IT&typeahead=true&limit=10&type=Address&lat=41.9102415&lon=12.395915&radius=100000000`
+      )
+      .then((response) => {
+        setAutoComplete({
+          status: true,
+          response: response.data.results,
+        });
+      })
+      .catch((er) => formik.setFieldValue("indirizzo", value));
+  };
 
   return (
     <>
@@ -91,13 +119,49 @@ const IVAForm = (props) => {
             error={formik.errors.PECDesitinatatio}
             helper={formik.errors.PECDesitinatatio}
           />
-          <TextField
-            placeholder="Inserisci indirizzo"
-            name="Inserisci indirizzo"
-            value={formik.values.inserisciIndirizzo}
-            onChange={formik.handleChange}
-            error={formik.errors.inserisciIndirizzo}
-            helper={formik.errors.inserisciIndirizzo}
+          <Autocomplete
+            freeSolo
+            onChange={(e, v) => {
+              formik.setFieldValue("indirizzo", v);
+            }}
+            value={formik.values.indirizzo}
+            error={formik.errors.indirizzo}
+            helperText={formik.errors.indirizzo}
+            options={
+              autoComplete.response?.map(
+                (r) =>
+                  `${r?.address.freeformAddress.split(",")[0]}${
+                    r?.address?.municipality
+                      ? " , " + r?.address?.municipality
+                      : ""
+                  }${
+                    r?.address?.postalCode ? " , " + r?.address?.postalCode : ""
+                  }`
+              ) ?? ["Rome"]
+            }
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                placeholder="Inserisci indirizzo"
+                name="indirizzo"
+                onChange={(e) => handleAddressChange(e.target?.value)}
+                InputProps={{
+                  ...params.InputProps,
+                  type: "search",
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <NearMeIcon
+                        sx={{
+                          color: "#886FCC",
+                          fontSize: "2rem",
+                          marginRight: "1rem",
+                        }}
+                      />
+                    </InputAdornment>
+                  ),
+                }}
+              />
+            )}
           />
         </Box>
 
