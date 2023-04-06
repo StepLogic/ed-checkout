@@ -232,10 +232,10 @@ const StripeCheckout = ({ userToken, product, iva }) => {
             name="nome_titolare_carta"
             variant="standard"
             color="primary"
-            value={cardHolderDetails?.nome_titolare_carta ?? ""}
+            // value={cardHolderDetails?.nome_titolare_carta ?? ""}
             placeholder="Nome titolare carta"
             sx={{}}
-            onChange={handleChange}
+            // onChange={handleChange}
           />
           <FormHelperText>
             {error?.nome_titolare_carta ? (
@@ -251,10 +251,10 @@ const StripeCheckout = ({ userToken, product, iva }) => {
             name="cognome_titolare_carta"
             variant="standard"
             color="primary"
-            value={cardHolderDetails?.cognome_titolare_carta ?? ""}
+            // value={cardHolderDetails?.cognome_titolare_carta ?? ""}
             placeholder="Cognome titolare carta"
             sx={{}}
-            onChange={handleChange}
+            // onChange={handleChange}
           />
           <FormHelperText>
             {error?.cognome_titolare_carta ? (
@@ -270,10 +270,10 @@ const StripeCheckout = ({ userToken, product, iva }) => {
             name="email_titolare_carta"
             variant="standard"
             color="primary"
-            value={cardHolderDetails?.email_titolare_carta ?? ""}
+            // value={cardHolderDetails?.email_titolare_carta ?? ""}
             placeholder="Email titolare carta"
             sx={{}}
-            onChange={handleChange}
+            // onChange={handleChange}
           />
           <FormHelperText>
             {error?.email_titolare_carta ? (

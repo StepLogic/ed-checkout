@@ -11,7 +11,7 @@ const ThankYou = () => {
     <Box
       sx={{
         display: "grid",
-        gridTemplateRows: "5vh 85vh 10vh",
+        gridTemplateRows: "20vh 75vh",
         height: "calc(var(--vh, 1vh) * 100)",
         overflowX: "hidden",
         backgroundColor: "#d9daf3",
@@ -33,8 +33,8 @@ const ThankYou = () => {
           </>
         )}
       />
-      <div className="flex flex-col items-center justify-center gap-[min(max(4vh,1rem),2rem)] max-w-[862px] mx-auto my-auto">
-        <h1 className="text-[#2D224C]  font-semibold text-center  text-[32px]  lg:text-[48px]">
+      <div className="flex h-full flex-col items-center justify-center gap-[min(max(6vh,1rem),2rem)] max-w-[862px] mx-auto my-auto">
+        <h1 className="text-[#2D224C]  font-semibold text-center  text-[32px] lg:text-[48px]">
           Il pagamento è andato a buon fine!
         </h1>
         <p className="max-w-[80%] text-[#2D224C] text-center font-medium text-[20px]  lg:text-[24px] leading-[100%]">
@@ -49,7 +49,7 @@ Siamo davvero felici che inizierai un percorso con noi!`
           Ti faremo qualche domanda per conoscerti meglio. Ci vogliono solo
           <b className="text-[#D4145A]"> 2 minuti</b>
         </p>
-        <h2 className="text-[32px] text-[#2D224C] font-bold">
+        <h2 className="text-[32px] text-[#2D224C] font-bold mt-auto">
           Vogliamo iniziare?
         </h2>
         <Button
@@ -72,16 +72,16 @@ Siamo davvero felici che inizierai un percorso con noi!`
             flexDirection: "row",
             justifyContent: "center",
             alignItems: "center",
-            "&::before": {
-              content: `''`,
-              display: "block",
-              width: "22px",
-              height: "81px",
-              background: "#8065C9",
-              position: "absolute",
-              left: 0,
-              borderRadius: "9px 0px 0px 9px",
-            },
+            // "&::before": {
+            //   content: `''`,
+            //   display: "block",
+            //   width: "22px",
+            //   height: "81px",
+            //   background: "#8065C9",
+            //   position: "absolute",
+            //   left: 0,
+            //   borderRadius: "9px 0px 0px 9px",
+            // },
           }}
         >
           <p className="text-[#8065C9] text-[14px] lg:text-[18px] font-medium px-4">
@@ -89,9 +89,9 @@ Siamo davvero felici che inizierai un percorso con noi!`
           </p>
         </Box>
       </div>
-      <div className="flex w-full relative">
+      {/* <div className="flex w-full relative">
         <Bottom className="absolute bottom-0 w-full" />
-      </div>
+      </div> */}
     </Box>
   );
 };
