@@ -129,18 +129,9 @@ const UserInfo = ({ product, next }) => {
             helperText={formik.errors.email}
             error={formik.errors.email}
           />
-          <TextField
-            placeholder="Citta"
-            name="citta"
-            onChange={formik.handleChange}
-            value={formik.values.citta}
-            helperText={formik.errors.citta}
-            error={formik.errors.citta}
-          />
           <Autocomplete
             freeSolo
             onChange={(e, v) => {
-              console.log("event", e, "value", v);
               const streetAddress = v.split(",");
               formik.setFieldValue("indirizzo", streetAddress[0]);
               const address = autoComplete.response?.find(
@@ -188,6 +179,15 @@ const UserInfo = ({ product, next }) => {
               />
             )}
           />
+          <TextField
+            placeholder="Citta"
+            name="citta"
+            onChange={formik.handleChange}
+            value={formik.values.citta}
+            helperText={formik.errors.citta}
+            error={formik.errors.citta}
+          />
+
           {/* <TextField /> */}
           <TextField
             placeholder="CAP"
