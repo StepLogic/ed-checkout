@@ -20,6 +20,7 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 
 const IVAForm = (props) => {
   const [openSnackbar, setOpenSnackbar] = React.useState(false);
+  const [addressLoading, setAddressLoading] = useState(false);
   const [autoComplete, setAutoComplete] = React.useState({ status: false });
   const formik = useFormik({
     initialValues: {
@@ -46,7 +47,6 @@ const IVAForm = (props) => {
       _.delay(u, 1000);
     }
   };
-
   const geoLocate = () => {
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(function (position) {
@@ -54,6 +54,7 @@ const IVAForm = (props) => {
         console.log("Longitude is :", position.coords.longitude);
         const url = `https://api.tomtom.com/search/2/nearbySearch/.json?key=${TOMTOM_KEY}&language=it-IT&typeahead=true&limit=10&type=Address&lat=${position.coords.latitude}&lon=${position.coords.longitude}&radius=1000`;
         console.log("url", url);
+        setAddressLoading(true);
         axios
           .get(url)
           .then((response) => {
@@ -71,6 +72,7 @@ const IVAForm = (props) => {
                   r?.address?.postalCode ? " , " + r?.address?.postalCode : ""
                 }`
             );
+
             if (l.length > 0) {
               formik.setFieldValue("indirizzo", l[0]);
             } else {
@@ -78,6 +80,7 @@ const IVAForm = (props) => {
             }
           })
           .catch((er) => setOpenSnackbar(true));
+        setAddressLoading(false);
       });
     } else {
       console.log("Not Available");
@@ -210,19 +213,23 @@ const IVAForm = (props) => {
                   type: "search",
                   endAdornment: (
                     <InputAdornment position="end">
-                      <button
-                        type="button"
-                        className="active:invert"
-                        onClick={() => geoLocate()}
-                      >
-                        <NearMeIcon
-                          sx={{
-                            color: "#886FCC",
-                            fontSize: "2rem",
-                            marginRight: "1rem",
-                          }}
-                        />
-                      </button>
+                      {addressLoading ? (
+                        <CircularProgress />
+                      ) : (
+                        <button
+                          type="button"
+                          className="active:invert"
+                          onClick={() => geoLocate()}
+                        >
+                          <NearMeIcon
+                            sx={{
+                              color: "#886FCC",
+                              fontSize: "2rem",
+                              marginRight: "1rem",
+                            }}
+                          />
+                        </button>
+                      )}
                     </InputAdornment>
                   ),
                 }}

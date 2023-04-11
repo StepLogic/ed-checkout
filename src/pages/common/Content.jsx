@@ -38,13 +38,13 @@ const Content = ({ children, showPDF = false }) => {
         flexDirection: "column",
         paddingTop: "5vh",
         ["@media (min-width:1180px)"]: {
-          gridTemplateRows: "3.2fr 10fr!important",
+          gridTemplateRows: "1.9fr 14fr!important",
           paddingLeft: "calc(10vw + 10vh)!important",
         },
         ["@media (min-width:763px)"]: {
           paddingTop: "32px",
           display: "grid",
-          gridTemplateRows: ["2fr 10fr"],
+          gridTemplateRows: ["1fr 10fr"],
           paddingLeft: "calc(10vw + 5vh)!important",
           height: ["calc(var(--vh, 1vh) * 100)"],
         },
