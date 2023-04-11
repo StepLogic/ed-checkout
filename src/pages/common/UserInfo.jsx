@@ -16,10 +16,11 @@ import { TextField } from "@components/textfield";
 import InputAdornment from "@mui/material/InputAdornment";
 import NearMeIcon from "@mui/icons-material/NearMe";
 import Snackbar from "@mui/material/Snackbar";
-// import MuiAlert, { AlertProps } from "@mui/material/Alert";
+import ClearIcon from "@mui/icons-material/Clear";
 import MuiAlert from "@mui/material/Alert";
 import CircularProgress from "@mui/material/CircularProgress";
 import * as _ from "lodash";
+import { LoadingButton } from "@mui/lab";
 const TOMTOM_KEY = import.meta.env.VITE_TOMTOM_API;
 
 const Alert = React.forwardRef(function Alert(props, ref) {
@@ -61,13 +62,14 @@ const UserInfo = ({ product, next }) => {
   };
 
   const geoLocate = () => {
+    setAddressLoading(true);
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(function (position) {
         console.log("Latitude is :", position.coords.latitude);
         console.log("Longitude is :", position.coords.longitude);
         const url = `https://api.tomtom.com/search/2/nearbySearch/.json?key=${TOMTOM_KEY}&language=it-IT&typeahead=true&limit=10&type=Address&lat=${position.coords.latitude}&lon=${position.coords.longitude}&radius=1000`;
         console.log("url", url);
-        setAddressLoading(true);
+
         axios
           .get(url)
           .then((response) => {
@@ -93,11 +95,11 @@ const UserInfo = ({ product, next }) => {
             }
           })
           .catch((er) => setOpenSnackbar(true));
-        setAddressLoading(false);
       });
     } else {
       console.log("Not Available");
     }
+    setAddressLoading(false);
   };
   const autoCompleteAddressHandler = (value) => {
     axios
@@ -198,6 +200,8 @@ const UserInfo = ({ product, next }) => {
             value={formik.values.indirizzo}
             error={formik.errors.indirizzo}
             helperText={formik.errors.indirizzo}
+            // classes={{ clearIndicator: "!text-[#8065C9] hidden" }}
+            clearIcon={<ClearIcon color="primary" />}
             options={
               autoComplete.response?.map(
                 (r) =>
@@ -218,26 +222,52 @@ const UserInfo = ({ product, next }) => {
                 onChange={(e) => handleAddressChange(e.target?.value)}
                 InputProps={{
                   ...params.InputProps,
-                  type: "search",
+                  // type: "search",
                   endAdornment: (
                     <InputAdornment position="end">
-                      {addressLoading ? (
-                        <CircularProgress />
-                      ) : (
-                        <button
-                          type="button"
-                          className="active:invert"
-                          onClick={() => geoLocate()}
-                        >
-                          <NearMeIcon
-                            sx={{
-                              color: "#886FCC",
+                      <div className="flex flex-row items-center relative">
+                        <Box
+                          sx={{
+                            "&>div": {
+                              top: "0!important",
+                              width: "2rem",
+                              height: "2rem",
+                            },
+                            "&>div>button": {
+                              top: "0!important",
+                              width: "2rem",
+                              height: "2rem",
                               fontSize: "2rem",
-                              marginRight: "1rem",
-                            }}
-                          />
-                        </button>
-                      )}
+                              padding: "0",
+                              marginBottom: "1rem",
+                            },
+                            "&>div>button>svg": {
+                              fontSize: "2rem",
+                            },
+                          }}
+                          className="my-auto left-[2rem] absolute h-[2rem] w-[2rem] top-0 bottom-0"
+                        >
+                          {params.InputProps.endAdornment}
+                        </Box>
+
+                        {addressLoading ? (
+                          <CircularProgress className="w-[1.5rem] h-[1.5rem]" />
+                        ) : (
+                          <button
+                            type="button"
+                            className="active:invert"
+                            onClick={() => geoLocate()}
+                          >
+                            <NearMeIcon
+                              sx={{
+                                color: "#886FCC",
+                                fontSize: "2rem",
+                                marginRight: "1rem",
+                              }}
+                            />
+                          </button>
+                        )}
+                      </div>
                     </InputAdornment>
                   ),
                 }}
@@ -314,11 +344,11 @@ const UserInfo = ({ product, next }) => {
         <Button
           type="button"
           color="buttonGreen"
+          size="large"
           variant="contained"
           sx={{
             height: "59px",
             width: "100%",
-            // mt: 0,
           }}
           // className="mt-8"
           disabled={!formik.values.accettoTerms}

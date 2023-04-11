@@ -11,7 +11,7 @@ import axios from "axios";
 import InputAdornment from "@mui/material/InputAdornment";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
-
+import ClearIcon from "@mui/icons-material/Clear";
 const TOMTOM_KEY = import.meta.env.VITE_TOMTOM_API;
 
 const Alert = React.forwardRef(function Alert(props, ref) {
@@ -20,7 +20,7 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 
 const IVAForm = (props) => {
   const [openSnackbar, setOpenSnackbar] = React.useState(false);
-  const [addressLoading, setAddressLoading] = useState(false);
+  const [addressLoading, setAddressLoading] = React.useState(false);
   const [autoComplete, setAutoComplete] = React.useState({ status: false });
   const formik = useFormik({
     initialValues: {
@@ -48,13 +48,14 @@ const IVAForm = (props) => {
     }
   };
   const geoLocate = () => {
+    setAddressLoading(true);
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(function (position) {
         console.log("Latitude is :", position.coords.latitude);
         console.log("Longitude is :", position.coords.longitude);
         const url = `https://api.tomtom.com/search/2/nearbySearch/.json?key=${TOMTOM_KEY}&language=it-IT&typeahead=true&limit=10&type=Address&lat=${position.coords.latitude}&lon=${position.coords.longitude}&radius=1000`;
         console.log("url", url);
-        setAddressLoading(true);
+
         axios
           .get(url)
           .then((response) => {
@@ -80,11 +81,11 @@ const IVAForm = (props) => {
             }
           })
           .catch((er) => setOpenSnackbar(true));
-        setAddressLoading(false);
       });
     } else {
       console.log("Not Available");
     }
+    setAddressLoading(false);
   };
 
   const autoCompleteAddressHandler = (value) => {
@@ -189,7 +190,9 @@ const IVAForm = (props) => {
             }}
             value={formik.values.indirizzo}
             error={formik.errors.indirizzo}
+            // clearIcon={<ClearIcon color="primary" />}
             helperText={formik.errors.indirizzo}
+            classes={{ clearIndicator: "!text-[#8065C9] h" }}
             options={
               autoComplete.response?.map(
                 (r) =>
@@ -210,26 +213,52 @@ const IVAForm = (props) => {
                 onChange={(e) => handleAddressChange(e.target?.value)}
                 InputProps={{
                   ...params.InputProps,
-                  type: "search",
+
                   endAdornment: (
                     <InputAdornment position="end">
-                      {addressLoading ? (
-                        <CircularProgress />
-                      ) : (
-                        <button
-                          type="button"
-                          className="active:invert"
-                          onClick={() => geoLocate()}
-                        >
-                          <NearMeIcon
-                            sx={{
-                              color: "#886FCC",
+                      <div className="flex flex-row items-center relative">
+                        <Box
+                          sx={{
+                            "&>div": {
+                              top: "0!important",
+                              width: "2rem",
+                              height: "2rem",
+                            },
+                            "&>div>button": {
+                              top: "0!important",
+                              width: "2rem",
+                              height: "2rem",
                               fontSize: "2rem",
-                              marginRight: "1rem",
-                            }}
-                          />
-                        </button>
-                      )}
+                              padding: "0",
+                              marginBottom: "1rem",
+                            },
+                            "&>div>button>svg": {
+                              fontSize: "2rem",
+                            },
+                          }}
+                          className="my-auto left-[2rem] absolute h-[2rem] w-[2rem] top-0 bottom-0"
+                        >
+                          {params.InputProps.endAdornment}
+                        </Box>
+
+                        {addressLoading ? (
+                          <CircularProgress className="w-[1.5rem] h-[1.5rem]" />
+                        ) : (
+                          <button
+                            type="button"
+                            className="active:invert"
+                            onClick={() => geoLocate()}
+                          >
+                            <NearMeIcon
+                              sx={{
+                                color: "#886FCC",
+                                fontSize: "2rem",
+                                marginRight: "1rem",
+                              }}
+                            />
+                          </button>
+                        )}
+                      </div>
                     </InputAdornment>
                   ),
                 }}
@@ -239,13 +268,14 @@ const IVAForm = (props) => {
         </Box>
 
         <Button
-          color="green"
+          type="button"
+          color="buttonGreen"
+          size="large"
+          variant="contained"
           sx={{
             height: "59px",
             width: "100%",
-            mt: 0,
           }}
-          variant="contained"
           className="mt-8"
           onClick={() => {
             formik.validateForm().then((r) => {

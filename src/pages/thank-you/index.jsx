@@ -72,16 +72,16 @@ Siamo davvero felici che inizierai un percorso con noi!`
             flexDirection: "row",
             justifyContent: "center",
             alignItems: "center",
-            // "&::before": {
-            //   content: `''`,
-            //   display: "block",
-            //   width: "22px",
-            //   height: "81px",
-            //   background: "#8065C9",
-            //   position: "absolute",
-            //   left: 0,
-            //   borderRadius: "9px 0px 0px 9px",
-            // },
+            "&::before": {
+              content: `''`,
+              display: "block",
+              width: "22px",
+              height: "81px",
+              background: "#8065C9",
+              position: "absolute",
+              left: 0,
+              borderRadius: "9px 0px 0px 9px",
+            },
           }}
         >
           <p className="text-[#8065C9] text-[14px] lg:text-[18px] font-medium px-4">

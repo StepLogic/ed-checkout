@@ -134,17 +134,17 @@ const SideBar = ({
         display: ["flex", "grid"],
 
         ["@media (min-width:1180px)"]: {
-          gridTemplateRows: ["", "3.2fr 10fr"],
+          gridTemplateRows: ["", "124px auto"],
           paddingLeft: "calc(10vw + 10vh)",
         },
         ["@media (min-width:763px)  and (max-width:1180px)"]: {
-          gridTemplateRows: ["2fr 10.8fr"],
+          gridTemplateRows: ["124px 10.8fr"],
           paddingLeft: "calc(10vw + 10vh)",
         },
         height: ["auto", "100vh"],
         flexDirection: ["column"],
       }}
-      className="pt-[3rem] px-[1rem] w-full lg-p-8 md:p-10 lg:max-w-[42vw] md:max-w-[550px]"
+      className="pt-[3rem] px-[1rem] w-full lg:pb-0 md:p-10 lg:max-w-[42vw] md:max-w-[550px]"
     >
       <TopNav
         sx={{
