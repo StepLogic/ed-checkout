@@ -44,7 +44,7 @@ const SideBar = ({
   const [price, setPrice] = React.useState(null);
   const [productQuantity, setProductQuantity] = React.useState(1);
 
-  const [state, setState] = React.useState(0);
+  const [discountError, setDiscountError] = React.useState(false);
   const [iva, setIva] = React.useState(false);
 
   const bulletTextStyle = {
@@ -134,8 +134,14 @@ const SideBar = ({
         display: ["flex", "grid"],
 
         ["@media (min-width:1180px)"]: {
-          gridTemplateRows: ["", "min(80px,10vh) auto"],
+          gridTemplateRows: ["", "70px auto"],
           paddingLeft: "calc(10vw + 10vh)",
+        },
+        ["@media (min-width:1180px) and (min-height:763px)"]: {
+          gridTemplateRows: ["", "90px auto"],
+        },
+        ["@media (min-width:1180px) and (min-height:790px)"]: {
+          gridTemplateRows: ["", "124px auto"],
         },
         ["@media (min-width:763px)  and (max-width:1180px)"]: {
           gridTemplateRows: ["124px 10.8fr"],
@@ -269,61 +275,76 @@ const SideBar = ({
                     </b>
                   </Box>
                 )}
-                <Box
-                  sx={{
-                    borderRadius: "9px",
-                    // height: "min(62px,5vh)",
-                    // ["@media (min-height:763px)"]: {
-                    height: "62px",
-                    // },
-                    position: "relative",
-                    pointerEvents: enableDiscount ? "auto" : "none",
-                    opacity: enableDiscount ? "100%" : "0",
-                    "& input": {
+                <div className="flex flex-col">
+                  <Box
+                    sx={{
                       borderRadius: "9px",
-                      background: "#ffffff",
-                      height: "100%",
-                      width: "100%",
-                      paddingLeft: "10px",
-                      paddingRight: "100px",
-                    },
-                    "& input::placeholder": {
-                      fontStyle: "italic",
-                      fontWeight: "400",
-                      fontSize: "24px",
-                      lineHeight: "100%",
-                      display: "flex",
-                      alignItems: "center",
-                      color: "#B4B4B4",
-                    },
-                    "& input:focus": {
-                      outline: "none",
-                      border: "none",
-                    },
-                    "& button": {
-                      width: "79px",
-                      height: "31.76px",
-                      borderRadius: "6px",
-                      border: "2px solid #2D224C",
-                      color: "#2D224C",
-                      fontSize: "14px",
-                      position: "absolute",
-                      // top: "10%",
-                      right: "14px",
+                      // height: "min(62px,5vh)",
                       // ["@media (min-height:763px)"]: {
-                      top: "14px",
+                      height: "62px",
                       // },
-                    },
-                  }}
-                >
-                  <input
-                    className={"mr-auto font-semibold text-2xl text-[#2D224C]"}
-                    placeholder={"Discount code"}
-                  />
-                  <button className={"font-semibold active:invert"}>
-                    APPLICA
-                  </button>
-                </Box>
+                      position: "relative",
+                      pointerEvents: enableDiscount ? "auto" : "none",
+                      opacity: enableDiscount ? "100%" : "0",
+                      "& input": {
+                        borderRadius: "9px",
+                        background: "#ffffff",
+                        height: "100%",
+                        width: "100%",
+                        paddingLeft: "10px",
+                        paddingRight: "100px",
+                      },
+                      "& input::placeholder": {
+                        fontStyle: "italic",
+                        fontWeight: "400",
+                        fontSize: "24px",
+                        lineHeight: "100%",
+                        display: "flex",
+                        alignItems: "center",
+                        color: "#B4B4B4",
+                      },
+                      "& input:focus": {
+                        outline: "none",
+                        border: "none",
+                      },
+                      "& button": {
+                        width: "79px",
+                        height: "31.76px",
+                        borderRadius: "6px",
+                        border: "2px solid #2D224C",
+                        color: "#2D224C",
+                        fontSize: "14px",
+                        position: "absolute",
+                        // top: "10%",
+                        right: "14px",
+                        // ["@media (min-height:763px)"]: {
+                        top: "14px",
+                        // },
+                      },
+                    }}
+                  >
+                    <input
+                      className={
+                        "mr-auto font-semibold text-2xl text-[#2D224C]"
+                      }
+                      placeholder={"Discount code"}
+                    />
+
+                    <button
+                      onClick={() => setDiscountError((r) => !r)}
+                      className={
+                        "font-semibold active:text-[#B4B4B4] active:border-[#B4B4B4]"
+                      }
+                    >
+                      APPLICA
+                    </button>
+                  </Box>
+                  {discountError && (
+                    <p className="text-[#E90000] h-2 !text-[12px] !font-semibold pl-4">
+                      Codice non valido
+                    </p>
+                  )}
+                </div>
               </>
             )}
 

@@ -12,6 +12,7 @@ import InputAdornment from "@mui/material/InputAdornment";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 import ClearIcon from "@mui/icons-material/Clear";
+import { LoadingButton } from "@mui/lab";
 const TOMTOM_KEY = import.meta.env.VITE_TOMTOM_API;
 
 const Alert = React.forwardRef(function Alert(props, ref) {
@@ -210,6 +211,7 @@ const IVAForm = (props) => {
                 {...params}
                 placeholder="Inserisci indirizzo"
                 name="indirizzo"
+                className="overflow-hidden"
                 onChange={(e) => handleAddressChange(e.target?.value)}
                 InputProps={{
                   ...params.InputProps,
@@ -246,7 +248,7 @@ const IVAForm = (props) => {
                         ) : (
                           <button
                             type="button"
-                            className="active:invert"
+                            className="active:text-[#B4B4B4] active:border-[#B4B4B4]"
                             onClick={() => geoLocate()}
                           >
                             <NearMeIcon

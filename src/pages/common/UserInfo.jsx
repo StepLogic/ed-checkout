@@ -220,6 +220,7 @@ const UserInfo = ({ product, next }) => {
                 placeholder="Inserisci indirizzo"
                 name="indirizzo"
                 onChange={(e) => handleAddressChange(e.target?.value)}
+                className="overflow-hidden"
                 InputProps={{
                   ...params.InputProps,
                   // type: "search",
@@ -255,7 +256,7 @@ const UserInfo = ({ product, next }) => {
                         ) : (
                           <button
                             type="button"
-                            className="active:invert"
+                            className="active:text-[#B4B4B4] active:border-[#B4B4B4]"
                             onClick={() => geoLocate()}
                           >
                             <NearMeIcon
