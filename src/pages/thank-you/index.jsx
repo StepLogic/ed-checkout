@@ -49,7 +49,7 @@ Siamo davvero felici che inizierai un percorso con noi!`
           Ti faremo qualche domanda per conoscerti meglio. Ci vogliono solo
           <b className="text-[#D4145A]"> 2 minuti</b>
         </p>
-        <h2 className="text-[32px] text-[#2D224C] font-bold mt-auto">
+        <h2 className="text-[32px] text-[#2D224C] font-bold mt-[4vh]">
           Vogliamo iniziare?
         </h2>
         <Button
@@ -62,7 +62,7 @@ Siamo davvero felici che inizierai un percorso con noi!`
         </Button>
         <Box
           sx={{
-            height: "81px",
+            minHeight: "81px",
             width: "70%",
             position: "relative",
             background: "#FFFFFF",

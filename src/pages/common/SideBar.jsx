@@ -134,7 +134,7 @@ const SideBar = ({
         display: ["flex", "grid"],
 
         ["@media (min-width:1180px)"]: {
-          gridTemplateRows: ["", "124px auto"],
+          gridTemplateRows: ["", "min(80px,10vh) auto"],
           paddingLeft: "calc(10vw + 10vh)",
         },
         ["@media (min-width:763px)  and (max-width:1180px)"]: {
@@ -156,11 +156,11 @@ const SideBar = ({
             "& img": { width: "94px", height: "43px" },
           },
           ["@media (min-width:1180px)"]: {
-            mb: "3vh!important",
+            // mb: "3vh!important",
             flexDirection: "row",
           },
           ["@media (min-width:763px)"]: {
-            mb: "3vh!important",
+            // mb: "3vh!important",
             flexDirection: "row",
           },
         }}
