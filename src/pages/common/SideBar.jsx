@@ -339,7 +339,7 @@ const SideBar = ({
                       APPLICA
                     </button>
                   </Box>
-                  {discountError && (
+                  {discountError && enableDiscount && (
                     <p className="text-[#E90000] h-2 !text-[12px] !font-semibold pl-4">
                       Codice non valido
                     </p>
