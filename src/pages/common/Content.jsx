@@ -36,7 +36,7 @@ const Content = ({ children, showPDF = false }) => {
       sx={{
         display: "flex",
         flexDirection: "column",
-        paddingTop: "5vh",
+        paddingTop: "10vh",
         ["@media (min-width:1180px)"]: {
           gridTemplateRows: "70px auto!important",
           paddingLeft: "calc(10vw + 10vh)",

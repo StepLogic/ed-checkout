@@ -66,8 +66,10 @@ const SideBar = ({
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
+    alignItems: "center",
     ["@media (min-width:1180px)"]: {
       my: 1,
+      alignItems: "unset",
     },
     "& p": {
       lineHeight: "100%",
@@ -210,7 +212,7 @@ const SideBar = ({
                   <Skeleton
                     key={"sk-" + i}
                     variant="rectangular"
-                    width={400}
+                    width={[200, 400]}
                     height={24}
                     component={"li"}
                   />

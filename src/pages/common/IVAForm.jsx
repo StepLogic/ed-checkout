@@ -129,7 +129,7 @@ const IVAForm = (props) => {
           gap: "1rem",
           marginBottom: "1rem",
         }}
-        className=" "
+        className=" mt-4 lg:mt-0"
       >
         <Box
           component="form"
@@ -149,7 +149,7 @@ const IVAForm = (props) => {
             "scrollbar-width": "thin",
             "scrollbar-color": "#8065C9 green",
             ".MuiInputBase-root input": {
-              fontSize: "1.4rem",
+              fontSize: ["20px", "1.4rem"],
               color: "#2D224C",
             },
             ".MuiFormHelperText-root ": {

@@ -149,7 +149,9 @@ const UserInfo = ({ product, next }) => {
           component="form"
           sx={{
             height: "100%",
-            maxHeight: "40vh",
+            ["@media (min-width:736px)"]: {
+              maxHeight: "40vh",
+            },
             overflowY: "scroll",
             "&::-webkit-scrollbar": {
               width: "5px",
@@ -164,7 +166,7 @@ const UserInfo = ({ product, next }) => {
             "scrollbar-width": "thin",
             "scrollbar-color": "#8065C9 green",
             ".MuiInputBase-root input": {
-              fontSize: "1.4rem",
+              fontSize: ["20px", "1.4rem"],
               color: "#2D224C",
             },
             ".MuiFormHelperText-root ": {
@@ -365,7 +367,7 @@ const UserInfo = ({ product, next }) => {
             height: "59px",
             width: "100%",
           }}
-          // className="mt-8"
+          className="mt-8 lg:mt-0"
           disabled={!formik.values.accettoTerms}
           onClick={() => {
             formik.validateForm().then((r) => {

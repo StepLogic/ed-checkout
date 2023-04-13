@@ -110,6 +110,7 @@ const PaymentOption = ({
           variant="contained"
           disabled={showTerms && !accettoTerms}
           size="large"
+          className="mt-8 lg:mt-0"
           onClick={() => setPaymentType(selection, checked)}
         >
           procedi
