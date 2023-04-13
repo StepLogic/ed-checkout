@@ -11,6 +11,7 @@ import IVAForm from "../common/IVAForm.jsx";
 import PaymentOption from "../common/PaymentOptions";
 import PaymentForm from "../common/PaymentForm";
 import Counter from "./Counter";
+import Skeleton from "@mui/material/Skeleton";
 Number.prototype.toDecimalsEuro = function () {
   let parsed = parseFloat(this / 100)
     .toFixed(2)
@@ -50,12 +51,13 @@ const SideBar = ({
   const bulletTextStyle = {
     display: "flex",
     flexDirection: "column",
+    gap: "5px",
     "& li": {
       ["@media (max-width:1180px) and (min-width:763px)"]: {
         fontSize: "calc(14px + calc(0.175vh + 0.15vh))",
       },
 
-      fontSize: "calc(16px + 0.2vh)",
+      fontSize: "calc(14px + 0.1vh)",
     },
   };
 
@@ -196,13 +198,23 @@ const SideBar = ({
           }}
         >
           <Box component={"ul"} sx={bulletTextStyle}>
-            {product?.product_details.map((det, i) => {
-              return (
-                <li key={i}>
-                  &bull;<span className="ml-2">{det}</span>
-                </li>
-              );
-            })}
+            {product
+              ? product?.product_details.map((det, i) => {
+                  return (
+                    <li key={i}>
+                      &bull;<span className="ml-2">{det}</span>
+                    </li>
+                  );
+                })
+              : Array.from({ length: 6 }).map((r, i) => (
+                  <Skeleton
+                    key={"sk-" + i}
+                    variant="rectangular"
+                    width={400}
+                    height={24}
+                    component={"li"}
+                  />
+                ))}
           </Box>
           <div className="flex flex-col gap-4">
             <Button
@@ -248,19 +260,31 @@ const SideBar = ({
                 <Box sx={priceItemStyle}>
                   <p>Prezzo del percorso</p>
                   <b>
-                    {price?.no_iva?.integer}
-                    <Typography component={"em"}>
-                      {price?.no_iva?.decimal} €
-                    </Typography>
+                    {!price?.no_iva ? (
+                      <Skeleton />
+                    ) : (
+                      <>
+                        {price?.no_iva?.integer}
+                        <Typography component={"em"}>
+                          {price?.no_iva?.decimal} €
+                        </Typography>
+                      </>
+                    )}
                   </b>
                 </Box>
                 <Box sx={priceItemStyle}>
                   <p>IVA (22%)</p>
                   <b>
-                    {price?.iva?.integer}
-                    <Typography component={"em"}>
-                      {price?.iva?.decimal} €
-                    </Typography>
+                    {!price?.iva ? (
+                      <Skeleton />
+                    ) : (
+                      <>
+                        {price?.iva?.integer}
+                        <Typography component={"em"}>
+                          {price?.iva?.decimal} €
+                        </Typography>
+                      </>
+                    )}
                   </b>
                 </Box>
 
@@ -268,10 +292,16 @@ const SideBar = ({
                   <Box sx={priceItemStyle}>
                     <p>Meno iscrizione</p>
                     <b>
-                      -{price?.iva?.integer}
-                      <Typography component={"em"}>
-                        {price?.iva?.decimal} €
-                      </Typography>
+                      {!price?.iva ? (
+                        <Skeleton />
+                      ) : (
+                        <>
+                          -{price?.iva?.integer}
+                          <Typography component={"em"}>
+                            {price?.iva?.decimal} €
+                          </Typography>
+                        </>
+                      )}
                     </b>
                   </Box>
                 )}
@@ -351,19 +381,32 @@ const SideBar = ({
             {isNewSubscriber ? (
               <Box sx={priceItemStyle}>
                 <p className="!font-normal italic">Iscrizione</p>
+
                 <Typography component={"b"} sx={{}} className="">
-                  € {price?.price?.integer * productQuantity}
-                  {","}
-                  {price?.price?.decimal}
+                  {!price?.price ? (
+                    <Skeleton />
+                  ) : (
+                    <>
+                      € {price?.price?.integer * productQuantity}
+                      {","}
+                      {price?.price?.decimal}
+                    </>
+                  )}
                 </Typography>
               </Box>
             ) : (
               <Box sx={priceItemStyle}>
                 <p className="">Totale</p>
                 <Typography component={"b"} sx={{}} className="!text-[40px]">
-                  € {price?.price?.integer * productQuantity}
-                  {","}
-                  {price?.price?.decimal}
+                  {!price?.price ? (
+                    <Skeleton />
+                  ) : (
+                    <>
+                      € {price?.price?.integer * productQuantity}
+                      {","}
+                      {price?.price?.decimal}
+                    </>
+                  )}
                 </Typography>
               </Box>
             )}

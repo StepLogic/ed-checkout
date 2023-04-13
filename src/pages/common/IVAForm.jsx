@@ -190,11 +190,17 @@ const IVAForm = (props) => {
           />
           <Autocomplete
             freeSolo
+            value={formik.values.indirizzo}
+            error={formik.errors.indirizzo}
             onChange={(e, v) => {
               formik.setFieldValue("indirizzo", v);
             }}
-            value={formik.values.indirizzo}
-            error={formik.errors.indirizzo}
+            onInputChange={(e) => {
+              if (e != null) {
+                formik.setFieldValue("indirizzo", e.target.value);
+                handleAddressChange(e.target?.value);
+              }
+            }}
             // clearIcon={<ClearIcon color="primary" />}
             helperText={formik.errors.indirizzo}
             classes={{ clearIndicator: "!text-[#8065C9] h" }}
@@ -216,7 +222,6 @@ const IVAForm = (props) => {
                 placeholder="Inserisci indirizzo"
                 name="indirizzo"
                 className="overflow-hidden"
-                onChange={(e) => handleAddressChange(e.target?.value)}
                 InputProps={{
                   ...params.InputProps,
 

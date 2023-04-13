@@ -203,8 +203,10 @@ const UserInfo = ({ product, next }) => {
               formik.setFieldValue("indirizzo", v);
             }}
             onInputChange={(e) => {
-              formik.setFieldValue("indirizzo", e.target.value);
-              handleAddressChange(e.target?.value);
+              if (e != null) {
+                formik.setFieldValue("indirizzo", e.target.value);
+                handleAddressChange(e.target?.value);
+              }
             }}
             value={formik.values.indirizzo}
             error={formik.errors.indirizzo}
