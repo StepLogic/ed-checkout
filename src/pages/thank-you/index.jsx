@@ -91,7 +91,7 @@ Siamo davvero felici che inizierai un percorso con noi!`
             },
           }}
         >
-          <p className="text-[#8065C9] text-[12px] lg:text-[18px] font-medium px-4">
+          <p className="text-[#8065C9] text-[12px] leading-[100%] lg:text-[18px] font-medium px-4">
             Questo step è fondamentale per finalizzare la tua registrazione.
           </p>
         </Box>
