@@ -129,7 +129,7 @@ const IVAForm = (props) => {
           gap: "1rem",
           marginBottom: "1rem",
         }}
-        className=" mt-4 lg:mt-0"
+        className="mt-4 lg:mt-0"
       >
         <Box
           component="form"
