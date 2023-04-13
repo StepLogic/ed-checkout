@@ -167,6 +167,9 @@ const UserInfo = ({ product, next }) => {
               fontSize: "1.4rem",
               color: "#2D224C",
             },
+            ".MuiFormHelperText-root ": {
+              height: "0!important",
+            },
           }}
           className="flex flex-col gap-8 overflow-x-hidden"
         >
