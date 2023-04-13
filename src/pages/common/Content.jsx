@@ -22,7 +22,7 @@ const Content = ({ children, showPDF = false }) => {
 
   return (
     <Box
-      className="pb-8 px-4"
+      className="pb-8 lg:pb-0 px-4"
       style={{
         backgroundImage: `url('${
           width < 768 ? bgCheckoutMobile : bgCheckout
@@ -52,6 +52,7 @@ const Content = ({ children, showPDF = false }) => {
           display: "grid",
           gridTemplateRows: ["1fr 10fr"],
           paddingLeft: "calc(10vw + 5vh)!important",
+          paddingTop: "40px",
           height: ["calc(var(--vh, 1vh) * 100)"],
         },
       }}
@@ -122,6 +123,7 @@ const Content = ({ children, showPDF = false }) => {
               sx={{
                 display: ["grid"],
                 gridTemplateColumns: "1fr",
+                gridTemplateRows: "38px auto",
                 gap: "1rem",
                 marginBottom: "1rem",
               }}

@@ -141,6 +141,7 @@ const UserInfo = ({ product, next }) => {
           gridTemplateColumns: "1fr",
           gap: "1rem",
           marginBottom: "1rem",
+          gridTemplateRows: "40vh 100px 90px",
         }}
         className="h-full "
       >
@@ -148,7 +149,7 @@ const UserInfo = ({ product, next }) => {
           component="form"
           sx={{
             height: "100%",
-            maxHeight: "35vh",
+            maxHeight: "40vh",
             overflowY: "scroll",
             "&::-webkit-scrollbar": {
               width: "5px",
@@ -162,6 +163,10 @@ const UserInfo = ({ product, next }) => {
             },
             "scrollbar-width": "thin",
             "scrollbar-color": "#8065C9 green",
+            ".MuiInputBase-root input": {
+              fontSize: "1.4rem",
+              color: "#2D224C",
+            },
           }}
           className="flex flex-col gap-8 overflow-x-hidden"
         >
@@ -197,6 +202,10 @@ const UserInfo = ({ product, next }) => {
             onChange={(e, v) => {
               formik.setFieldValue("indirizzo", v);
             }}
+            onInputChange={(e) => {
+              formik.setFieldValue("indirizzo", e.target.value);
+              handleAddressChange(e.target?.value);
+            }}
             value={formik.values.indirizzo}
             error={formik.errors.indirizzo}
             helperText={formik.errors.indirizzo}
@@ -219,7 +228,7 @@ const UserInfo = ({ product, next }) => {
                 {...params}
                 placeholder="Inserisci indirizzo"
                 name="indirizzo"
-                onChange={(e) => handleAddressChange(e.target?.value)}
+                // onChange={(e) => }
                 className="overflow-hidden"
                 InputProps={{
                   ...params.InputProps,
@@ -355,6 +364,7 @@ const UserInfo = ({ product, next }) => {
           disabled={!formik.values.accettoTerms}
           onClick={() => {
             formik.validateForm().then((r) => {
+              console.log("herer", r);
               if (Object.keys(r).length === 0) {
                 next && next(checked);
               }

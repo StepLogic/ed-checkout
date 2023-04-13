@@ -22,7 +22,7 @@ const NewSubscriber = () => {
   return (
     <>
       <SideBar
-        enableViewProduct={false}
+        enableViewProduct={true}
         setShowPDF={setShowPDF}
         enableDiscount={false}
         enableCounter={false}

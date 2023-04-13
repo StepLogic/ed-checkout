@@ -177,7 +177,7 @@ const SideBar = ({
         sx={{
           display: "flex",
           flexDirection: "column",
-          gap: "2rem",
+          gap: "1rem",
           ["@media (min-width:1180px)"]: {},
         }}
       >
@@ -369,7 +369,7 @@ const SideBar = ({
             )}
             {isNewSubscriber && (
               <div className="text-[#2D224C] text-center font-semibold">
-                *Questo costo verrà detratto dal prezzo del percorso
+                *Questo costo verrà detratto <br /> dal prezzo del percorso
               </div>
             )}
           </Box>

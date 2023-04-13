@@ -148,6 +148,10 @@ const IVAForm = (props) => {
             },
             "scrollbar-width": "thin",
             "scrollbar-color": "#8065C9 green",
+            ".MuiInputBase-root input": {
+              fontSize: "1.4rem",
+              color: "#2D224C",
+            },
           }}
           className="flex flex-col gap-8"
         >
