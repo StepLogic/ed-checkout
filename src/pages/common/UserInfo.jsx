@@ -141,7 +141,7 @@ const UserInfo = ({ product, next }) => {
           gridTemplateColumns: "1fr",
           gap: "1rem",
           marginBottom: "1rem",
-          gridTemplateRows: "40vh 100px 90px",
+          gridTemplateRows: "40vh 90px",
         }}
         className="h-full "
       >
@@ -291,73 +291,54 @@ const UserInfo = ({ product, next }) => {
               />
             )}
           />
-          {/* <TextField
-            placeholder="Citta"
-            name="citta"
-            onChange={formik.handleChange}
-            value={formik.values.citta}
-            helperText={formik.errors.citta}
-            error={formik.errors.citta}
-          />
- */}
-
-          {/* <TextField
-            placeholder="CAP"
-            name="cap"
-            onChange={formik.handleChange}
-            value={formik.values.cap}
-            error={formik.errors.cap}
-            helperText={formik.errors.cap}
-          /> */}
         </Box>
-
-        <div className="mt-4">
-          <FormControlLabel
-            className="mb-[8px] lg:mb-[0px] mx-0 w-full "
-            control={
-              <Checkbox
-                id="checkbox"
-                checked={checked}
-                onClick={() => setChecked((prev) => !prev)}
-              />
-            }
-            labelPlacement={"end"}
-            label={
-              <div className="text-edu-900 text-[14px] md:text-base">
-                Ho la P.IVA. / Paga il corso la mia azienda
-              </div>
-            }
-          />
-          <FormControlLabel
-            className="mb-[8px] lg:mb-[0px] mx-0 w-full "
-            onChange={formik.handleChange}
-            name="accettoTerms"
-            control={
-              <Checkbox id="checkbox" checked={formik.values.accettoTerms} />
-            }
-            labelPlacement={"end"}
-            label={
-              <div
-                className={cn(
-                  " text-edu-900 formik.values.accettoTerms text-[14px] md:text-base",
-                  {
-                    ["!text-[#d32f2f]"]: formik.errors.accettoTerms,
-                    ["!text-edu-900"]: !formik.errors.accettoTerms,
-                  }
-                )}
-              >
-                Ho letto e accetto i&nbsp;
-                <Link target={"_blank"} href={product?.links?.terms}>
-                  Termini e le Condizioni
-                </Link>
-                &nbsp; del servizio e la&nbsp;
-                <Link target={"_blank"} href={product?.links?.policy}>
-                  Privacy Policy
-                </Link>
-              </div>
-            }
-          />
-        </div>
+      </Box>
+      <div className="mt-4">
+        <FormControlLabel
+          className="mb-[8px] lg:mb-[0px] mx-0 w-full "
+          control={
+            <Checkbox
+              id="checkbox"
+              checked={checked}
+              onClick={() => setChecked((prev) => !prev)}
+            />
+          }
+          labelPlacement={"end"}
+          label={
+            <div className="text-edu-900 text-[14px] md:text-base">
+              Ho la P.IVA. / Paga il corso la mia azienda
+            </div>
+          }
+        />
+        <FormControlLabel
+          className="mb-[8px] lg:mb-[0px] mx-0 w-full "
+          onChange={formik.handleChange}
+          name="accettoTerms"
+          control={
+            <Checkbox id="checkbox" checked={formik.values.accettoTerms} />
+          }
+          labelPlacement={"end"}
+          label={
+            <div
+              className={cn(
+                " text-edu-900 formik.values.accettoTerms text-[14px] md:text-base",
+                {
+                  ["!text-[#d32f2f]"]: formik.errors.accettoTerms,
+                  ["!text-edu-900"]: !formik.errors.accettoTerms,
+                }
+              )}
+            >
+              Ho letto e accetto i&nbsp;
+              <Link target={"_blank"} href={product?.links?.terms}>
+                Termini e le Condizioni
+              </Link>
+              &nbsp; del servizio e la&nbsp;
+              <Link target={"_blank"} href={product?.links?.policy}>
+                Privacy Policy
+              </Link>
+            </div>
+          }
+        />
         <Button
           type="button"
           color="buttonGreen"
@@ -380,7 +361,7 @@ const UserInfo = ({ product, next }) => {
         >
           Procedi
         </Button>
-      </Box>
+      </div>
     </>
   );
 };

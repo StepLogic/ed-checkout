@@ -27,6 +27,7 @@ const NewSubscriber = () => {
         enableDiscount={false}
         enableCounter={false}
         isNewSubscriber={true}
+        showCounter={false}
       />
       <Content showPDF={showPDF}>
         <>

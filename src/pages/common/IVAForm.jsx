@@ -183,14 +183,6 @@ const IVAForm = (props) => {
             helper={formik.errors.codicDestinatario}
           />
 
-          <TextField
-            placeholder="PEC Destinatatio"
-            name="PECDesitinatatio"
-            value={formik.values.PECDesitinatatio}
-            onChange={formik.handleChange}
-            error={formik.errors.PECDesitinatatio}
-            helper={formik.errors.PECDesitinatatio}
-          />
           <Autocomplete
             freeSolo
             value={formik.values.indirizzo}
@@ -204,7 +196,6 @@ const IVAForm = (props) => {
                 handleAddressChange(e.target?.value);
               }
             }}
-            // clearIcon={<ClearIcon color="primary" />}
             helperText={formik.errors.indirizzo}
             classes={{ clearIndicator: "!text-[#8065C9] h" }}
             options={
@@ -222,7 +213,7 @@ const IVAForm = (props) => {
             renderInput={(params) => (
               <TextField
                 {...params}
-                placeholder="Inserisci indirizzo"
+                placeholder="Città, indirizzo e CAP"
                 name="indirizzo"
                 className="overflow-hidden"
                 InputProps={{
@@ -279,30 +270,38 @@ const IVAForm = (props) => {
               />
             )}
           />
+          <TextField
+            placeholder="PEC Destinatatio"
+            name="PECDesitinatatio"
+            value={formik.values.PECDesitinatatio}
+            onChange={formik.handleChange}
+            error={formik.errors.PECDesitinatatio}
+            helper={formik.errors.PECDesitinatatio}
+          />
         </Box>
-
-        <Button
-          type="button"
-          color="buttonGreen"
-          size="large"
-          variant="contained"
-          sx={{
-            height: "59px",
-            width: "100%",
-          }}
-          className="mt-8"
-          onClick={() => {
-            formik.validateForm().then((r) => {
-              if (Object.keys(r).length === 0) {
-                console.log("herere");
-                props?.next && props?.next();
-              }
-            });
-          }}
-        >
-          Procedi
-        </Button>
       </Box>
+
+      <Button
+        type="button"
+        color="buttonGreen"
+        size="large"
+        variant="contained"
+        sx={{
+          height: "59px",
+          width: "100%",
+        }}
+        className="mt-auto"
+        onClick={() => {
+          formik.validateForm().then((r) => {
+            if (Object.keys(r).length === 0) {
+              console.log("herere");
+              props?.next && props?.next();
+            }
+          });
+        }}
+      >
+        Procedi
+      </Button>
     </>
   );
 };

@@ -31,6 +31,7 @@ const SideBar = ({
   setShowPDF,
   enableViewProduct,
   enableDiscount,
+  showCounter = true,
   enableCounter,
   isNewSubscriber = false,
   showPdf = false,
@@ -234,6 +235,7 @@ const SideBar = ({
               {showPdf ? "CLOSE SLIDES" : "VIEW SLIDES"}
             </Button>
             <Counter
+              showCounter={showCounter}
               enableCounter={enableCounter}
               onChange={(v) => {
                 onProductQuantityChange && onProductQuantityChange(v);
@@ -317,7 +319,7 @@ const SideBar = ({
                       // },
                       position: "relative",
                       pointerEvents: enableDiscount ? "auto" : "none",
-                      opacity: enableDiscount ? "100%" : "0",
+                      opacity: enableDiscount ? "100%" : "30%",
                       "& input": {
                         borderRadius: "9px",
                         background: "#ffffff",
@@ -370,12 +372,12 @@ const SideBar = ({
                     >
                       APPLICA
                     </button>
+                    {discountError && enableDiscount && (
+                      <p className="text-[#E90000] h-2 absolute bottom-[13px] !text-[12px] !font-semibold pl-4">
+                        Codice non valido
+                      </p>
+                    )}
                   </Box>
-                  {discountError && enableDiscount && (
-                    <p className="text-[#E90000] h-2 !text-[12px] !font-semibold pl-4">
-                      Codice non valido
-                    </p>
-                  )}
                 </div>
               </>
             )}
@@ -398,7 +400,7 @@ const SideBar = ({
               </Box>
             ) : (
               <Box sx={priceItemStyle}>
-                <p className="">Totale</p>
+                <p className="ml-4">Totale</p>
                 <Typography component={"b"} sx={{}} className="!text-[40px]">
                   {!price?.price ? (
                     <Skeleton />

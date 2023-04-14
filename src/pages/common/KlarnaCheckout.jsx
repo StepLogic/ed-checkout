@@ -125,18 +125,7 @@ const KlarnaCheckout = ({ product, showFormSelect, user, iva }) => {
   // }, []);
 
   return (
-    <
-      // sx={{
-      //   display: "grid",
-      //   gap: "1rem",
-      //   marginTop: isLoadingCheckout ? "4rem" : "0",
-      //   ["@media (min-width:1180px)"]: {
-      //     gridTemplateRows: "4.6fr 1.9fr",
-      //     gap: "0px",
-      //   },
-      // }}
-      // className=""
-    >
+    <div className="flex flex-col h -full">
       <Box
         sx={{
           display: "flex",
@@ -148,15 +137,15 @@ const KlarnaCheckout = ({ product, showFormSelect, user, iva }) => {
           {isLoadingCheckout ? <CircularProgress /> : null}
         </div>
       </Box>
-      <Box>
-        <Box className=" !h-fit mt-auto flex items-center flex-row">
-          <IconButton
+      <Box className="flex flex-row mt-auto w-full">
+        <Box className=" !h-fit w-full mt-auto flex items-center flex-row">
+          {/* <IconButton
             disabled={authorizing}
             className="mr-2 font-semibold aspect-square text-[16px] md:text[18px] rounded-full "
             color="buttonGreen"
           >
             <NavigateBeforeRoundedIcon fontSize="large" />
-          </IconButton>
+          </IconButton> */}
 
           <LoadingButton
             loadingPosition="end"
@@ -174,7 +163,7 @@ const KlarnaCheckout = ({ product, showFormSelect, user, iva }) => {
           <MessageBox type={message.type} message={message.message} />
         ) : null}
       </Box>
-    </>
+    </div>
   );
 };
 

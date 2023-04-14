@@ -89,8 +89,6 @@ body {
   background-size: cover;
 }
 
-
-
 .nascondi {
   height: 265px;
   z-index: -1;
@@ -249,7 +247,6 @@ body {
     0px 8px 10px 1px rgb(0 0 0 / 14%), 0px 3px 14px 2px rgb(0 0 0 / 12%);
 }
 
-
 /* FOOTER */
 .img_sfondo_bottom {
   padding-top: 4rem;
@@ -269,8 +266,6 @@ body {
 }
 
 @media screen and (min-width: 768px) {
-
-
   .nascondi {
     height: 270px;
   }
@@ -286,9 +281,6 @@ body {
   .form_page {
     min-height: 750px;
   }
-
-
-
 }
 @media screen and (min-width: 1024px) {
   .img_sfondo_top_form {
@@ -465,4 +457,14 @@ li.MuiTelInput-MenuItem.Mui-selected > p {
 
 .MuiPickersFadeTransitionGroup-root > div {
   text-transform: capitalize;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
 }
