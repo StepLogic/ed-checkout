@@ -26,6 +26,7 @@ const PaymentOption = ({
       <h1 className=" font-semibold text-center lg:text-start  leading-none text-edu-900 text-[24px] lg:text-3xl 3xl:text-4xl max:text-6xl w-full">
         Scegli il metodo di pagamento
       </h1>
+      {/* <div></div> */}
       <Box className="grid grid-cols-1">
         <RadioGroup
           className="grid grid-cols-1 gap-4  h-fit"
