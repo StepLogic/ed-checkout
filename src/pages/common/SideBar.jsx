@@ -76,7 +76,8 @@ const SideBar = ({
       lineHeight: "100%",
       fontWeight: "600",
       ["@media (max-width:1180px) and (min-width:763px)"]: {
-        fontSize: "calc(10.5px + 0.175vw)",
+        fontSize: "18px",
+        // fontSize: "calc(10.5px + 0.175vw)",
       },
     },
     "& b": {
@@ -88,9 +89,11 @@ const SideBar = ({
       lineHeight: "100%",
       ["@media (min-width:1180px)"]: {
         fontSize: "24px!important",
+        // fontSize: "24px!important",
       },
       "& em": {
-        fontSize: "calc(8px + 0.2vh)",
+        fontSize: "16px",
+        // fontSize: "calc(8px + 0.2vh)",
         mb: "auto",
         lineHeight: "100%",
         fontWeight: "600",
@@ -195,7 +198,7 @@ const SideBar = ({
             gridTemplateColumns: "1fr",
             gap: "3rem",
             ["@media (min-width:1180px)"]: {
-              gridTemplateRows: ["25fr 100px 40fr"],
+              gridTemplateRows: ["25fr 39px 40fr"],
               gap: "1rem",
             },
           }}
@@ -219,30 +222,22 @@ const SideBar = ({
                   />
                 ))}
           </Box>
-          <div className="flex flex-col gap-4">
-            <Button
-              color="primary"
-              onClick={() => setShowPDF((r) => !r)}
-              sx={{
-                pointerEvents: enableViewProduct ? "auto" : "none",
-                opacity: enableViewProduct ? "100%" : "0",
-                border: "1px solid #ffffff",
-                color: "#ffffff!important",
-                height: "39px",
-              }}
-              variant="outlined"
-            >
-              {showPdf ? "CLOSE SLIDES" : "VIEW SLIDES"}
-            </Button>
-            <Counter
-              showCounter={showCounter}
-              enableCounter={enableCounter}
-              onChange={(v) => {
-                onProductQuantityChange && onProductQuantityChange(v);
-                setProductQuantity(v);
-              }}
-            />
-          </div>
+
+          <Button
+            color="primary"
+            onClick={() => setShowPDF((r) => !r)}
+            sx={{
+              pointerEvents: enableViewProduct ? "auto" : "none",
+              opacity: enableViewProduct ? "100%" : "0",
+              border: "1px solid #ffffff",
+              color: "#ffffff!important",
+              height: "39px",
+            }}
+            variant="outlined"
+          >
+            {showPdf ? "CLOSE SLIDES" : "VIEW SLIDES"}
+          </Button>
+
           <Box
             sx={{
               backgroundColor: "#D9DAF3",
@@ -261,6 +256,14 @@ const SideBar = ({
           >
             {!isNewSubscriber && (
               <>
+                <Counter
+                  showCounter={showCounter}
+                  enableCounter={enableCounter}
+                  onChange={(v) => {
+                    onProductQuantityChange && onProductQuantityChange(v);
+                    setProductQuantity(v);
+                  }}
+                />
                 <Box sx={priceItemStyle}>
                   <p>Prezzo del percorso</p>
                   <b>

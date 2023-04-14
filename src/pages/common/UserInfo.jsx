@@ -42,18 +42,20 @@ const UserInfo = ({ product, next }) => {
       accettoTerms: false,
     },
 
-    isInitialValid: false,
-    validateOnChange: false,
+    isInitialValid: true,
+    validateOnChange: true,
+    validateOnMount: true,
     validationSchema: Yup.object({
       nome: Yup.string().required("Nome richiesto"),
       cognome: Yup.string().required("Cognome richiesto"),
-      email: Yup.string().email("Email richiesta").required("Email richiesta"),
-      indirizzo: Yup.string().required("Required"),
+      email: Yup.string().email("Email non valido").required("Email richiesta"),
+      indirizzo: Yup.string().required("Campo richiesto").nullable(),
       accettoTerms: Yup.boolean()
         .oneOf([true], "You must accept Terms and Conditions")
-        .required("Required"),
+        .required("Campo richiesto"),
     }),
   });
+
   const handleAddressChange = (value) => {
     if (value !== "") {
       const u = () => autoCompleteAddressHandler(value);
@@ -136,164 +138,161 @@ const UserInfo = ({ product, next }) => {
       </Snackbar>
 
       <Box
+        component="form"
         sx={{
-          display: ["grid"],
-          gridTemplateColumns: "1fr",
-          gap: "1rem",
-          marginBottom: "1rem",
-          gridTemplateRows: "40vh 90px",
+          height: "100%",
+          ["@media (min-width:736px)"]: {
+            maxHeight: "50vh",
+          },
+          overflowY: "scroll",
+          "&::-webkit-scrollbar": {
+            width: "5px",
+          },
+          "&::-webkit-scrollbar-track": {
+            boxShadow: "inset 0 0 6px rgba(0,0,0,0.00)",
+            webkitBoxShadow: "inset 0 0 6px rgba(0,0,0,0.00)",
+          },
+          "&::-webkit-scrollbar-thumb": {
+            backgroundColor: "#8065C9",
+          },
+          "scrollbar-width": "thin",
+          "scrollbar-color": "#8065C9 green",
+          ".MuiInputBase-root input": {
+            fontSize: ["20px", "1.4rem"],
+            color: "#2D224C",
+          },
+          ".MuiFormHelperText-root ": {
+            height: "0px!important",
+          },
         }}
-        className="h-full "
+        className="flex flex-col gap-8 overflow-x-hidden"
       >
-        <Box
-          component="form"
-          sx={{
-            height: "100%",
-            ["@media (min-width:736px)"]: {
-              maxHeight: "40vh",
-            },
-            overflowY: "scroll",
-            "&::-webkit-scrollbar": {
-              width: "5px",
-            },
-            "&::-webkit-scrollbar-track": {
-              boxShadow: "inset 0 0 6px rgba(0,0,0,0.00)",
-              webkitBoxShadow: "inset 0 0 6px rgba(0,0,0,0.00)",
-            },
-            "&::-webkit-scrollbar-thumb": {
-              backgroundColor: "#8065C9",
-            },
-            "scrollbar-width": "thin",
-            "scrollbar-color": "#8065C9 green",
-            ".MuiInputBase-root input": {
-              fontSize: ["20px", "1.4rem"],
-              color: "#2D224C",
-            },
-            ".MuiFormHelperText-root ": {
-              height: "0!important",
-            },
+        <TextField
+          placeholder="Nome"
+          name="nome"
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          type="text"
+          value={formik.values.nome}
+          error={formik.errors.nome && formik.touched.nome}
+          helperText={formik.touched.nome && formik.errors.nome}
+        />
+        <TextField
+          placeholder="Cogome"
+          name="cognome"
+          type="text"
+          onBlur={formik.handleBlur}
+          onChange={formik.handleChange}
+          value={formik.values.cognome}
+          error={formik.errors.cognome && formik.touched.cognome}
+          helperText={formik.touched.cognome && formik.errors.cognome}
+        />
+        <TextField
+          placeholder="Email"
+          name="email"
+          type="email"
+          onBlur={formik.handleBlur}
+          onChange={formik.handleChange}
+          value={formik.values.email}
+          helperText={formik.touched.email && formik.errors.email}
+          error={formik.touched.email && formik.errors.email}
+        />
+        <Autocomplete
+          freeSolo
+          onChange={(e, v) => {
+            formik.setFieldValue("indirizzo", v);
           }}
-          className="flex flex-col gap-8 overflow-x-hidden"
-        >
-          <TextField
-            placeholder="Nome"
-            name="nome"
-            onChange={formik.handleChange}
-            type="text"
-            value={formik.values.nome}
-            error={formik.errors.nome}
-            helperText={formik.errors.nome}
-          />
-          <TextField
-            placeholder="Cogome"
-            name="cognome"
-            type="text"
-            onChange={formik.handleChange}
-            value={formik.values.cognome}
-            error={formik.errors.cognome}
-            helperText={formik.errors.cognome}
-          />
-          <TextField
-            placeholder="Email"
-            name="email"
-            type="email"
-            onChange={formik.handleChange}
-            value={formik.values.email}
-            helperText={formik.errors.email}
-            error={formik.errors.email}
-          />
-          <Autocomplete
-            freeSolo
-            onChange={(e, v) => {
-              formik.setFieldValue("indirizzo", v);
-            }}
-            onInputChange={(e) => {
-              if (e != null) {
-                formik.setFieldValue("indirizzo", e.target.value);
-                handleAddressChange(e.target?.value);
-              }
-            }}
-            value={formik.values.indirizzo}
-            error={formik.errors.indirizzo}
-            helperText={formik.errors.indirizzo}
-            // classes={{ clearIndicator: "!text-[#8065C9] hidden" }}
-            clearIcon={<ClearIcon color="primary" />}
-            options={
-              autoComplete.response?.map(
-                (r) =>
-                  `${r?.address.freeformAddress.split(",")[0]}${
-                    r?.address?.municipality
-                      ? " , " + r?.address?.municipality
-                      : ""
-                  }${
-                    r?.address?.postalCode ? " , " + r?.address?.postalCode : ""
-                  }`
-              ) ?? []
+          onInputChange={(e) => {
+            if (e != null) {
+              formik.setFieldValue("indirizzo", e.target.value);
+              handleAddressChange(e.target?.value);
             }
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                placeholder="Inserisci indirizzo"
-                name="indirizzo"
-                // onChange={(e) => }
-                className="overflow-hidden"
-                InputProps={{
-                  ...params.InputProps,
-                  // type: "search",
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <div className="flex flex-row items-center relative">
-                        <Box
-                          sx={{
-                            "&>div": {
-                              top: "0!important",
-                              width: "2rem",
-                              height: "2rem",
-                            },
-                            "&>div>button": {
-                              top: "0!important",
-                              width: "2rem",
-                              height: "2rem",
-                              fontSize: "2rem",
-                              padding: "0",
-                              marginBottom: "1rem",
-                            },
-                            "&>div>button>svg": {
-                              fontSize: "2rem",
-                            },
-                          }}
-                          className="my-auto left-[2rem] absolute h-[2rem] w-[2rem] top-0 bottom-0"
-                        >
-                          {params.InputProps.endAdornment}
-                        </Box>
+          }}
+          value={formik.values.indirizzo}
+          clearIcon={<ClearIcon color="primary" />}
+          options={
+            autoComplete.response?.map(
+              (r) =>
+                `${r?.address.freeformAddress.split(",")[0]}${
+                  r?.address?.municipality
+                    ? " , " + r?.address?.municipality
+                    : ""
+                }${
+                  r?.address?.postalCode ? " , " + r?.address?.postalCode : ""
+                }`
+            ) ?? []
+          }
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              placeholder="Inserisci indirizzo"
+              name="indirizzo"
+              sx={{
+                ".MuiFormHelperText-root ": {
+                  height: "20px!important",
+                },
+              }}
+              onBlur={formik.handleBlur}
+              error={formik.errors.indirizzo && formik.touched.indirizzo}
+              helperText={formik.touched.indirizzo && formik.errors.indirizzo}
+              className="overflow-hidden"
+              InputProps={{
+                ...params.InputProps,
 
-                        {addressLoading ? (
-                          <CircularProgress className="w-[1.5rem] h-[1.5rem]" />
-                        ) : (
-                          <button
-                            type="button"
-                            className="active:text-[#B4B4B4] active:border-[#B4B4B4]"
-                            onClick={() => geoLocate()}
-                          >
-                            <NearMeIcon
-                              sx={{
-                                color: "#886FCC",
-                                fontSize: "2rem",
-                                marginRight: "1rem",
-                              }}
-                            />
-                          </button>
-                        )}
-                      </div>
-                    </InputAdornment>
-                  ),
-                }}
-              />
-            )}
-          />
-        </Box>
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <div className="flex flex-row items-center relative">
+                      <Box
+                        sx={{
+                          "&>div": {
+                            top: "0!important",
+                            width: "2rem",
+                            height: "2rem",
+                          },
+                          "&>div>button": {
+                            top: "0!important",
+                            width: "2rem",
+                            height: "2rem",
+                            fontSize: "2rem",
+                            padding: "0",
+                            marginBottom: "1rem",
+                          },
+                          "&>div>button>svg": {
+                            fontSize: "2rem",
+                          },
+                        }}
+                        className="my-auto left-[2rem] absolute h-[2rem] w-[2rem] top-0 bottom-0"
+                      >
+                        {params.InputProps.endAdornment}
+                      </Box>
+
+                      {addressLoading ? (
+                        <CircularProgress className="w-[1.5rem] h-[1.5rem]" />
+                      ) : (
+                        <button
+                          type="button"
+                          className="active:text-[#B4B4B4] active:border-[#B4B4B4]"
+                          onClick={() => geoLocate()}
+                        >
+                          <NearMeIcon
+                            sx={{
+                              color: "#886FCC",
+                              fontSize: "2rem",
+                              marginRight: "1rem",
+                            }}
+                          />
+                        </button>
+                      )}
+                    </div>
+                  </InputAdornment>
+                ),
+              }}
+            />
+          )}
+        />
       </Box>
-      <div className="mt-4">
+
+      <div className="mt-4  flex flex-col justify-end">
         <FormControlLabel
           className="mb-[8px] lg:mb-[0px] mx-0 w-full "
           control={
@@ -313,6 +312,7 @@ const UserInfo = ({ product, next }) => {
         <FormControlLabel
           className="mb-[8px] lg:mb-[0px] mx-0 w-full "
           onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
           name="accettoTerms"
           control={
             <Checkbox id="checkbox" checked={formik.values.accettoTerms} />
@@ -323,8 +323,11 @@ const UserInfo = ({ product, next }) => {
               className={cn(
                 " text-edu-900 formik.values.accettoTerms text-[14px] md:text-base",
                 {
-                  ["!text-[#d32f2f]"]: formik.errors.accettoTerms,
-                  ["!text-edu-900"]: !formik.errors.accettoTerms,
+                  ["!text-[#d32f2f]"]:
+                    formik.touched.accettoTerms && formik.errors.accettoTerms,
+                  ["!text-edu-900"]: !(
+                    formik.touched.accettoTerms && formik.errors.accettoTerms
+                  ),
                 }
               )}
             >
@@ -349,14 +352,9 @@ const UserInfo = ({ product, next }) => {
             width: "100%",
           }}
           className="mt-8 lg:mt-0"
-          disabled={!formik.values.accettoTerms}
+          disabled={Object.values(formik.errors).length !== 0}
           onClick={() => {
-            formik.validateForm().then((r) => {
-              console.log("herer", r);
-              if (Object.keys(r).length === 0) {
-                next && next(checked);
-              }
-            });
+            next && next(checked);
           }}
         >
           Procedi

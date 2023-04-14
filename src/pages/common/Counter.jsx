@@ -14,7 +14,7 @@ function Counter({ onChange, enableCounter = false, showCounter }) {
         pointerEvents: enableCounter ? "auto" : "none",
         opacity: showCounter ? "100%" : "0",
         gridTemplateColumns: enableCounter
-          ? "auto 40px 45px 40px"
+          ? "auto 40px 50px 40px"
           : "auto 45px",
         borderRadius: "9px",
         background: "#ffffff",
@@ -24,7 +24,7 @@ function Counter({ onChange, enableCounter = false, showCounter }) {
         paddingRight: "min(2vw,1.5rem)",
         paddingLeft: "min(2vw,1.5rem)",
       }}
-      className=" h-[62px]  max-w-[100%] grid  items-center w-full relative"
+      className=" h-[62px]  max-w-[100%] grid gap-2  items-center w-full relative"
     >
       <p className="text-lg text-[#2D224C] font-semibold ml-4 my-auto">
         Quantità
@@ -56,7 +56,7 @@ function Counter({ onChange, enableCounter = false, showCounter }) {
             }
             type="number"
             size="1"
-            className=" flex min-w-0 rounded-[9px] text-[#2D224C] text-center text-[32px] bg-none"
+            className=" flex min-w-0 rounded-[9px] text-[#2D224C] text-center text-[24px] bg-none"
           />
           <Button
             color="primary"

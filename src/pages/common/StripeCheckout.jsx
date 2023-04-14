@@ -11,13 +11,15 @@ import {
   IconButton,
   Input,
   Link,
-  TextField,
+  // TextField,
   Typography,
 } from "@mui/material";
+import { TextField } from "@components/textfield";
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
-
+import { useFormik } from "formik";
+import * as Yup from "yup";
 const STRIPE_PK = import.meta.env.VITE_STRIPE_PK;
 
 import axios from "axios";
@@ -68,95 +70,110 @@ const StripeCheckout = ({ userToken, product, iva }) => {
   const [error, setError] = React.useState(false);
   const elements = useElements();
   const stripe = useStripe();
-  const [checked, setChecked] = React.useState(false);
   const navigate = useNavigate();
 
-  const checkErrors = async () => {
-    let errors = {};
-    if (
-      cardHolderDetails?.nome_titolare_carta == undefined ||
-      cardHolderDetails?.nome_titolare_carta?.trim() == ""
-    ) {
-      errors = {
-        ...errors,
-        nome_titolare_carta: "Il nome del titolare è richiesto",
-      };
-    } else {
-      delete errors?.nome_titolare_carta;
-    }
+  const formik = useFormik({
+    initialValues: {
+      nome: "",
+      cognome: "",
+      email: "",
+    },
 
-    if (
-      cardHolderDetails?.cognome_titolare_carta == undefined ||
-      cardHolderDetails?.cognome_titolare_carta?.trim() == ""
-    ) {
-      errors = {
-        ...errors,
-        cognome_titolare_carta: "Il cognome del titolare è richiesto",
-      };
-      setError((prev) => ({ ...prev }));
-    } else {
-      delete errors?.cognome_titolare_carta;
-    }
+    isInitialValid: true,
+    validateOnChange: true,
+    validateOnMount: true,
+    validationSchema: Yup.object({
+      nome: Yup.string().required("Nome richiesto"),
+      cognome: Yup.string().required("Cognome richiesto"),
+      email: Yup.string().email("Email non valido").required("Email richiesta"),
+    }),
+  });
+  // const checkErrors = async () => {
+  //   let errors = {};
+  //   if (
+  //     cardHolderDetails?.nome_titolare_carta == undefined ||
+  //     cardHolderDetails?.nome_titolare_carta?.trim() == ""
+  //   ) {
+  //     errors = {
+  //       ...errors,
+  //       nome_titolare_carta: "Il nome del titolare è richiesto",
+  //     };
+  //   } else {
+  //     delete errors?.nome_titolare_carta;
+  //   }
 
-    if (
-      cardHolderDetails?.email_titolare_carta == undefined ||
-      cardHolderDetails?.email_titolare_carta?.trim() == ""
-    ) {
-      errors = {
-        ...errors,
-        email_titolare_carta: "La mail del titolare è richiesta",
-      };
-    } else {
-      delete errors?.email_titolare_carta;
-    }
+  //   if (
+  //     cardHolderDetails?.cognome_titolare_carta == undefined ||
+  //     cardHolderDetails?.cognome_titolare_carta?.trim() == ""
+  //   ) {
+  //     errors = {
+  //       ...errors,
+  //       cognome_titolare_carta: "Il cognome del titolare è richiesto",
+  //     };
+  //     setError((prev) => ({ ...prev }));
+  //   } else {
+  //     delete errors?.cognome_titolare_carta;
+  //   }
 
-    if (
-      errors?.nome_titolare_carta == undefined &&
-      errors?.cognome_titolare_carta == undefined &&
-      errors?.email_titolare_carta == undefined
-    ) {
-      setError(false);
-      return false;
-    } else {
-      setError(errors);
-      return true;
-    }
-  };
+  //   if (
+  //     cardHolderDetails?.email_titolare_carta == undefined ||
+  //     cardHolderDetails?.email_titolare_carta?.trim() == ""
+  //   ) {
+  //     errors = {
+  //       ...errors,
+  //       email_titolare_carta: "La mail del titolare è richiesta",
+  //     };
+  //   } else {
+  //     delete errors?.email_titolare_carta;
+  //   }
 
-  React.useEffect(() => {
-    if (cardHolderDetails == null) return;
-  }, [cardHolderDetails]);
+  //   if (
+  //     errors?.nome_titolare_carta == undefined &&
+  //     errors?.cognome_titolare_carta == undefined &&
+  //     errors?.email_titolare_carta == undefined
+  //   ) {
+  //     setError(false);
+  //     return false;
+  //   } else {
+  //     setError(errors);
+  //     return true;
+  //   }
+  // };
 
-  const handleChange = (e) => {
-    let val = e.target.value;
-    let name = e.target.name;
+  // React.useEffect(() => {
+  //   if (cardHolderDetails == null) return;
+  // }, [cardHolderDetails]);
 
-    if (["nome_titolare_carta", "cognome_titolare_carta"].includes(name)) {
-      val = val.strCapitalization();
-    }
+  // const handleChange = (e) => {
+  //   let val = e.target.value;
+  //   let name = e.target.name;
 
-    setCardHolderDetails((prev) => ({ ...prev, [name]: val }));
-  };
+  //   if (["nome_titolare_carta", "cognome_titolare_carta"].includes(name)) {
+  //     val = val.strCapitalization();
+  //   }
 
-  const savePayment = async () => {
-    const { error, data } = await axios
-      .post(BASE + "v1/checkout/save-payment", {
-        product: product.token,
-        token: userToken,
-        type: "stripe",
-      })
-      .catch(function (error) {
-        return { error: error.response.data.error };
-      });
+  //   setCardHolderDetails((prev) => ({ ...prev, [name]: val }));
+  // };
 
-    if (data) {
-      navigate("/thank-you", { replace: true, state: { iva } });
-    }
+  // const savePayment = async () => {
+  //   const { error, data } = await axios
+  //     .post(BASE + "v1/checkout/save-payment", {
+  //       product: product.token,
+  //       token: userToken,
+  //       type: "stripe",
+  //     })
+  //     .catch(function (error) {
+  //       return { error: error.response.data.error };
+  //     });
 
-    if (error) {
-      setMessage({ type: "error", message: error });
-    }
-  };
+  //   if (data) {
+  //     navigate("/thank-you", { replace: true, state: { iva } });
+  //   }
+
+  //   if (error) {
+  //     setMessage({ type: "error", message: error });
+  //   }
+  // };
   //uncomment during integration
   const handleSubmit = async () => {
     navigate("/thank-you", { state: { iva: iva } });
@@ -209,78 +226,69 @@ const StripeCheckout = ({ userToken, product, iva }) => {
   return (
     <>
       <Box
-        component={"div"}
+        component="form"
         sx={{
-          display: "flex",
-          flexDirection: "column",
-
-          gap: error ? "0rem" : "1rem",
-          ".MuiInputBase-root": {
-            margin: "0.2rem",
+          height: "100%",
+          ["@media (min-width:736px)"]: {
+            maxHeight: "50vh",
           },
+          overflowY: "scroll",
+          "&::-webkit-scrollbar": {
+            width: "5px",
+          },
+          "&::-webkit-scrollbar-track": {
+            boxShadow: "inset 0 0 6px rgba(0,0,0,0.00)",
+            webkitBoxShadow: "inset 0 0 6px rgba(0,0,0,0.00)",
+          },
+          "&::-webkit-scrollbar-thumb": {
+            backgroundColor: "#8065C9",
+          },
+          "scrollbar-width": "thin",
+          "scrollbar-color": "#8065C9 green",
           ".MuiInputBase-root input": {
-            fontSize: "1.4rem",
+            fontSize: ["20px", "1.4rem"],
             color: "#2D224C",
           },
+          ".MuiFormHelperText-root ": {
+            // height: "10px!important",
+          },
         }}
-        className="h-full"
+        className="flex flex-col gap-8 overflow-x-hidden"
       >
-        <FormControl fullWidth>
-          <Input
-            className="w-full"
-            error={error?.nome_titolare_carta ? true : false}
-            name="nome_titolare_carta"
-            variant="standard"
-            color="primary"
-            // value={cardHolderDetails?.nome_titolare_carta ?? ""}
-            placeholder="Nome titolare carta"
-            sx={{}}
-            // onChange={handleChange}
-          />
-          <FormHelperText>
-            {error?.nome_titolare_carta ? (
-              <small>{error?.nome_titolare_carta}</small>
-            ) : null}
-          </FormHelperText>
-        </FormControl>
+        <TextField
+          className="w-full"
+          placeholder="Nome titolare carta"
+          name="nome"
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          type="text"
+          value={formik.values.nome}
+          error={formik.errors.nome && formik.touched.nome}
+          helperText={formik.touched.nome && formik.errors.nome}
+        />
+        <TextField
+          className="w-full"
+          placeholder="Cognome titolare carta"
+          name="cognome"
+          type="text"
+          onBlur={formik.handleBlur}
+          onChange={formik.handleChange}
+          value={formik.values.cognome}
+          error={formik.errors.cognome && formik.touched.cognome}
+          helperText={formik.touched.cognome && formik.errors.cognome}
+        />
 
-        <FormControl fullWidth>
-          <Input
-            className="w-full"
-            error={error?.cognome_titolare_carta ? true : false}
-            name="cognome_titolare_carta"
-            variant="standard"
-            color="primary"
-            // value={cardHolderDetails?.cognome_titolare_carta ?? ""}
-            placeholder="Cognome titolare carta"
-            sx={{}}
-            // onChange={handleChange}
-          />
-          <FormHelperText>
-            {error?.cognome_titolare_carta ? (
-              <small>{error?.cognome_titolare_carta}</small>
-            ) : null}
-          </FormHelperText>
-        </FormControl>
-
-        <FormControl fullWidth>
-          <Input
-            className="w-full"
-            error={error?.email_titolare_carta ? true : false}
-            name="email_titolare_carta"
-            variant="standard"
-            color="primary"
-            // value={cardHolderDetails?.email_titolare_carta ?? ""}
-            placeholder="Email titolare carta"
-            sx={{}}
-            // onChange={handleChange}
-          />
-          <FormHelperText>
-            {error?.email_titolare_carta ? (
-              <small>{error?.email_titolare_carta}</small>
-            ) : null}
-          </FormHelperText>
-        </FormControl>
+        <TextField
+          className="w-full"
+          placeholder="Email titolare carta"
+          name="email"
+          type="email"
+          onBlur={formik.handleBlur}
+          onChange={formik.handleChange}
+          value={formik.values.email}
+          helperText={formik.touched.email && formik.errors.email}
+          error={formik.touched.email && formik.errors.email}
+        />
 
         <CardElement
           id="card-element"
@@ -323,7 +331,7 @@ const StripeCheckout = ({ userToken, product, iva }) => {
             }}
             size="large"
             variant="contained"
-            disabled={isLoadingPayment || error}
+            disabled={Object.values(formik.errors).length !== 0}
             loading={isLoadingPayment}
             onClick={() => handleSubmit()}
           >

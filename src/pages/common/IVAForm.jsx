@@ -31,16 +31,18 @@ const IVAForm = (props) => {
       indirizzo: "",
       PECDesitinatatio: "",
     },
-    isInitialValid: false,
-    validateOnChange: false,
+    isInitialValid: true,
+    validateOnChange: true,
+    validateOnMount: true,
     validationSchema: Yup.object({
-      denominazioneERagioneSociale: Yup.string().required("Required"),
-      partitaIVA: Yup.string().required("Required"),
-      codicDestinatario: Yup.string().required("Required"),
-      indirizzo: Yup.string().required("Required"),
-      PECDesitinatatio: Yup.string().required("Required"),
+      denominazioneERagioneSociale: Yup.string().required("Campo richiesto"),
+      partitaIVA: Yup.string().required("Campo richiesto"),
+      codicDestinatario: Yup.string().required("Campo richiesto").nullable(),
+      indirizzo: Yup.string().required("Campo richiesto"),
+      PECDesitinatatio: Yup.string().required("Campo richiesto"),
     }),
   });
+  console.log("user", formik.errors, formik.touched);
 
   const handleAddressChange = (value) => {
     if (value !== "") {
@@ -163,30 +165,44 @@ const IVAForm = (props) => {
             name="denominazioneERagioneSociale"
             value={formik.values.denominazioneERagioneSociale}
             onChange={formik.handleChange}
-            error={formik.errors.denominazioneERagioneSociale}
-            helper={formik.errors.denominazioneERagioneSociale}
+            onBlur={formik.handleBlur}
+            error={
+              formik.touched.denominazioneERagioneSociale &&
+              formik.errors.denominazioneERagioneSociale
+            }
+            helperText={
+              formik.touched.denominazioneERagioneSociale &&
+              formik.errors.denominazioneERagioneSociale
+            }
           />
           <TextField
             placeholder="Partita IVA"
             name="partitaIVA"
             value={formik.values.partitaIVA}
             onChange={formik.handleChange}
-            error={formik.errors.partitaIVA}
-            helper={formik.errors.partitaIVA}
+            onBlur={formik.handleBlur}
+            error={formik.touched.partitaIVA && formik.errors.partitaIVA}
+            helperText={formik.touched.partitaIVA && formik.errors.partitaIVA}
           />
           <TextField
             placeholder="Codice Destinatario"
             value={formik.values.codicDestinatario}
             name="codicDestinatario"
             onChange={formik.handleChange}
-            error={formik.errors.codicDestinatario}
-            helper={formik.errors.codicDestinatario}
+            onBlur={formik.handleBlur}
+            error={
+              formik.touched.codicDestinatario &&
+              formik.errors.codicDestinatario
+            }
+            helperText={
+              formik.touched.codicDestinatario &&
+              formik.errors.codicDestinatario
+            }
           />
 
           <Autocomplete
             freeSolo
             value={formik.values.indirizzo}
-            error={formik.errors.indirizzo}
             onChange={(e, v) => {
               formik.setFieldValue("indirizzo", v);
             }}
@@ -196,7 +212,6 @@ const IVAForm = (props) => {
                 handleAddressChange(e.target?.value);
               }
             }}
-            helperText={formik.errors.indirizzo}
             classes={{ clearIndicator: "!text-[#8065C9] h" }}
             options={
               autoComplete.response?.map(
@@ -216,6 +231,14 @@ const IVAForm = (props) => {
                 placeholder="Città, indirizzo e CAP"
                 name="indirizzo"
                 className="overflow-hidden"
+                sx={{
+                  ".MuiFormHelperText-root ": {
+                    height: "20px!important",
+                  },
+                }}
+                onBlur={formik.handleBlur}
+                error={formik.errors.indirizzo && formik.touched.indirizzo}
+                helperText={formik.touched.indirizzo && formik.errors.indirizzo}
                 InputProps={{
                   ...params.InputProps,
 
@@ -271,12 +294,17 @@ const IVAForm = (props) => {
             )}
           />
           <TextField
-            placeholder="PEC Destinatatio"
+            placeholder="PEC destinatario"
             name="PECDesitinatatio"
             value={formik.values.PECDesitinatatio}
             onChange={formik.handleChange}
-            error={formik.errors.PECDesitinatatio}
-            helper={formik.errors.PECDesitinatatio}
+            onBlur={formik.handleBlur}
+            error={
+              formik.touched.PECDesitinatatio && formik.errors.PECDesitinatatio
+            }
+            helperText={
+              formik.touched.PECDesitinatatio && formik.errors.PECDesitinatatio
+            }
           />
         </Box>
       </Box>
@@ -290,14 +318,10 @@ const IVAForm = (props) => {
           height: "59px",
           width: "100%",
         }}
+        disabled={Object.values(formik.errors).length !== 0}
         className="mt-auto"
         onClick={() => {
-          formik.validateForm().then((r) => {
-            if (Object.keys(r).length === 0) {
-              console.log("herere");
-              props?.next && props?.next();
-            }
-          });
+          props?.next && props?.next();
         }}
       >
         Procedi
