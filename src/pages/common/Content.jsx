@@ -84,55 +84,52 @@ const Content = ({ children, showPDF = false }) => {
           },
         }}
       >
-        {showPDF ? (
-          <Box
-            sx={{
+        <Box
+          sx={{
+            display: showPDF ? "block" : "none",
+            "& .swiper": {
+              width: "80vw!important",
+            },
+            "& .react-pdf__Page__canvas": {
+              width: "80vw!important",
+              maxHeight: "calc(300px + 5vw)",
+            },
+            ["@media (min-width:1280px)"]: {
               "& .swiper": {
-                width: "80vw!important",
+                width: "30vw!important",
               },
               "& .react-pdf__Page__canvas": {
-                width: "80vw!important",
-                maxHeight: "calc(300px + 5vw)",
+                width: "30vw!important",
               },
-              ["@media (min-width:1280px)"]: {
-                "& .swiper": {
-                  width: "30vw!important",
-                },
-                "& .react-pdf__Page__canvas": {
-                  width: "30vw!important",
-                },
-              },
-              ["@media (min-width:736px)"]: {
-                "& .swiper": {
-                  width: "43vw!important",
-                  "& .thumbnail .react-pdf__Page__canvas": {
-                    maxWidth: "9.5rem!important",
-                  },
-                },
-                "& .react-pdf__Page__canvas": {
-                  width: "43vw!important",
+            },
+            ["@media (min-width:736px)"]: {
+              "& .swiper": {
+                width: "43vw!important",
+                "& .thumbnail .react-pdf__Page__canvas": {
+                  maxWidth: "9.5rem!important",
                 },
               },
-            }}
-          >
-            <PDFviewer fileBase64={product?.slides} />
-          </Box>
-        ) : (
-          <>
-            <Box
-              sx={{
-                display: ["grid"],
-                gridTemplateColumns: "1fr",
-                gridTemplateRows: "38px auto",
-                gap: "1rem",
-                marginBottom: "1rem",
-              }}
-              className=" h-full"
-            >
-              {children}
-            </Box>
-          </>
-        )}
+              "& .react-pdf__Page__canvas": {
+                width: "43vw!important",
+              },
+            },
+          }}
+        >
+          <PDFviewer fileBase64={product?.slides} />
+        </Box>
+
+        <Box
+          sx={{
+            display: showPDF ? "none" : "grid",
+            gridTemplateColumns: "1fr",
+            gridTemplateRows: "38px auto",
+            gap: "1rem",
+            marginBottom: "1rem",
+          }}
+          className=" h-full"
+        >
+          {children}
+        </Box>
       </Box>
     </Box>
   );
