@@ -49,7 +49,7 @@ const UserInfo = ({ product, next }) => {
       nome: Yup.string().required("Nome richiesto"),
       cognome: Yup.string().required("Cognome richiesto"),
       email: Yup.string().email("Email non valido").required("Email richiesta"),
-      indirizzo: Yup.string().required("Campo richiesto").nullable(),
+      indirizzo: Yup.string().required("Indirizzo richiesto").nullable(),
       accettoTerms: Yup.boolean()
         .oneOf([true], "You must accept Terms and Conditions")
         .required("Campo richiesto"),

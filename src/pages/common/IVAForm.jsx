@@ -37,8 +37,8 @@ const IVAForm = (props) => {
     validationSchema: Yup.object({
       denominazioneERagioneSociale: Yup.string().required("Campo richiesto"),
       partitaIVA: Yup.string().required("Campo richiesto"),
-      codicDestinatario: Yup.string().required("Campo richiesto").nullable(),
-      indirizzo: Yup.string().required("Campo richiesto"),
+      codicDestinatario: Yup.string().required("Campo richiesto"),
+      indirizzo: Yup.string().required("Campo richiesto").nullable(),
       PECDesitinatatio: Yup.string().required("Campo richiesto"),
     }),
   });
