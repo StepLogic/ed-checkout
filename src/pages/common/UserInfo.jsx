@@ -229,7 +229,7 @@ const UserInfo = ({ product, next }) => {
               name="indirizzo"
               sx={{
                 ".MuiFormHelperText-root ": {
-                  height: "20px!important",
+                  height: "23px!important",
                 },
               }}
               onBlur={formik.handleBlur}
