@@ -233,7 +233,7 @@ const IVAForm = (props) => {
                 className="overflow-hidden"
                 sx={{
                   ".MuiFormHelperText-root ": {
-                    height: "23px!important",
+                    minHeight: "23px!important",
                   },
                 }}
                 onBlur={formik.handleBlur}
