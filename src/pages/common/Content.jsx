@@ -79,6 +79,13 @@ const Content = ({ children, showPDF = false }) => {
           ["@media (min-width:1180px)"]: {
             gap: "2rem",
           },
+
+          ["@media (min-width:1500px)"]: {
+            maxWidth: "50vw",
+            height: "50vh",
+            my: "auto",
+          },
+
           ["@media (min-width:2050px)"]: {
             maxWidth: "50vw",
             height: "50vh",
@@ -117,6 +124,18 @@ const Content = ({ children, showPDF = false }) => {
                 width: "43vw!important",
               },
             },
+            ["@media (min-width:1600px)"]: {
+              my: "auto",
+              "& .swiper": {
+                width: "700px!important",
+                "& .thumbnail": {
+                  maxWidth: "9.5rem!important",
+                },
+              },
+              "& .react-pdf__Page__canvas": {
+                width: "700px!important",
+              },
+            },
             ["@media (min-width:2050px)"]: {
               my: "auto",
               "& .swiper": {
@@ -141,6 +160,7 @@ const Content = ({ children, showPDF = false }) => {
             gridTemplateRows: "38px auto",
             gap: "1rem",
             marginBottom: "1rem",
+
             ["@media (min-width:2050px)"]: {
               gridTemplateRows: "4rem auto",
             },

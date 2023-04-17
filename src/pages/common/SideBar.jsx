@@ -188,6 +188,10 @@ const SideBar = ({
           display: "flex",
           flexDirection: "column",
           gap: "1rem",
+          ["@media (min-width:1600px)"]: {
+            height: "50vh",
+            my: "auto",
+          },
           ["@media (min-width:2050px)"]: {
             height: "50vh",
             my: "auto",
