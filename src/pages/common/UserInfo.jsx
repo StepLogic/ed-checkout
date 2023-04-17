@@ -44,18 +44,21 @@ const UserInfo = ({ product, next }) => {
 
   return (
     <>
-      <h1 className=" font-semibold text-center lg:text-start  leading-none text-edu-900 text-[24px] lg:text-3xl 3xl:text-4xl max:text-6xl w-full">
+      <h1 className=" font-semibold text-center lg:text-start  leading-none text-edu-900 text-[21px] lg:text-3xl 3xl:text-4xl max:text-6xl w-full">
         Finalizza la tua iscrizione
       </h1>
 
       <Box
         component="form"
         sx={{
-          height: "100%",
+          height: "110%",
+
           ["@media (min-width:736px)"]: {
             maxHeight: "50vh",
+            height: "100%",
+            overflowY: "scroll",
           },
-          overflowY: "scroll",
+
           "&::-webkit-scrollbar": {
             width: "5px",
           },
@@ -76,7 +79,7 @@ const UserInfo = ({ product, next }) => {
             height: "0px!important",
           },
         }}
-        className="flex flex-col gap-8 overflow-x-hidden"
+        className="flex flex-col gap-8"
       >
         <TextField
           placeholder="Nome"

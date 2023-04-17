@@ -57,8 +57,10 @@ const SideBar = ({
       ["@media (max-width:1180px) and (min-width:763px)"]: {
         fontSize: "calc(14px + calc(0.175vh + 0.15vh))",
       },
-
       fontSize: "calc(14px + 0.1vh)",
+      ["@media (min-width:2050px)"]: {
+        fontSize: "28px",
+      },
     },
   };
 
@@ -186,7 +188,10 @@ const SideBar = ({
           display: "flex",
           flexDirection: "column",
           gap: "1rem",
-          ["@media (min-width:1180px)"]: {},
+          ["@media (min-width:2050px)"]: {
+            height: "50vh",
+            my: "auto",
+          },
         }}
       >
         <h1 className="font-semibold leading-none text-white text-[24px] text-center lg:text-start lg:text-3xl 3xl:text-4xl max:text-6xl">
@@ -197,9 +202,14 @@ const SideBar = ({
             display: ["grid"],
             gridTemplateColumns: "1fr",
             gap: "3rem",
+            height: "100%",
             ["@media (min-width:1180px)"]: {
               gridTemplateRows: ["25fr 39px 40fr"],
               gap: "1rem",
+            },
+            ["@media (min-width:2050px)"]: {
+              gridTemplateRows: ["300px 39px auto"],
+              paddingBottom: "1rem",
             },
           }}
         >
@@ -248,6 +258,9 @@ const SideBar = ({
               gap: "1vh",
               ["@media (min-height:763px)"]: {
                 gap: "0.5rem",
+              },
+              ["@media (min-width:1600px)"]: {
+                mt: "auto",
               },
               display: "grid",
               gridTemplateColumns: "1fr",

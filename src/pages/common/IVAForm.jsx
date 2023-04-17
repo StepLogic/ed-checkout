@@ -29,7 +29,7 @@ const IVAForm = (props) => {
 
   return (
     <>
-      <h1 className=" font-semibold text-center lg:text-start  leading-none text-edu-900 text-[24px] lg:text-3xl 3xl:text-4xl max:text-6xl  h-fit  w-full">
+      <h1 className=" font-semibold text-center lg:text-start  leading-none text-edu-900 text-[21px] lg:text-3xl 3xl:text-4xl max:text-6xl  h-fit  w-full">
         Fornisci le informazioni della Partita IVA
       </h1>
 
@@ -45,8 +45,8 @@ const IVAForm = (props) => {
         <Box
           component="form"
           sx={{
-            height: "100%",
-            overflowY: "scroll",
+            height: "110%",
+            // overflowY: "scroll",
             "&::-webkit-scrollbar": {
               width: "5px",
             },
