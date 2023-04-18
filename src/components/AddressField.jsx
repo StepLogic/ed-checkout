@@ -40,23 +40,21 @@ export default function AddressField({
         axios
           .get(url)
           .then((response) => {
+            console.log("response", position, response);
             setAutoComplete({
               status: true,
               response: response.data.results,
             });
             const l = response?.data?.results?.map(
               (r) =>
-                `${r?.address.freeformAddress.split(",")[0]}${
-                  r?.address?.municipality
-                    ? " , " + r?.address?.municipality
-                    : ""
-                }${
+                `${r?.address.freeformAddress}${
                   r?.address?.postalCode ? " , " + r?.address?.postalCode : ""
                 }`
             );
 
             if (l.length > 0) {
-              formik.setFieldValue("indirizzo", l[0]);
+              //first index has highest score
+              handleChange("indirizzo", l[0]);
             } else {
               setOpenSnackbar(true);
             }
@@ -75,6 +73,7 @@ export default function AddressField({
         `https://api.tomtom.com/search/2/geocode/${v}.json?key=${TOMTOM_KEY}&language=it-IT&typeahead=true&limit=10&type=Address&lat=41.9102415&lon=12.395915&radius=100000000`
       )
       .then((response) => {
+        console.log("response", v, response);
         setAutoComplete({
           status: true,
           response: response.data.results,
