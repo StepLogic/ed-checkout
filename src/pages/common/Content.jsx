@@ -156,8 +156,9 @@ const Content = ({ children, showPDF = false }) => {
             gridTemplateRows: "38px auto",
             gap: "1rem",
             marginBottom: "1rem",
-
+            width: "100%",
             ["@media (min-width:2050px)"]: {
+              width: "1050px!important",
               gridTemplateRows: "4rem auto",
             },
           }}
