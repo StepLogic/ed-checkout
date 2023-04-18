@@ -71,7 +71,7 @@ const Content = ({ children, showPDF = false }) => {
       />
       <Box
         sx={{
-          maxWidth: ["100vw", "650px"],
+          maxWidth: ["100vw", "1000px"],
           display: "flex",
           flexDirection: "column",
           height: "auto",
@@ -81,13 +81,14 @@ const Content = ({ children, showPDF = false }) => {
           },
 
           ["@media (min-width:1500px)"]: {
-            maxWidth: "50vw",
+            // maxWidth: "50vw",
             height: "50vh",
             my: "auto",
+              mx:"auto"
           },
 
           ["@media (min-width:2050px)"]: {
-            maxWidth: "50vw",
+            // maxWidth: ",
             height: "50vh",
             my: "auto",
           },
