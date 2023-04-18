@@ -132,16 +132,16 @@ const Content = ({ children, showPDF = false }) => {
                 width: "600px!important",
               },
             },
-            ["@media (min-width:2050px)"]: {
+            ["@media (min-width:2350px)"]: {
               my: "auto",
               "& .swiper": {
-                width: "1000px!important",
+                width: "700px!important",
                 "& .thumbnail": {
                   maxWidth: "9.5rem!important",
                 },
               },
               "& .react-pdf__Page__canvas": {
-                width: "1000px!important",
+                width: "700px!important",
               },
             },
           }}

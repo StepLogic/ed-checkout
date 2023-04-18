@@ -369,11 +369,8 @@ const SideBar = ({
                         color: "#2D224C",
                         fontSize: "14px",
                         position: "absolute",
-                        // top: "10%",
                         right: "14px",
-                        // ["@media (min-height:763px)"]: {
                         top: "14px",
-                        // },
                       },
                     }}
                   >

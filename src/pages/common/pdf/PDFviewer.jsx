@@ -74,8 +74,8 @@ const PagesThumbnails = ({ pages, currentPage, setPdfDetails, setSwiper }) => {
           spaceBetween: 20,
         },
         2050: {
-          slidesPerView: 5,
-          spaceBetween: 20,
+          slidesPerView: 3,
+          spaceBetween: 5,
         },
       }}
       centeredSlides={true}
