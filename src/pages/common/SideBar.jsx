@@ -188,10 +188,10 @@ const SideBar = ({
           display: "flex",
           flexDirection: "column",
           gap: "1rem",
-          ["@media (min-width:1600px)"]: {
-            height: "50vh",
-            my: "auto",
-          },
+          // ["@media (min-width:1600px)"]: {
+          //   height: "50vh",
+          //   my: "auto",
+          // },
           ["@media (min-width:2050px)"]: {
             height: "50vh",
             my: "auto",
@@ -263,7 +263,7 @@ const SideBar = ({
               ["@media (min-height:763px)"]: {
                 gap: "0.5rem",
               },
-              ["@media (min-width:1600px)"]: {
+              ["@media (min-width:2050px)"]: {
                 mt: "auto",
               },
               display: "grid",

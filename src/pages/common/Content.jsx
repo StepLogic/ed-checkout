@@ -48,7 +48,7 @@ const Content = ({ children, showPDF = false }) => {
           gridTemplateRows: "124px auto!important",
         },
         ["@media (min-width:763px)"]: {
-          paddingTop: "32px",
+    
           display: "grid",
           gridTemplateRows: ["1fr 10fr"],
           paddingLeft: "calc(10vw + 5vh)!important",
@@ -80,17 +80,13 @@ const Content = ({ children, showPDF = false }) => {
             gap: "2rem",
           },
 
-          ["@media (min-width:1500px)"]: {
-            // maxWidth: "50vw",
-            height: "50vh",
-            my: "auto",
-              mx:"auto"
-          },
+
 
           ["@media (min-width:2050px)"]: {
             // maxWidth: ",
             height: "50vh",
             my: "auto",
+              mx:"auto"
           },
         }}
       >
