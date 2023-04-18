@@ -123,13 +123,13 @@ const Content = ({ children, showPDF = false }) => {
             ["@media (min-width:1600px)"]: {
               my: "auto",
               "& .swiper": {
-                width: "700px!important",
+                width: "600px!important",
                 "& .thumbnail": {
                   maxWidth: "9.5rem!important",
                 },
               },
               "& .react-pdf__Page__canvas": {
-                width: "700px!important",
+                width: "600px!important",
               },
             },
             ["@media (min-width:2050px)"]: {
