@@ -150,14 +150,7 @@ const UserInfo = ({ product, next }) => {
           label={
             <div
               className={cn(
-                " text-edu-900 formik.values.accettoTerms text-[14px] md:text-base",
-                {
-                  ["!text-[#d32f2f]"]:
-                    formik.touched.accettoTerms && formik.errors.accettoTerms,
-                  ["!text-edu-900"]: !(
-                    formik.touched.accettoTerms && formik.errors.accettoTerms
-                  ),
-                }
+                " text-edu-900 formik.values.accettoTerms text-[14px] md:text-base"
               )}
             >
               Ho letto e accetto i&nbsp;
