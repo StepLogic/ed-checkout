@@ -48,7 +48,6 @@ const Content = ({ children, showPDF = false }) => {
           gridTemplateRows: "124px auto!important",
         },
         ["@media (min-width:763px)"]: {
-    
           display: "grid",
           gridTemplateRows: ["1fr 10fr"],
           paddingLeft: "calc(10vw + 5vh)!important",
@@ -76,17 +75,17 @@ const Content = ({ children, showPDF = false }) => {
           flexDirection: "column",
           height: "auto",
           gap: "1rem",
+          paddingBottom: "2rem",
           ["@media (min-width:1180px)"]: {
             gap: "2rem",
+            paddingBottom: "unset",
           },
-
-
 
           ["@media (min-width:2050px)"]: {
             // maxWidth: ",
             height: "50vh",
             my: "auto",
-              mx:"auto"
+            mx: "auto",
           },
         }}
       >

@@ -37,7 +37,7 @@ const ThankYou = () => {
         <h1 className="text-[#2D224C] leading-[100%] font-semibold text-center  text-[24px] lg:text-[48px]">
           Il pagamento è andato <br className="lg:hidden" /> a buon fine!
         </h1>
-        <p className="max-w-[80%] text-[#2D224C] text-center font-medium text-[16px]  lg:text-[24px] leading-[100%]">
+        <p className="max-w-[80%] text-[#2D224C] text-center font-medium text-[16px]  lg:text-[20px] leading-[100%]">
           {location?.state?.iva
             ? `Ti abbiamo inviato via email la ricevuta del pagamento. 
 La fattura elettronica sarà emessa entro i 12 giorni previsti dalla legge italiana.
