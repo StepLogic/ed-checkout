@@ -5,6 +5,7 @@ import "./index.css";
 
 import { LinearProgress, ThemeProvider } from "@mui/material";
 import AuthProvider from "@context/AuthProvider";
+import { QueryClientProvider, QueryClient } from "react-query";
 
 // const StartForm = React.lazy(() => import("@pages/StartForm"));
 // const Rejection = React.lazy(() => import("@pages/Rejection"));
@@ -18,49 +19,66 @@ import ExistingUser from "./pages/ExistingUser.jsx";
 import ThankYou from "./pages/thank-you";
 import NoPage from "./pages/NoPage.jsx";
 
+const queryDefaultOptions = {
+  defaultOptions: {
+    queries: {
+      retry: false,
+      refetchOnMount: false,
+      refetchOnWindowFocus: false,
+    },
+  },
+};
+
+const queryClient = new QueryClient(queryDefaultOptions);
+
 const App = () => {
   return (
-    <Suspense
-      fallback={
-        <div>
-          <LinearProgress
-            sx={{
-              backgroundColor: "transparent",
-              "& .MuiLinearProgress-bar1Indeterminate": {
-                backgroundColor: "#8065C9!important",
-              },
-              "& .MuiLinearProgress-bar2Indeterminate": {
-                backgroundColor: "#8065C9!important",
-              },
-            }}
-          />
-        </div>
-      }
-    >
-      <AuthProvider>
-        <ThemeProvider theme={theme}>
-          <Routes>
-            <Route path="thank-you" element={<ThankYou />} />
-            <Route path="not-found" element={<NoPage />} />
-            <Route path="/" element={<LayoutPage />}>
-              <Route
-                path="existing-subscriber/:productTk/:userTk"
-                element={<ExistingSubscriber />}
-              />
-              <Route
-                path="new-subscriber/:productTk/:userTk"
-                element={<NewSubscriber />}
-              />
-              <Route path="new-user/:productTk/:userTk" element={<NewUser />} />
-              <Route
-                path="existing-user/:productTk/:userTk"
-                element={<ExistingUser />}
-              />
-            </Route>
-          </Routes>
-        </ThemeProvider>
-      </AuthProvider>
-    </Suspense>
+    <QueryClientProvider client={queryClient}>
+      <Suspense
+        fallback={
+          <div>
+            <LinearProgress
+              sx={{
+                backgroundColor: "transparent",
+                "& .MuiLinearProgress-bar1Indeterminate": {
+                  backgroundColor: "#8065C9!important",
+                },
+                "& .MuiLinearProgress-bar2Indeterminate": {
+                  backgroundColor: "#8065C9!important",
+                },
+              }}
+            />
+          </div>
+        }
+      >
+        <AuthProvider>
+          <ThemeProvider theme={theme}>
+            <Routes>
+              <Route path="thank-you" element={<ThankYou />} />
+              <Route path="not-found" element={<NoPage />} />
+              <Route path="/" element={<LayoutPage />}>
+                <Route
+                  path="existing-subscriber/:productTk/:userTk"
+                  element={<ExistingSubscriber />}
+                />
+                <Route
+                  path="new-subscriber/:productTk/:userTk"
+                  element={<NewSubscriber />}
+                />
+                <Route
+                  path="new-user/:productTk/:userTk"
+                  element={<NewUser />}
+                />
+                <Route
+                  path="existing-user/:productTk/:userTk"
+                  element={<ExistingUser />}
+                />
+              </Route>
+            </Routes>
+          </ThemeProvider>
+        </AuthProvider>
+      </Suspense>
+    </QueryClientProvider>
   );
 };
 

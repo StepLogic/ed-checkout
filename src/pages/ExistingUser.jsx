@@ -1,6 +1,4 @@
-import { Box, Button, Checkbox, Typography } from "@mui/material";
 import React from "react";
-import useCheckout from "./hooks/useCheckout.jsx";
 import IVAForm from "./common/IVAForm.jsx";
 import PaymentOption from "./common/PaymentOptions.jsx";
 import PaymentForm from "./common/PaymentForm.jsx";
@@ -8,15 +6,7 @@ import SideBar from "./common/SideBar.jsx";
 import Content from "./common/Content.jsx";
 import useSteps from "./hooks/useSteps.jsx";
 
-import { useFormik } from "formik";
-
 const ExistingUser = () => {
-  const {
-    data: { user, product },
-    isError,
-    isLoading,
-  } = useCheckout({ session: 1 });
-
   const { step, goBack, goTo } = useSteps();
   const [paymentType, setPaymentType] = React.useState("Stripe");
   const [iva, setIva] = React.useState(false);

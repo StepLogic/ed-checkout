@@ -1,15 +1,8 @@
 import { Box, Button, Typography } from "@mui/material";
 import React from "react";
-import klarna from "../../assets/img/klarna.svg";
-import bgCheckout from "@assets/img/bgCheckout.svg";
-import bgCheckoutMobile from "@assets/img/bgCheckoutMobile.svg";
 import { useWindowSize } from "../hooks/useWindowSize.jsx";
-import PDFviewer from "../common/pdf/PDFviewer";
 import TopNav from "./TopNav.jsx";
 import useCheckout from "../hooks/useCheckout.jsx";
-import IVAForm from "../common/IVAForm.jsx";
-import PaymentOption from "../common/PaymentOptions";
-import PaymentForm from "../common/PaymentForm";
 import Counter from "./Counter";
 import Skeleton from "@mui/material/Skeleton";
 Number.prototype.toDecimalsEuro = function () {
@@ -22,7 +15,6 @@ Number.prototype.toDecimalsEuro = function () {
       <div className="text-3xl">
         {parsed[0]},{parsed[1]}€
       </div>
-      {/* <div>{parsed[1]}€</div> */}
     </div>
   );
 };
@@ -36,11 +28,9 @@ const SideBar = ({
   isNewSubscriber = false,
   showPdf = false,
 }) => {
-  const {
-    data: { user, product },
-    isError,
-    isLoading,
-  } = useCheckout({ session: 1 });
+  const { data } = useCheckout({ session: 1 });
+
+  const product = data?.product;
 
   const [width] = useWindowSize();
   const [price, setPrice] = React.useState(null);

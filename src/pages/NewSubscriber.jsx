@@ -8,14 +8,13 @@ import Content from "./common/Content.jsx";
 import useSteps from "./hooks/useSteps.jsx";
 
 const NewSubscriber = () => {
-  const {
-    data: { user, product },
-    isError,
-    isLoading,
-  } = useCheckout({ session: 1 });
+  const { data } = useCheckout({ session: 1 });
+
+  const user = data?.user;
+  const product = data?.product;
 
   const { step, goBack, goTo } = useSteps();
-  const [paymentType, setPaymentType] = React.useState("Stripe");
+  // const [paymentType, setPaymentType] = React.useState("Stripe");
   const [iva, setIva] = React.useState(false);
   const [showPDF, setShowPDF] = React.useState(false);
 
