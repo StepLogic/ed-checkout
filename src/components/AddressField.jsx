@@ -6,8 +6,8 @@ import Autocomplete from "@mui/material/Autocomplete";
 import InputAdornment from "@mui/material/InputAdornment";
 import Snackbar from "@mui/material/Snackbar";
 import axios from "axios";
-import * as _ from "lodash";
-import React from "react";
+import debounce from "lodash/debounce";
+import React, { useCallback, useEffect, useMemo } from "react";
 
 const TOMTOM_KEY = import.meta.env.VITE_TOMTOM_API;
 
@@ -25,13 +25,36 @@ export default function AddressField({
   const [openSnackbar, setOpenSnackbar] = React.useState(false);
   const [addressLoading, setAddressLoading] = React.useState(false);
   const [autoComplete, setAutoComplete] = React.useState({ status: false });
+  const [inputValue, setInputValue] = React.useState("");
 
-  const handleAddressChange = (value) => {
-    if (value !== "") {
-      const u = () => autoCompleteAddressHandler(value);
-      _.delay(u, 1000);
-    }
+  const autoCompleteAddressHandler = (v) => {
+    axios
+      .get(
+        `https://api.tomtom.com/search/2/geocode/${v}.json?key=${TOMTOM_KEY}&language=it-IT&typeahead=true&limit=10&type=Address&lat=41.9102415&lon=12.395915&radius=100000000`
+      )
+      .then((response) => {
+        console.log("response", v, response);
+        setAutoComplete({
+          status: true,
+          response: response.data.results,
+        });
+      })
+      .catch((er) => formik.setFieldValue("indirizzo", v));
   };
+
+  const handleAddressChange = (e) => {
+    handleChange("indirizzo", e.target.value);
+    setInputValue(e.target.value);
+  };
+
+  const fetch = React.useMemo(
+    () =>
+      debounce((value) => {
+        if (value) autoCompleteAddressHandler(value);
+      }, 400),
+    []
+  );
+
   const geoLocate = () => {
     setAddressLoading(true);
     if ("geolocation" in navigator) {
@@ -58,15 +81,19 @@ export default function AddressField({
             } else {
               setOpenSnackbar(true);
             }
+            setAddressLoading(false);
           })
-          .catch((er) => setOpenSnackbar(true));
+          .catch((er) => {
+            setOpenSnackbar(true);
+            setAddressLoading(false);
+          });
       });
     } else {
       console.log("Not Available");
     }
-    setAddressLoading(false);
   };
 
+<<<<<<< HEAD
   const autoCompleteAddressHandler = (v) => {
     axios
       .get(
@@ -81,6 +108,11 @@ export default function AddressField({
       })
       .catch((er) => handleValue(name, v));
   };
+=======
+  useEffect(() => {
+    if (inputValue) fetch(inputValue);
+  }, [inputValue]);
+>>>>>>> c71e161 (new-subscriber)
 
   return (
     <>
@@ -105,12 +137,16 @@ export default function AddressField({
           onChange={(e, v) => {
             handleChange && handleChange(name, v);
           }}
+<<<<<<< HEAD
           onInputChange={(e) => {
             if (e != null) {
               handleChange && handleChange(name, e.target.value);
               handleAddressChange(e.target?.value);
             }
           }}
+=======
+          onInputChange={handleAddressChange}
+>>>>>>> c71e161 (new-subscriber)
           classes={{
             clearIndicator: "!text-[#8065C9] h",
           }}

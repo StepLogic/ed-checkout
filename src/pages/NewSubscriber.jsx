@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import useCheckout from "./hooks/useCheckout.jsx";
 import IVAForm from "./common/IVAForm.jsx";
 import UserInfo from "./common/UserInfo.jsx";
@@ -10,13 +10,19 @@ import useSteps from "./hooks/useSteps.jsx";
 const NewSubscriber = () => {
   const { data } = useCheckout({ session: 1 });
 
-  const user = data?.user;
   const product = data?.product;
 
   const { step, goBack, goTo } = useSteps();
   // const [paymentType, setPaymentType] = React.useState("Stripe");
-  const [iva, setIva] = React.useState(false);
-  const [showPDF, setShowPDF] = React.useState(false);
+  const [iva, setIva] = useState(false);
+  const [showPDF, setShowPDF] = useState(false);
+  const [user, setUser] = useState({});
+
+  useEffect(() => {
+    if (data?.user) setUser(data?.user);
+  }, [data]);
+
+  console.log("user", user);
 
   return (
     <>
@@ -35,14 +41,35 @@ const NewSubscriber = () => {
             {step == 0 && (
               <UserInfo
                 product={product}
-                next={(v) => {
-                  console.log("hh", v);
+                user={user}
+                next={(v, values) => {
+                  setUser((prev) => {
+                    return {
+                      ...prev,
+                      name: values.nome,
+                      lname: values.cognome,
+                      email: values.email,
+                      address: values.indirizzo,
+                    };
+                  });
                   goTo(v ? 1 : 2);
                   setIva(v);
                 }}
               />
             )}
-            {step == 1 && <IVAForm next={() => goTo(2)} />}
+            {step == 1 && (
+              <IVAForm
+                next={(values) => {
+                  setUser((prev) => {
+                    return {
+                      ...prev,
+                      iva: values,
+                    };
+                  });
+                  goTo(2);
+                }}
+              />
+            )}
             {step == 2 && (
               <PaymentForm
                 iva={iva}

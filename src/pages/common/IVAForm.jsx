@@ -145,7 +145,7 @@ const IVAForm = (props) => {
         disabled={Object.values(formik.errors).length !== 0}
         className="mt-auto"
         onClick={() => {
-          props?.next && props?.next();
+          props?.next && props?.next(formik.values);
         }}
       >
         Procedi

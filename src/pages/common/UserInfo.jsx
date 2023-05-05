@@ -1,22 +1,12 @@
 import AddressField from "@components/AddressField";
 import { TextField } from "@components/textfield";
 import { Box, Button, Checkbox, FormControlLabel, Link } from "@mui/material";
-import MuiAlert from "@mui/material/Alert";
-import Snackbar from "@mui/material/Snackbar";
-import axios from "axios";
 import cn from "classnames";
 import { useFormik } from "formik";
-import * as _ from "lodash";
 import React, { useEffect, useState } from "react";
 import * as Yup from "yup";
 
-const TOMTOM_KEY = import.meta.env.VITE_TOMTOM_API;
-
-const Alert = React.forwardRef(function Alert(props, ref) {
-  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-});
-
-const UserInfo = ({ product, next }) => {
+const UserInfo = ({ product, user, next }) => {
   const [checked, setChecked] = useState(false);
 
   const formik = useFormik({
@@ -41,6 +31,17 @@ const UserInfo = ({ product, next }) => {
         .required("Campo richiesto"),
     }),
   });
+
+  useEffect(() => {
+    if (user)
+      formik.setValues({
+        nome: user.name,
+        cognome: user.lname,
+        email: user.email,
+        indirizzo: "",
+        accettoTerms: false,
+      });
+  }, [user]);
 
   return (
     <>
@@ -176,7 +177,7 @@ const UserInfo = ({ product, next }) => {
           className="mt-8 lg:mt-0"
           disabled={Object.values(formik.errors).length !== 0}
           onClick={() => {
-            next && next(checked);
+            next && next(checked, formik.values);
           }}
         >
           Procedi

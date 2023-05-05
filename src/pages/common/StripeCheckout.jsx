@@ -1,34 +1,19 @@
 import React from "react";
-import {
-  Box,
-  Button,
-  Checkbox,
-  Divider,
-  FormControl,
-  FormControlLabel,
-  FormGroup,
-  FormHelperText,
-  IconButton,
-  Input,
-  Link,
-  // TextField,
-  Typography,
-} from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { TextField } from "@components/textfield";
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import Api from "@api/Api";
 const STRIPE_PK = import.meta.env.VITE_STRIPE_PK;
 
-import axios from "axios";
 import { LoadingButton } from "@mui/lab";
 
 import MessageBox from "@components/MessageBox";
 import { useNavigate } from "react-router";
 
-const BASE = import.meta.env.VITE_BASE_URL;
 const cardElementOptions = {
   hidePostalCode: true,
   style: {
@@ -48,7 +33,7 @@ const cardElementOptions = {
   },
 };
 
-const StripeCheckout = ({ userToken, product, iva }) => {
+const StripeCheckout = ({ userToken, product, iva, userInfo }) => {
   const StripeIcon = () => (
     <svg
       width="4rem"
@@ -63,11 +48,8 @@ const StripeCheckout = ({ userToken, product, iva }) => {
       />
     </svg>
   );
-
   const [message, setMessage] = React.useState(false);
-  const [cardHolderDetails, setCardHolderDetails] = React.useState(null);
   const [isLoadingPayment, setIsLoadingPayment] = React.useState(false);
-  const [error, setError] = React.useState(false);
   const elements = useElements();
   const stripe = useStripe();
   const navigate = useNavigate();
@@ -78,7 +60,6 @@ const StripeCheckout = ({ userToken, product, iva }) => {
       cognome: "",
       email: "",
     },
-
     isInitialValid: true,
     validateOnChange: true,
     validateOnMount: true,
@@ -88,139 +69,92 @@ const StripeCheckout = ({ userToken, product, iva }) => {
       email: Yup.string().email("Email non valido").required("Email richiesta"),
     }),
   });
-  // const checkErrors = async () => {
-  //   let errors = {};
-  //   if (
-  //     cardHolderDetails?.nome_titolare_carta == undefined ||
-  //     cardHolderDetails?.nome_titolare_carta?.trim() == ""
-  //   ) {
-  //     errors = {
-  //       ...errors,
-  //       nome_titolare_carta: "Il nome del titolare è richiesto",
-  //     };
-  //   } else {
-  //     delete errors?.nome_titolare_carta;
-  //   }
 
-  //   if (
-  //     cardHolderDetails?.cognome_titolare_carta == undefined ||
-  //     cardHolderDetails?.cognome_titolare_carta?.trim() == ""
-  //   ) {
-  //     errors = {
-  //       ...errors,
-  //       cognome_titolare_carta: "Il cognome del titolare è richiesto",
-  //     };
-  //     setError((prev) => ({ ...prev }));
-  //   } else {
-  //     delete errors?.cognome_titolare_carta;
-  //   }
+  const savePayment = async () => {
+    const { error, data } = await Api.post("v1/checkout/create-user", {
+      product: product.token,
+      token: userToken,
+      type: "stripe",
+    }).catch(function (error) {
+      return { error: error.response.data.error };
+    });
 
-  //   if (
-  //     cardHolderDetails?.email_titolare_carta == undefined ||
-  //     cardHolderDetails?.email_titolare_carta?.trim() == ""
-  //   ) {
-  //     errors = {
-  //       ...errors,
-  //       email_titolare_carta: "La mail del titolare è richiesta",
-  //     };
-  //   } else {
-  //     delete errors?.email_titolare_carta;
-  //   }
+    if (data) {
+      navigate("/thank-you", { replace: true, state: { iva } });
+    }
 
-  //   if (
-  //     errors?.nome_titolare_carta == undefined &&
-  //     errors?.cognome_titolare_carta == undefined &&
-  //     errors?.email_titolare_carta == undefined
-  //   ) {
-  //     setError(false);
-  //     return false;
-  //   } else {
-  //     setError(errors);
-  //     return true;
-  //   }
-  // };
-
-  // React.useEffect(() => {
-  //   if (cardHolderDetails == null) return;
-  // }, [cardHolderDetails]);
-
-  // const handleChange = (e) => {
-  //   let val = e.target.value;
-  //   let name = e.target.name;
-
-  //   if (["nome_titolare_carta", "cognome_titolare_carta"].includes(name)) {
-  //     val = val.strCapitalization();
-  //   }
-
-  //   setCardHolderDetails((prev) => ({ ...prev, [name]: val }));
-  // };
-
-  // const savePayment = async () => {
-  //   const { error, data } = await axios
-  //     .post(BASE + "v1/checkout/save-payment", {
-  //       product: product.token,
-  //       token: userToken,
-  //       type: "stripe",
-  //     })
-  //     .catch(function (error) {
-  //       return { error: error.response.data.error };
-  //     });
-
-  //   if (data) {
-  //     navigate("/thank-you", { replace: true, state: { iva } });
-  //   }
-
-  //   if (error) {
-  //     setMessage({ type: "error", message: error });
-  //   }
-  // };
+    if (error) {
+      setMessage({ type: "error", message: error });
+    }
+  };
   //uncomment during integration
   const handleSubmit = async () => {
-    navigate("/thank-you", { state: { iva: iva } });
-    // const errors = await checkErrors();
-    // //
-    // if (errors) return;
-    //
-    // setMessage(false);
-    // if (!stripe || !elements) return;
-    //
-    // setIsLoadingPayment(true);
-    //
-    // let clientSecret;
-    //
-    // try {
-    //   const { error: backendError, data } = await axios.post(
-    //     BASE + "v1/checkout/stripe/create-intent",
-    //     {
-    //       product: product.token,
-    //       user_token: userToken,
-    //       customer: cardHolderDetails,
-    //     }
-    //   );
-    //
-    //   clientSecret = data.clientSecret;
-    // } catch (error) {}
+    // navigate("/thank-you", { state: { iva: iva } });
 
-    // const { error: stripeError, paymentIntent } =
-    //   await stripe.confirmCardPayment(clientSecret, {
-    //     payment_method: {
-    //       card: elements.getElement(CardElement),
-    //     },
-    //   });
-    //
-    // if (stripeError) {
-    //   setMessage({ type: "error", message: stripeError.message });
-    //   setIsLoadingPayment(false);
-    // }
-    //
-    // if (paymentIntent) {
-    //   setIsLoadingPayment(false);
-    //   setMessage({
-    //     type: "success",
-    //     message: "Pagamento avvenuto con successo a breve verrai reindirizzato",
-    //   });
-    //   savePayment(paymentIntent.id);
-    // }
+    if (elements == null) {
+      return;
+    }
+
+    setIsLoadingPayment(true);
+    const result = await stripe.createPaymentMethod({
+      type: "card",
+      card: elements.getElement(CardElement),
+      billing_details: {
+        name: `${formik.values.nome} ${formik.values.cognome}`,
+        email: formik.values.email,
+      },
+    });
+
+    if (result?.error?.message) {
+      setMessage({ type: "error", message: result?.error?.message });
+      setIsLoadingPayment(false);
+      return;
+    } else {
+      setMessage(false);
+    }
+
+    // console.log("result", result); // paymentMethod
+
+    let clientSecret;
+
+    try {
+      const { error: backendError, data } = await Api.post(
+        "v1/checkout/stripe/create-intent",
+        {
+          product: product.token,
+          user_token: userToken,
+          user: userInfo,
+          customer: {
+            nome_titolare_carta: formik.values.nome,
+            cognome_titolare_carta: formik.values.cognome,
+            email_titolare_carta: formik.values.email,
+          },
+        }
+      );
+
+      clientSecret = data.clientSecret;
+    } catch (error) {}
+
+    const { error: stripeError, paymentIntent } =
+      await stripe.confirmCardPayment(clientSecret, {
+        payment_method: {
+          card: elements.getElement(CardElement),
+        },
+      });
+
+    if (stripeError) {
+      setMessage({ type: "error", message: stripeError.message });
+      setIsLoadingPayment(false);
+    }
+
+    if (paymentIntent) {
+      setIsLoadingPayment(false);
+      setMessage({
+        type: "success",
+        message: "Pagamento avvenuto con successo a breve verrai reindirizzato",
+      });
+      savePayment(paymentIntent.id);
+    }
   };
 
   return (
@@ -301,14 +235,6 @@ const StripeCheckout = ({ userToken, product, iva }) => {
         sx={{ height: "!fit-content", flexDirection: "row" }}
         className={"flex max-w-full items-end justify-end flex-auto mt-auto"}
       >
-        {/* <IconButton
-          onClick={() => showFormSelect(false)}
-          className="mr-2  font-semibold aspect-square text-[32px] md:text[18px] rounded-full "
-          color="buttonGreen"
-          // variant="contained"
-        >
-          <NavigateBeforeRoundedIcon fontSize="large" />
-        </IconButton> */}
         <Box
           sx={{
             display: "flex",

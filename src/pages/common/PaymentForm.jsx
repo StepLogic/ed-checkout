@@ -2,7 +2,7 @@ import React from "react";
 
 import StripeCheckout from "./StripeCheckout.jsx";
 import KlarnaCheckout from "./KlarnaCheckout.jsx";
-const STRIPE_PK = import.meta.env.VITE_STRIPE_PK;
+
 const PaymentForm = ({ iva, paymentType, user, product }) => {
   return (
     <>
@@ -10,9 +10,19 @@ const PaymentForm = ({ iva, paymentType, user, product }) => {
         Effettua il pagamento
       </h1>
       {paymentType === "Stripe" ? (
-        <StripeCheckout product={product} userToken={user?.token} iva={iva} />
+        <StripeCheckout
+          product={product}
+          userToken={user?.token}
+          userInfo={user}
+          iva={iva}
+        />
       ) : (
-        <KlarnaCheckout product={product} user={user?.token} iva={iva} />
+        <KlarnaCheckout
+          product={product}
+          user={user?.token}
+          userInfo={user}
+          iva={iva}
+        />
       )}
     </>
   );
