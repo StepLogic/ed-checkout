@@ -70,10 +70,16 @@ const StripeCheckout = ({ userToken, product, iva, userInfo }) => {
     }),
   });
 
-  const savePayment = async () => {
-    const { error, data } = await Api.post("v1/checkout/create-user", {
+  const savePayment = async (paymentIntentId) => {
+    const { error, data } = await Api.post("v2/checkout/create-user", {
       product: product.token,
-      token: userToken,
+      userData: {
+        nome: userInfo.name,
+        cognome: userInfo.lname,
+        email: userInfo.email,
+        token: userToken,
+      },
+      paymentIntent: paymentIntentId,
       type: "stripe",
     }).catch(function (error) {
       return { error: error.response.data.error };
@@ -113,13 +119,11 @@ const StripeCheckout = ({ userToken, product, iva, userInfo }) => {
       setMessage(false);
     }
 
-    // console.log("result", result); // paymentMethod
-
     let clientSecret;
 
     try {
       const { error: backendError, data } = await Api.post(
-        "v1/checkout/stripe/create-intent",
+        "v2/checkout/stripe/create-intent",
         {
           product: product.token,
           user_token: userToken,
@@ -248,7 +252,7 @@ const StripeCheckout = ({ userToken, product, iva, userInfo }) => {
           </Box>
 
           <LoadingButton
-            type="submit"
+            type="button"
             color="buttonGreen"
             sx={{
               height: "59px",
@@ -258,7 +262,7 @@ const StripeCheckout = ({ userToken, product, iva, userInfo }) => {
             size="large"
             variant="contained"
             disabled={Object.values(formik.errors).length !== 0}
-            loading={isLoadingPayment}
+            loading={false}
             onClick={() => handleSubmit()}
           >
             PAGA

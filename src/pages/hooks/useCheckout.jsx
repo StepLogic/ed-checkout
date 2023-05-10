@@ -7,7 +7,7 @@ export default function useCheckout({ session }) {
   const navigate = useNavigate();
 
   const userData = () => {
-    return Api.post("v1/checkout/start-session", {
+    return Api.post("v2/checkout/start-session", {
       product: productTk,
       user: userTk,
     });
