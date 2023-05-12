@@ -6,12 +6,10 @@ import {
   Radio,
   Checkbox,
   Link,
-  Typography,
 } from "@mui/material";
 import React, { useState } from "react";
 import klarna from "../../assets/img/klarna.svg";
 
-const STRIPE_PK = import.meta.env.VITE_STRIPE_PK;
 const PaymentOption = ({
   paymentType,
   setPaymentType,
@@ -26,7 +24,7 @@ const PaymentOption = ({
       <h1 className=" font-semibold text-center lg:text-start  leading-none text-edu-900 text-[21px] lg:text-3xl 3xl:text-4xl max:text-6xl w-full">
         Scegli il metodo di pagamento
       </h1>
-      {/* <div></div> */}
+
       <Box className="grid grid-cols-1">
         <RadioGroup
           className="grid grid-cols-1 gap-4  h-fit"

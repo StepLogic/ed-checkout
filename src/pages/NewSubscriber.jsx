@@ -6,8 +6,11 @@ import PaymentForm from "./common/PaymentForm.jsx";
 import SideBar from "./common/SideBar.jsx";
 import Content from "./common/Content.jsx";
 import useSteps from "./hooks/useSteps.jsx";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const NewSubscriber = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
   const { data } = useCheckout({ session: 1 });
 
   const product = data?.product;
@@ -19,10 +22,14 @@ const NewSubscriber = () => {
   const [user, setUser] = useState({});
 
   useEffect(() => {
-    if (data?.user) setUser(data?.user);
-  }, [data]);
+    if (data?.user) {
+      setUser(data?.user);
 
-  console.log("user", user);
+      if (data?.user?.paid_initial) {
+        navigate(location.pathname.replace("new-subscriber", "existing-user"));
+      }
+    }
+  }, [data]);
 
   return (
     <>

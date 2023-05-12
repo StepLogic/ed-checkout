@@ -19,7 +19,7 @@ const PaymentForm = ({ iva, paymentType, user, product }) => {
       ) : (
         <KlarnaCheckout
           product={product}
-          user={user?.token}
+          userToken={user?.token}
           userInfo={user}
           iva={iva}
         />

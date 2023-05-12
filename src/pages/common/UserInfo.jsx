@@ -35,8 +35,8 @@ const UserInfo = ({ product, user, next }) => {
   useEffect(() => {
     if (user)
       formik.setValues({
-        nome: user.name,
-        cognome: user.lname,
+        nome: user?.name || user?.nome,
+        cognome: user?.lname || user?.cognome,
         email: user.email,
         indirizzo: "",
         accettoTerms: false,

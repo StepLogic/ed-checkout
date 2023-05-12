@@ -278,7 +278,7 @@ const SideBar = ({
                       <Skeleton />
                     ) : (
                       <>
-                        {price?.no_iva?.integer}
+                        {price?.no_iva?.integer * productQuantity}
                         <Typography component={"em"}>
                           {price?.no_iva?.decimal} €
                         </Typography>
@@ -293,7 +293,7 @@ const SideBar = ({
                       <Skeleton />
                     ) : (
                       <>
-                        {price?.iva?.integer}
+                        {price?.iva?.integer * productQuantity}
                         <Typography component={"em"}>
                           {price?.iva?.decimal} €
                         </Typography>

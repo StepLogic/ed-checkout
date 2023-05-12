@@ -12,7 +12,7 @@ const STRIPE_PK = import.meta.env.VITE_STRIPE_PK;
 import { LoadingButton } from "@mui/lab";
 
 import MessageBox from "@components/MessageBox";
-import { useNavigate } from "react-router";
+import { useNavigate, useLocation } from "react-router";
 
 const cardElementOptions = {
   hidePostalCode: true,
@@ -53,6 +53,9 @@ const StripeCheckout = ({ userToken, product, iva, userInfo }) => {
   const elements = useElements();
   const stripe = useStripe();
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const path = location?.pathname;
 
   const formik = useFormik({
     initialValues: {
@@ -71,26 +74,47 @@ const StripeCheckout = ({ userToken, product, iva, userInfo }) => {
   });
 
   const savePayment = async (paymentIntentId) => {
-    const { error, data } = await Api.post("v2/checkout/create-user", {
-      product: product.token,
-      userData: {
-        nome: userInfo.name,
-        cognome: userInfo.lname,
-        email: userInfo.email,
+    if (path.indexOf("new-subscriber") > -1) {
+      // new-subscriber
+      const { error, data } = await Api.post("v2/checkout/create-user", {
+        product: product.token,
+        userData: {
+          nome: userInfo.name,
+          cognome: userInfo.lname,
+          email: userInfo.email,
+          token: userToken,
+        },
+        paymentIntent: paymentIntentId,
+        type: "stripe",
+      }).catch(function (error) {
+        return { error: error.response.data.error };
+      });
+
+      if (data) {
+        navigate("/thank-you", { replace: true, state: { iva } });
+      }
+
+      if (error) {
+        setMessage({ type: "error", message: error });
+      }
+    } else if (path.indexOf("existing-user") > -1) {
+      // existing-user
+      const { error, data } = await Api.post("v2/checkout/save-payment", {
+        product: product.token,
         token: userToken,
-      },
-      paymentIntent: paymentIntentId,
-      type: "stripe",
-    }).catch(function (error) {
-      return { error: error.response.data.error };
-    });
+        paymentIntent: paymentIntentId,
+        type: "stripe",
+      }).catch(function (error) {
+        return { error: error.response.data.error };
+      });
 
-    if (data) {
-      navigate("/thank-you", { replace: true, state: { iva } });
-    }
+      if (data) {
+        navigate("/thank-you", { replace: true, state: { iva } });
+      }
 
-    if (error) {
-      setMessage({ type: "error", message: error });
+      if (error) {
+        setMessage({ type: "error", message: error });
+      }
     }
   };
   //uncomment during integration
