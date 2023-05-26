@@ -18,16 +18,7 @@ Number.prototype.toDecimalsEuro = function () {
     </div>
   );
 };
-const SideBar = ({
-  onProductQuantityChange,
-  setShowPDF,
-  enableViewProduct,
-  enableDiscount,
-  showCounter = true,
-  enableCounter,
-  isNewSubscriber = false,
-  showPdf = false,
-}) => {
+const SideBar = ({ onProductQuantityChange, setShowPDF, enableViewProduct, enableDiscount, showCounter = true, enableCounter, isNewSubscriber = false, showPdf = false }) => {
   const { data } = useCheckout({ session: 1 });
 
   const product = data?.product;
@@ -98,13 +89,13 @@ const SideBar = ({
     if (!product) return;
 
     const priceData = {
-      no_iva: product?.discount
-        ? product?.original_price_no_iva
-        : product?.no_iva,
-      iva: product?.discount ? product?.original_price_iva : product?.iva,
+      no_iva: product?.original_price_no_iva * productQuantity,
+      iva: product?.original_price_iva * productQuantity,
       discount: product?.discount ? product?.discount : null,
-      price: product?.price,
+      price: productQuantity > 1 ? product?.original_price * productQuantity - product.discount : product?.price,
     };
+
+    console.log({ priceData, productQuantity });
 
     const priceDataFormatted = {
       no_iva: {
@@ -126,7 +117,7 @@ const SideBar = ({
     };
 
     setPrice(priceDataFormatted);
-  }, [product]);
+  }, [product, productQuantity]);
 
   return (
     <Box
@@ -188,9 +179,7 @@ const SideBar = ({
           },
         }}
       >
-        <h1 className="font-semibold leading-none text-white text-[24px] text-center lg:text-start lg:text-3xl 3xl:text-4xl max:text-6xl">
-          Il tuo percorso prevede:
-        </h1>
+        <h1 className="font-semibold leading-none text-white text-[24px] text-center lg:text-start lg:text-3xl 3xl:text-4xl max:text-6xl">Il tuo percorso prevede:</h1>
         <Box
           sx={{
             display: ["grid"],
@@ -216,15 +205,7 @@ const SideBar = ({
                     </li>
                   );
                 })
-              : Array.from({ length: 6 }).map((r, i) => (
-                  <Skeleton
-                    key={"sk-" + i}
-                    variant="rectangular"
-                    width={[200, 400]}
-                    height={24}
-                    component={"li"}
-                  />
-                ))}
+              : Array.from({ length: 6 }).map((r, i) => <Skeleton key={"sk-" + i} variant="rectangular" width={[200, 400]} height={24} component={"li"} />)}
           </Box>
 
           <Button
@@ -278,10 +259,8 @@ const SideBar = ({
                       <Skeleton />
                     ) : (
                       <>
-                        {price?.no_iva?.integer * productQuantity}
-                        <Typography component={"em"}>
-                          {price?.no_iva?.decimal} €
-                        </Typography>
+                        {price?.no_iva?.integer}
+                        <Typography component={"em"}>{price?.no_iva?.decimal} €</Typography>
                       </>
                     )}
                   </b>
@@ -293,10 +272,8 @@ const SideBar = ({
                       <Skeleton />
                     ) : (
                       <>
-                        {price?.iva?.integer * productQuantity}
-                        <Typography component={"em"}>
-                          {price?.iva?.decimal} €
-                        </Typography>
+                        {price?.iva?.integer}
+                        <Typography component={"em"}>{price?.iva?.decimal} €</Typography>
                       </>
                     )}
                   </b>
@@ -310,10 +287,8 @@ const SideBar = ({
                         <Skeleton />
                       ) : (
                         <>
-                          -{price?.iva?.integer}
-                          <Typography component={"em"}>
-                            {price?.iva?.decimal} €
-                          </Typography>
+                          -{price?.discount?.integer}
+                          <Typography component={"em"}>{price?.discount?.decimal} €</Typography>
                         </>
                       )}
                     </b>
@@ -364,26 +339,12 @@ const SideBar = ({
                       },
                     }}
                   >
-                    <input
-                      className={
-                        "mr-auto font-semibold text-2xl text-[#2D224C]"
-                      }
-                      placeholder={"Discount code"}
-                    />
+                    <input className={"mr-auto font-semibold text-2xl text-[#2D224C]"} placeholder={"Discount code"} />
 
-                    <button
-                      onClick={() => setDiscountError((r) => !r)}
-                      className={
-                        "font-semibold active:text-[#B4B4B4] active:border-[#B4B4B4]"
-                      }
-                    >
+                    <button onClick={() => setDiscountError((r) => !r)} className={"font-semibold active:text-[#B4B4B4] active:border-[#B4B4B4]"}>
                       APPLICA
                     </button>
-                    {discountError && enableDiscount && (
-                      <p className="text-[#E90000] h-2 absolute bottom-[13px] !text-[12px] !font-semibold pl-4">
-                        Codice non valido
-                      </p>
-                    )}
+                    {discountError && enableDiscount && <p className="text-[#E90000] h-2 absolute bottom-[13px] !text-[12px] !font-semibold pl-4">Codice non valido</p>}
                   </Box>
                 </div>
               </>
@@ -398,7 +359,7 @@ const SideBar = ({
                     <Skeleton />
                   ) : (
                     <>
-                      € {price?.price?.integer * productQuantity}
+                      € {price?.price?.integer}
                       {","}
                       {price?.price?.decimal}
                     </>
@@ -413,7 +374,7 @@ const SideBar = ({
                     <Skeleton />
                   ) : (
                     <>
-                      € {price?.price?.integer * productQuantity}
+                      € {price?.price?.integer}
                       {","}
                       {price?.price?.decimal}
                     </>
