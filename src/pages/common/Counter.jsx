@@ -4,13 +4,15 @@ import RemoveIcon from "@mui/icons-material/Remove";
 import AddIcon from "@mui/icons-material/Add";
 import CloseIcon from "@mui/icons-material/Close";
 
-const MAX_QUANTITY = 25;
-
-function Counter({ onChange, enableCounter = false, showCounter }) {
+function Counter({ onChange, enableCounter = false, showCounter, enable_quantity = false }) {
   const [value, setValue] = useState(1);
   useEffect(() => {
     onChange && onChange(value);
   }, [value]);
+
+  const MAX_QUANTITY = enable_quantity ? 25 : 1;
+
+  console.log({ enableCounter });
   return (
     <Box
       sx={{
@@ -46,8 +48,8 @@ function Counter({ onChange, enableCounter = false, showCounter }) {
           <Button
             color="primary"
             sx={{
-              pointerEvents: value != MAX_QUANTITY ? "auto" : "none",
-              opacity: value != MAX_QUANTITY ? "100%" : "10%",
+              pointerEvents: value != MAX_QUANTITY && enableCounter ? "auto" : "none",
+              opacity: value != MAX_QUANTITY && enableCounter ? "100%" : "10%",
             }}
             variant="outlined"
             className={"rounded-[9px] !min-w-[40px] !h-[40px] !border-[3px] !border-[#8065C9] border-solid"}

@@ -26,7 +26,6 @@ const SideBar = ({ onProductQuantityChange, setShowPDF, enableViewProduct, enabl
   const [width] = useWindowSize();
   const [price, setPrice] = React.useState(null);
   const [productQuantity, setProductQuantity] = React.useState(1);
-
   const [discountError, setDiscountError] = React.useState(false);
   const [iva, setIva] = React.useState(false);
 
@@ -245,6 +244,7 @@ const SideBar = ({ onProductQuantityChange, setShowPDF, enableViewProduct, enabl
             {!isNewSubscriber && (
               <>
                 <Counter
+                  enable_quantity={product?.enable_quantity}
                   showCounter={showCounter}
                   enableCounter={enableCounter}
                   onChange={(v) => {
