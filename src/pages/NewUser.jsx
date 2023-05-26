@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import useCheckout from "./hooks/useCheckout.jsx";
 import IVAForm from "./common/IVAForm.jsx";
 import UserInfo from "./common/UserInfo.jsx";
@@ -7,9 +7,12 @@ import SideBar from "./common/SideBar.jsx";
 import Content from "./common/Content.jsx";
 import useSteps from "./hooks/useSteps.jsx";
 import PaymentOption from "./common/PaymentOptions.jsx";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const NewSubscriber = () => {
   const { data } = useCheckout({ session: 1 });
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const user = data?.user;
   const product = data?.product;
@@ -20,16 +23,17 @@ const NewSubscriber = () => {
   const [showPDF, setShowPDF] = React.useState(false);
   const [productQuantity, setProductQuantity] = React.useState(1);
 
+  useEffect(() => {
+    if (user) {
+      if (user?.paid_initial) {
+        navigate(location.pathname.replace("new-user", "existing-user"));
+      }
+    }
+  }, [user]);
+
   return (
     <>
-      <SideBar
-        enableViewProduct={true}
-        setShowPDF={setShowPDF}
-        showPdf={showPDF}
-        enableDiscount={step === 0}
-        enableCounter={step === 0}
-        onProductQuantityChange={setProductQuantity}
-      />
+      <SideBar enableViewProduct={true} setShowPDF={setShowPDF} showPdf={showPDF} enableDiscount={step === 0} enableCounter={step === 0} onProductQuantityChange={setProductQuantity} />
       <Content showPDF={showPDF}>
         <>
           <>
@@ -52,14 +56,7 @@ const NewSubscriber = () => {
                 paymentType={paymentType}
               />
             )}
-            {step == 3 && (
-              <PaymentForm
-                iva={iva}
-                product={product}
-                user={user}
-                paymentType={"Stripe"}
-              />
-            )}
+            {step == 3 && <PaymentForm iva={iva} product={product} user={user} paymentType={"Stripe"} />}
           </>
         </>
       </Content>

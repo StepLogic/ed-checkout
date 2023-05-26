@@ -1,6 +1,6 @@
 import { TextField } from "@components/textfield";
 import NearMeIcon from "@mui/icons-material/NearMe";
-import { Box, FormControl, FormHelperText } from "@mui/material";
+import { Box, CircularProgress, FormControl, FormHelperText } from "@mui/material";
 import MuiAlert from "@mui/material/Alert";
 import Autocomplete from "@mui/material/Autocomplete";
 import InputAdornment from "@mui/material/InputAdornment";
@@ -15,13 +15,7 @@ const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-export default function AddressField({
-  handleChange,
-  value,
-  error,
-  name,
-  handleBlur,
-}) {
+export default function AddressField({ handleChange, value, error, name, handleBlur }) {
   const [openSnackbar, setOpenSnackbar] = React.useState(false);
   const [addressLoading, setAddressLoading] = React.useState(false);
   const [autoComplete, setAutoComplete] = React.useState({ status: false });
@@ -29,9 +23,7 @@ export default function AddressField({
 
   const autoCompleteAddressHandler = (v) => {
     axios
-      .get(
-        `https://api.tomtom.com/search/2/geocode/${v}.json?key=${TOMTOM_KEY}&language=it-IT&typeahead=true&limit=10&type=Address&lat=41.9102415&lon=12.395915&radius=100000000`
-      )
+      .get(`https://api.tomtom.com/search/2/geocode/${v}.json?key=${TOMTOM_KEY}&language=it-IT&typeahead=true&limit=10&type=Address&lat=41.9102415&lon=12.395915&radius=100000000`)
       .then((response) => {
         console.log("response", v, response);
         setAutoComplete({
@@ -43,6 +35,7 @@ export default function AddressField({
   };
 
   const handleAddressChange = (e) => {
+    if (!e?.target?.value) return;
     handleChange("indirizzo", e.target.value);
     setInputValue(e.target.value);
   };
@@ -63,17 +56,11 @@ export default function AddressField({
         axios
           .get(url)
           .then((response) => {
-            console.log("response", position, response);
             setAutoComplete({
               status: true,
               response: response.data.results,
             });
-            const l = response?.data?.results?.map(
-              (r) =>
-                `${r?.address.freeformAddress}${
-                  r?.address?.postalCode ? " , " + r?.address?.postalCode : ""
-                }`
-            );
+            const l = response?.data?.results?.map((r) => `${r?.address.freeformAddress}${r?.address?.postalCode ? " , " + r?.address?.postalCode : ""}`);
 
             if (l.length > 0) {
               //first index has highest score ,hence the closest location
@@ -116,17 +103,8 @@ export default function AddressField({
 
   return (
     <>
-      <Snackbar
-        open={openSnackbar}
-        autoHideDuration={2000}
-        onClose={() => setOpenSnackbar(false)}
-        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-      >
-        <Alert
-          onClose={() => setOpenSnackbar(false)}
-          severity="primary"
-          sx={{ width: "100%" }}
-        >
+      <Snackbar open={openSnackbar} autoHideDuration={2000} onClose={() => setOpenSnackbar(false)} anchorOrigin={{ vertical: "bottom", horizontal: "right" }}>
+        <Alert onClose={() => setOpenSnackbar(false)} severity="primary" sx={{ width: "100%" }}>
           No Address Found
         </Alert>
       </Snackbar>
@@ -150,18 +128,7 @@ export default function AddressField({
           classes={{
             clearIndicator: "!text-[#8065C9] h",
           }}
-          options={
-            autoComplete.response?.map(
-              (r) =>
-                `${r?.address.freeformAddress.split(",")[0]}${
-                  r?.address?.municipality
-                    ? " , " + r?.address?.municipality
-                    : ""
-                }${
-                  r?.address?.postalCode ? " , " + r?.address?.postalCode : ""
-                }`
-            ) ?? []
-          }
+          options={autoComplete.response?.map((r) => `${r?.address.freeformAddress.split(",")[0]}${r?.address?.municipality ? " , " + r?.address?.municipality : ""}${r?.address?.postalCode ? " , " + r?.address?.postalCode : ""}`) ?? []}
           renderInput={(params) => (
             <TextField
               {...params}
@@ -207,11 +174,7 @@ export default function AddressField({
                       {addressLoading ? (
                         <CircularProgress className="w-[1.5rem] h-[1.5rem]" />
                       ) : (
-                        <button
-                          type="button"
-                          className="active:text-[#B4B4B4] active:border-[#B4B4B4]"
-                          onClick={() => geoLocate()}
-                        >
+                        <button type="button" className="active:text-[#B4B4B4] active:border-[#B4B4B4]" onClick={() => geoLocate()}>
                           <NearMeIcon
                             sx={{
                               color: "#886FCC",
