@@ -4,7 +4,7 @@ import React, { useContext } from "react";
 import logoEdu from "../assets/img/logoEdu.svg";
 import logoEduBianco from "../assets/img/logoEduBianco.svg";
 
-import AuthContext from "../context/Authcontext";
+// import AuthContext from "../context/Authcontext";
 
 const text = { italiano: "Hai bisogno di aiuto?", english: "Need help?" };
 const classMenu = {
@@ -39,7 +39,7 @@ const classMenu = {
   },
 };
 const Header = (props) => {
-  const { setLanguage, language } = useContext(AuthContext);
+  const [language, setLanguage] = React.useState("english");
 
   const selectChange = (event) => {
     setLanguage(event.target.value);
@@ -58,16 +58,10 @@ const Header = (props) => {
         <Grid container justifyContent="space-between" alignItems="center">
           {props.logo && (
             <Grid item md={4}>
-              <div className="logo">
-                {props.white ? (
-                  <img src={logoEduBianco} alt="Logo Edusogno" />
-                ) : (
-                  <img src={logoEdu} alt="Logo Edusogno" />
-                )}
-              </div>
+              <div className="logo">{props.white ? <img src={logoEduBianco} alt="Logo Edusogno" /> : <img src={logoEdu} alt="Logo Edusogno" />}</div>
             </Grid>
           )}
-          {props.select && (
+          {/* {props.select && (
             <Grid item>
               <Select
                 className="underline"
@@ -138,24 +132,16 @@ const Header = (props) => {
                 </MenuItem>
               </Select>
             </Grid>
-          )}
+          )} */}
           <Grid item md={4}>
             <div className="relative ml-auto w-fit help 3xl:text-2xl max:text-4xl z-40">
-              <a
-                className="no-underline"
-                onClick={() =>
-                  openInNewTab("https://api.whatsapp.com/send?phone=3715467005")
-                }
-              >
+              <a className="no-underline" onClick={() => openInNewTab("https://api.whatsapp.com/send?phone=3715467005")}>
                 {props?.notDefault ? (
                   <>{props.Value()}</>
                 ) : (
                   <>
                     {props.ita ? text["italiano"] : text[language]}
-                    <WhatsApp
-                      className="pb-1"
-                      fontSize={sizeXXXL ? "large" : "small"}
-                    />
+                    <WhatsApp className="pb-1" fontSize={sizeXXXL ? "large" : "small"} />
                   </>
                 )}
               </a>
