@@ -25,7 +25,6 @@ export default function AddressField({ handleChange, value, error, name, handleB
     axios
       .get(`https://api.tomtom.com/search/2/geocode/${v}.json?key=${TOMTOM_KEY}&language=it-IT&typeahead=true&limit=10&type=Address&lat=41.9102415&lon=12.395915&radius=100000000`)
       .then((response) => {
-        console.log("response", v, response);
         setAutoComplete({
           status: true,
           response: response.data.results,

@@ -96,8 +96,6 @@ const UserInfo = ({ product, user, next }) => {
     formik.validateForm();
   }, []);
 
-  // console.log(formik.values);
-
   return (
     <>
       <h1 className=" font-semibold text-center lg:text-start  leading-none text-edu-900 text-[21px] lg:text-3xl 3xl:text-4xl max:text-6xl w-full">Finalizza la tua iscrizione</h1>

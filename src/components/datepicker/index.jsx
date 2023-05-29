@@ -2,11 +2,7 @@ import "moment/dist/locale/it";
 import "moment/dist/locale/en-gb";
 
 import { FormGroup, FormLabel } from "@mui/material";
-import {
-  DesktopDatePicker,
-  itIT,
-  LocalizationProvider,
-} from "@mui/x-date-pickers";
+import { DesktopDatePicker, itIT, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 import cn from "classnames";
 import moment from "moment";
@@ -24,7 +20,6 @@ export const DatePicker = (props) => {
   const [locale, setLocale] = useState("en-gb");
   // language === "IT" &&
   useEffect(() => {
-    console.log("it", isItalian);
     if (isItalian) {
       moment.locale("it");
       setLocale("it");
@@ -37,13 +32,7 @@ export const DatePicker = (props) => {
 
   return (
     <>
-      <LocalizationProvider
-        adapterLocale={locale}
-        localeText={
-          itIT.components.MuiLocalizationProvider.defaultProps.localeText
-        }
-        dateAdapter={AdapterMoment}
-      >
+      <LocalizationProvider adapterLocale={locale} localeText={itIT.components.MuiLocalizationProvider.defaultProps.localeText} dateAdapter={AdapterMoment}>
         {/* <DP
           {...rest}
           disableFuture
@@ -103,9 +92,7 @@ export const DatePicker = (props) => {
               _setValue(newValue);
               if (newValue !== null) onChange && onChange(newValue);
             }}
-            renderInput={(inputProps) => (
-              <TextField {...rest} {...inputProps} />
-            )}
+            renderInput={(inputProps) => <TextField {...rest} {...inputProps} />}
           />
         </FormGroup>
       </LocalizationProvider>

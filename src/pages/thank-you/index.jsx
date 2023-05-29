@@ -6,7 +6,6 @@ import Bottom from "./Bottom.jsx";
 import { useNavigate, useLocation } from "react-router-dom";
 const ThankYou = () => {
   const location = useLocation();
-  console.log("location", location);
   return (
     <Box
       sx={{
@@ -26,9 +25,7 @@ const ThankYou = () => {
         notDefault={true}
         Value={() => (
           <>
-            <span className="text-xs font-regular md:text-base">
-              Serve aiuto?
-            </span>
+            <span className="text-xs font-regular md:text-base">Serve aiuto?</span>
             <WhatsApp className="pb-1" fontSize={"small"} />
           </>
         )}
@@ -50,15 +47,8 @@ Siamo davvero felici che inizierai un percorso con noi!`
           <br className="lg:hidden" /> Ci vogliono solo
           <b className="text-[#D4145A]"> 2 minuti</b>
         </p>
-        <h2 className=" text-[24px] lg:text-[32px] text-[#2D224C] font-bold mt-[4vh]">
-          Vogliamo iniziare?
-        </h2>
-        <Button
-          color={"button"}
-          variant="contained"
-          size="large"
-          className="w-[70%]"
-        >
+        <h2 className=" text-[24px] lg:text-[32px] text-[#2D224C] font-bold mt-[4vh]">Vogliamo iniziare?</h2>
+        <Button color={"button"} variant="contained" size="large" className="w-[70%]">
           Let's Go
         </Button>
         <Box
@@ -91,9 +81,7 @@ Siamo davvero felici che inizierai un percorso con noi!`
             },
           }}
         >
-          <p className="text-[#8065C9] text-[12px] leading-[100%] lg:text-[18px] font-medium px-4">
-            Questo step è fondamentale per finalizzare la tua registrazione.
-          </p>
+          <p className="text-[#8065C9] text-[12px] leading-[100%] lg:text-[18px] font-medium px-4">Questo step è fondamentale per finalizzare la tua registrazione.</p>
         </Box>
       </div>
       {/* <div className="flex w-full relative">

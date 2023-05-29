@@ -5,6 +5,10 @@ import TopNav from "./TopNav.jsx";
 import useCheckout from "../hooks/useCheckout.jsx";
 import Counter from "./Counter";
 import Skeleton from "@mui/material/Skeleton";
+import Api from "@api/Api";
+import { LoadingButton } from "@mui/lab";
+import { queryClient } from "../../App.jsx";
+
 Number.prototype.toDecimalsEuro = function () {
   let parsed = parseFloat(this / 100)
     .toFixed(2)
@@ -19,7 +23,7 @@ Number.prototype.toDecimalsEuro = function () {
   );
 };
 const SideBar = ({ onProductQuantityChange, setShowPDF, enableViewProduct, enableDiscount, showCounter = true, enableCounter, isNewSubscriber = false, showPdf = false }) => {
-  const { data } = useCheckout({ session: 1 });
+  const { data, setData } = useCheckout({ session: 1 });
 
   const product = data?.product;
 
@@ -27,7 +31,51 @@ const SideBar = ({ onProductQuantityChange, setShowPDF, enableViewProduct, enabl
   const [price, setPrice] = React.useState(null);
   const [productQuantity, setProductQuantity] = React.useState(1);
   const [discountError, setDiscountError] = React.useState(false);
+  const discountInputRef = React.useRef(null);
+  const [isLoadingDiscount, setIsLoadingDiscount] = React.useState(false);
   const [iva, setIva] = React.useState(false);
+
+  const getDiscount = (code) => {
+    return Api.post("v2/checkout/get-discount", {
+      product: data?.product?.token,
+      user: data?.user?.token,
+      discount_code: code,
+    });
+  };
+
+  const validateDiscountCode = async () => {
+    let code = discountInputRef.current.value;
+    code = code.toUpperCase();
+
+    if (!code) return false;
+
+    setIsLoadingDiscount(true);
+
+    const { data } = await getDiscount(code);
+
+    if (data?.product) {
+      setDiscountError(false);
+
+      setData((prev) => {
+        let newData = {
+          ...prev,
+          product: {
+            ...prev.product,
+            ...data.product,
+            discount_code: code,
+          },
+        };
+
+        queryClient.setQueryData(["checkout", data?.product?.token], newData);
+
+        return newData;
+      });
+    } else {
+      setDiscountError(true);
+    }
+
+    setIsLoadingDiscount(false);
+  };
 
   const bulletTextStyle = {
     display: "flex",
@@ -93,8 +141,6 @@ const SideBar = ({ onProductQuantityChange, setShowPDF, enableViewProduct, enabl
       discount: product?.discount ? product?.discount : null,
       price: productQuantity > 1 ? product?.original_price * productQuantity - product.discount : product?.price,
     };
-
-    console.log({ priceData, productQuantity });
 
     const priceDataFormatted = {
       no_iva: {
@@ -339,11 +385,11 @@ const SideBar = ({ onProductQuantityChange, setShowPDF, enableViewProduct, enabl
                       },
                     }}
                   >
-                    <input className={"mr-auto font-semibold text-2xl text-[#2D224C]"} placeholder={"Discount code"} />
+                    <input ref={discountInputRef} className={"mr-auto font-semibold text-2xl text-[#2D224C] uppercase"} defaultValue={data?.product?.discount_code ?? ""} placeholder={"Discount code"} />
 
-                    <button onClick={() => setDiscountError((r) => !r)} className={"font-semibold active:text-[#B4B4B4] active:border-[#B4B4B4]"}>
+                    <LoadingButton loading={isLoadingDiscount} onClick={() => validateDiscountCode()} className={"font-semibold !text-[#2D224C] active:text-[#B4B4B4] active:border-[#B4B4B4]"}>
                       APPLICA
-                    </button>
+                    </LoadingButton>
                     {discountError && enableDiscount && <p className="text-[#E90000] h-2 absolute bottom-[13px] !text-[12px] !font-semibold pl-4">Codice non valido</p>}
                   </Box>
                 </div>
@@ -368,7 +414,7 @@ const SideBar = ({ onProductQuantityChange, setShowPDF, enableViewProduct, enabl
               </Box>
             ) : (
               <Box sx={priceItemStyle}>
-                <p className="ml-4">Totale</p>
+                <p>Totale</p>
                 <Typography component={"b"} sx={{}} className="!text-[40px]">
                   {!price?.price ? (
                     <Skeleton />

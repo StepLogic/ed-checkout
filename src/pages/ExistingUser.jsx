@@ -69,21 +69,14 @@ const ExistingUser = () => {
                 setUser((prev) => {
                   return {
                     ...prev,
-                    iva: values,
+                    vat: values,
                   };
                 });
                 goTo(2);
               }}
             />
           )}
-          {step == 2 && (
-            <PaymentForm
-              iva={iva}
-              product={product}
-              user={user}
-              paymentType={paymentType}
-            />
-          )}
+          {step == 2 && <PaymentForm iva={iva} product={product} user={user} paymentType={paymentType} />}
         </>
       </Content>
     </>

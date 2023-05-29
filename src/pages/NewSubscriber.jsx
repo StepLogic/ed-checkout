@@ -62,7 +62,7 @@ const NewSubscriber = () => {
                   setUser((prev) => {
                     return {
                       ...prev,
-                      iva: values,
+                      vat: values,
                     };
                   });
                   goTo(2);

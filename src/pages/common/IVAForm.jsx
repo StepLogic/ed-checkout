@@ -9,21 +9,21 @@ import * as Yup from "yup";
 const IVAForm = (props) => {
   const formik = useFormik({
     initialValues: {
-      denominazioneERagioneSociale: "",
+      denominazioneEragioneSociale: "",
       partitaIVA: "",
-      codicDestinatario: "",
+      codiceDestinatario: "",
       indirizzo: "",
-      PECDesitinatatio: "",
+      PECDesitinatario: "",
     },
-    isInitialValid: true,
+
     validateOnChange: true,
     validateOnMount: true,
     validationSchema: Yup.object({
-      denominazioneERagioneSociale: Yup.string().required("Campo richiesto"),
+      denominazioneEragioneSociale: Yup.string().required("Campo richiesto"),
       partitaIVA: Yup.string().required("Campo richiesto"),
-      codicDestinatario: Yup.string().required("Campo richiesto"),
+      codiceDestinatario: Yup.string().required("Campo richiesto"),
       indirizzo: Yup.string().required("Campo richiesto").nullable(),
-      PECDesitinatatio: Yup.string().required("Campo richiesto"),
+      PECDesitinatario: Yup.string().required("Campo richiesto"),
     }),
   });
 
@@ -70,66 +70,12 @@ const IVAForm = (props) => {
           }}
           className="flex flex-col gap-8"
         >
-          <TextField
-            placeholder="Denominazione e Ragione Sociale"
-            name="denominazioneERagioneSociale"
-            value={formik.values.denominazioneERagioneSociale}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            error={
-              formik.touched.denominazioneERagioneSociale &&
-              formik.errors.denominazioneERagioneSociale
-            }
-            helperText={
-              formik.touched.denominazioneERagioneSociale &&
-              formik.errors.denominazioneERagioneSociale
-            }
-          />
-          <TextField
-            placeholder="Partita IVA"
-            name="partitaIVA"
-            value={formik.values.partitaIVA}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            error={formik.touched.partitaIVA && formik.errors.partitaIVA}
-            helperText={formik.touched.partitaIVA && formik.errors.partitaIVA}
-          />
-          <TextField
-            placeholder="Codice Destinatario"
-            value={formik.values.codicDestinatario}
-            name="codicDestinatario"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            error={
-              formik.touched.codicDestinatario &&
-              formik.errors.codicDestinatario
-            }
-            helperText={
-              formik.touched.codicDestinatario &&
-              formik.errors.codicDestinatario
-            }
-          />
+          <TextField placeholder="Denominazione e Ragione Sociale" name="denominazioneEragioneSociale" value={formik.values.denominazioneEragioneSociale} onChange={formik.handleChange} onBlur={formik.handleBlur} error={formik.touched.denominazioneERagioneSociale && formik.errors.denominazioneERagioneSociale} helperText={formik.touched.denominazioneERagioneSociale && formik.errors.denominazioneERagioneSociale} />
+          <TextField placeholder="Partita IVA" name="partitaIVA" value={formik.values.partitaIVA} onChange={formik.handleChange} onBlur={formik.handleBlur} error={formik.touched.partitaIVA && formik.errors.partitaIVA} helperText={formik.touched.partitaIVA && formik.errors.partitaIVA} />
+          <TextField placeholder="Codice Destinatario" value={formik.values.codiceDestinatario} name="codiceDestinatario" onChange={formik.handleChange} onBlur={formik.handleBlur} error={formik.touched.codicDestinatario && formik.errors.codicDestinatario} helperText={formik.touched.codicDestinatario && formik.errors.codicDestinatario} />
 
-          <AddressField
-            handleChange={formik.setFieldValue}
-            name="indirizzo"
-            handleBlur={formik.handleBlur}
-            value={formik.values.indirizzo}
-            error={formik.touched.indirizzo && formik.errors.indirizzo}
-          />
-          <TextField
-            placeholder="PEC destinatario"
-            name="PECDesitinatatio"
-            value={formik.values.PECDesitinatatio}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            error={
-              formik.touched.PECDesitinatatio && formik.errors.PECDesitinatatio
-            }
-            helperText={
-              formik.touched.PECDesitinatatio && formik.errors.PECDesitinatatio
-            }
-          />
+          <AddressField handleChange={formik.setFieldValue} name="indirizzo" handleBlur={formik.handleBlur} value={formik.values.indirizzo} error={formik.touched.indirizzo && formik.errors.indirizzo} />
+          <TextField placeholder="PEC destinatario" name="PECDesitinatario" value={formik.values.PECDesitinatario} onChange={formik.handleChange} onBlur={formik.handleBlur} error={formik.touched.PECDesitinatatio && formik.errors.PECDesitinatatio} helperText={formik.touched.PECDesitinatatio && formik.errors.PECDesitinatatio} />
         </Box>
       </Box>
 

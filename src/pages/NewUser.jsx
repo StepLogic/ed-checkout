@@ -13,8 +13,8 @@ const NewSubscriber = () => {
   const { data } = useCheckout({ session: 1 });
   const navigate = useNavigate();
   const location = useLocation();
+  const [user, setUser] = React.useState({});
 
-  const user = data?.user;
   const product = data?.product;
 
   const { step, goBack, goTo } = useSteps();
@@ -40,7 +40,16 @@ const NewSubscriber = () => {
             {step == 0 && (
               <UserInfo
                 product={product}
-                next={(v) => {
+                next={(v, values) => {
+                  setUser((prev) => {
+                    return {
+                      ...prev,
+                      name: values.nome,
+                      lname: values.cognome,
+                      email: values.email,
+                      address: values.indirizzo,
+                    };
+                  });
                   goTo(v ? 1 : 2);
                   setIva(v);
                 }}

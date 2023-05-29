@@ -5,6 +5,7 @@ import "./index.css";
 
 import { LinearProgress, ThemeProvider } from "@mui/material";
 import { QueryClientProvider, QueryClient } from "react-query";
+import { ReactQueryDevtools } from "react-query/devtools";
 
 import LayoutPage from "./pages/common/LayoutPage.jsx";
 // import ExistingSubscriber from "./pages/ExistingSubscriber.jsx";
@@ -27,7 +28,7 @@ const queryDefaultOptions = {
   },
 };
 
-const queryClient = new QueryClient(queryDefaultOptions);
+export const queryClient = new QueryClient(queryDefaultOptions);
 
 const App = () => {
   return (
@@ -62,6 +63,7 @@ const App = () => {
           </Routes>
         </ThemeProvider>
       </Suspense>
+      <ReactQueryDevtools />
     </QueryClientProvider>
   );
 };

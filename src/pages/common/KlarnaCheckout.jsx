@@ -5,6 +5,7 @@ import MessageBox from "@components/MessageBox";
 import { useNavigate } from "react-router";
 import { LoadingButton } from "@mui/lab";
 import moment from "moment";
+import useCheckout from "../hooks/useCheckout";
 
 const KlarnaCheckout = ({ product, userToken, iva, userInfo }) => {
   const [message, setMessage] = React.useState(false);
@@ -12,13 +13,12 @@ const KlarnaCheckout = ({ product, userToken, iva, userInfo }) => {
   const [error, setError] = React.useState(false);
   const [authorizing, setAuthorizing] = React.useState(false);
   const navigate = useNavigate();
+  const { data: checkoutData } = useCheckout({ session: 1 });
 
   const quantity = userInfo?.quantity ?? 1;
 
   const priceData = {
-    no_iva: product?.discount
-      ? product?.original_price_no_iva
-      : product?.no_iva,
+    no_iva: product?.discount ? product?.original_price_no_iva : product?.no_iva,
     iva: product?.discount ? product?.original_price_iva : product?.iva,
     discount: product?.discount ? product?.discount : 0,
     price: product?.price,
@@ -30,7 +30,7 @@ const KlarnaCheckout = ({ product, userToken, iva, userInfo }) => {
     purchase_currency: "EUR",
     locale: "it-IT",
     order_amount: priceData.price * quantity,
-    order_tax_amount: priceData.iva * quantity,
+    order_tax_amount: 0,
     order_lines: [
       {
         type: "digital",
@@ -38,13 +38,12 @@ const KlarnaCheckout = ({ product, userToken, iva, userInfo }) => {
         name: "Edusogno Academy",
         quantity: quantity,
         unit_price: priceData.price,
-        tax_rate: 2200,
+        tax_rate: 0,
         total_amount: priceData.price * quantity,
-        total_discount_amount: priceData.discount * quantity,
-        total_tax_amount: (priceData.price * quantity) - (priceData.price * quantity) * 10000 / (10000 + 2200),
+        total_discount_amount: 0,
+        total_tax_amount: 0,
         product_url: "https://www.edusogno.com/",
-        image_url:
-          "https://edusogno.com/wp-content/uploads/2021/02/website-image-squared.png",
+        image_url: "https://edusogno.com/wp-content/uploads/2021/02/website-image-squared.png",
       },
     ],
   };
@@ -65,24 +64,21 @@ const KlarnaCheckout = ({ product, userToken, iva, userInfo }) => {
         if (res.approved == true) {
           var auth = res.authorization_token;
 
-          const { error, data } = await Api.post(
-            "v2/checkout/klarna/create-order",
-            {
-              product: product.token,
-              auth,
-              token: userToken,
-              user: userInfo,
-              post,
-            }
-          ).catch(function (error) {
+          const { error, data } = await Api.post("v2/checkout/klarna/create-order", {
+            product: product.token,
+            auth,
+            token: userToken,
+            user: userInfo,
+            post,
+            discount_code: checkoutData?.product?.discount_code,
+          }).catch(function (error) {
             return { error: error.response.data.error };
           });
 
           if (data?.success) {
             setMessage({
               type: "success",
-              message:
-                "Pagamento avvenuto con successo a breve verrai reindirizzato",
+              message: "Pagamento avvenuto con successo a breve verrai reindirizzato",
             });
             setAuthorizing(false);
             navigate("/thank-you", { replace: true, state: { iva } });
@@ -116,6 +112,7 @@ const KlarnaCheckout = ({ product, userToken, iva, userInfo }) => {
       product: product.token,
       user_token: userToken,
       post,
+      discount_code: checkoutData?.product?.discount_code,
     }).catch(function (error) {
       return { error: error.response.data.error };
     });
@@ -138,26 +135,15 @@ const KlarnaCheckout = ({ product, userToken, iva, userInfo }) => {
           justifyContent: "start",
         }}
       >
-        <div id="klarna_container">
-          {isLoadingCheckout ? <CircularProgress /> : null}
-        </div>
+        <div id="klarna_container">{isLoadingCheckout ? <CircularProgress /> : null}</div>
       </Box>
       <Box className="flex flex-row mt-auto w-full">
         <Box className=" !h-fit w-full mt-auto flex items-center flex-row">
-          <LoadingButton
-            loading={false}
-            color="buttonGreen"
-            variant="contained"
-            sx={{ mt: 0, width: "100%", height: "59px" }}
-            size="large"
-            onClick={() => authorizePayment()}
-          >
+          <LoadingButton loading={false} color="buttonGreen" variant="contained" sx={{ mt: 0, width: "100%", height: "59px" }} size="large" onClick={() => authorizePayment()}>
             Paga
           </LoadingButton>
         </Box>
-        {message ? (
-          <MessageBox type={message.type} message={message.message} />
-        ) : null}
+        {message ? <MessageBox type={message.type} message={message.message} /> : null}
       </Box>
     </div>
   );

@@ -12,7 +12,6 @@ function Counter({ onChange, enableCounter = false, showCounter, enable_quantity
 
   const MAX_QUANTITY = enable_quantity ? 25 : 1;
 
-  console.log({ enableCounter });
   return (
     <Box
       sx={{

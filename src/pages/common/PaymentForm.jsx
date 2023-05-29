@@ -6,24 +6,8 @@ import KlarnaCheckout from "./KlarnaCheckout.jsx";
 const PaymentForm = ({ iva, paymentType, user, product }) => {
   return (
     <>
-      <h1 className=" font-semibold text-center lg:text-start  leading-none text-edu-900 text-[24px] lg:text-3xl 3xl:text-4xl max:text-6xl w-full">
-        Effettua il pagamento
-      </h1>
-      {paymentType === "Stripe" ? (
-        <StripeCheckout
-          product={product}
-          userToken={user?.token}
-          userInfo={user}
-          iva={iva}
-        />
-      ) : (
-        <KlarnaCheckout
-          product={product}
-          userToken={user?.token}
-          userInfo={user}
-          iva={iva}
-        />
-      )}
+      <h1 className=" font-semibold text-center lg:text-start  leading-none text-edu-900 text-[24px] lg:text-3xl 3xl:text-4xl max:text-6xl w-full">Effettua il pagamento</h1>
+      {paymentType === "Stripe" ? <StripeCheckout product={product} userToken={user?.token} userInfo={user} iva={iva} /> : <KlarnaCheckout product={product} userToken={user?.token} userInfo={user} iva={iva} />}
     </>
   );
 };

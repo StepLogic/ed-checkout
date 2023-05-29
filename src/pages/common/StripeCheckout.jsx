@@ -13,6 +13,7 @@ import { LoadingButton } from "@mui/lab";
 
 import MessageBox from "@components/MessageBox";
 import { useNavigate, useLocation } from "react-router";
+import useCheckout from "../hooks/useCheckout";
 
 const cardElementOptions = {
   hidePostalCode: true,
@@ -48,6 +49,7 @@ const StripeCheckout = ({ userToken, product, iva, userInfo }) => {
   const stripe = useStripe();
   const navigate = useNavigate();
   const location = useLocation();
+  const { data: checkoutData } = useCheckout({ session: 1 });
 
   const path = location?.pathname;
 
@@ -68,7 +70,7 @@ const StripeCheckout = ({ userToken, product, iva, userInfo }) => {
   });
 
   const savePayment = async (paymentIntentId) => {
-    if (path.indexOf("new-subscriber") > -1) {
+    if (path.indexOf("new-subscriber") > -1 || path.indexOf("new-user") > -1) {
       // new-subscriber
       const { error, data } = await Api.post("v2/checkout/create-user", {
         product: product.token,
@@ -78,6 +80,7 @@ const StripeCheckout = ({ userToken, product, iva, userInfo }) => {
           email: userInfo.email,
           token: userToken,
         },
+        discount_code: checkoutData?.product?.discount_code,
         paymentIntent: paymentIntentId,
         type: "stripe",
       }).catch(function (error) {
@@ -85,7 +88,7 @@ const StripeCheckout = ({ userToken, product, iva, userInfo }) => {
       });
 
       if (data) {
-        navigate("/thank-you", { replace: true, state: { iva } });
+        navigate("/thank-you", { replace: true, state: { iva, existing_user: false } });
       }
 
       if (error) {
@@ -98,12 +101,13 @@ const StripeCheckout = ({ userToken, product, iva, userInfo }) => {
         token: userToken,
         paymentIntent: paymentIntentId,
         type: "stripe",
+        discount_code: checkoutData?.product?.discount_code,
       }).catch(function (error) {
         return { error: error.response.data.error };
       });
 
       if (data) {
-        navigate("/thank-you", { replace: true, state: { iva } });
+        navigate("/thank-you", { replace: true, state: { iva, existing_user: true } });
       }
 
       if (error) {
@@ -149,6 +153,7 @@ const StripeCheckout = ({ userToken, product, iva, userInfo }) => {
           cognome_titolare_carta: formik.values.cognome,
           email_titolare_carta: formik.values.email,
         },
+        discount_code: checkoutData?.product?.discount_code,
       });
 
       clientSecret = data.clientSecret;
@@ -174,8 +179,6 @@ const StripeCheckout = ({ userToken, product, iva, userInfo }) => {
       savePayment(paymentIntent.id);
     }
   };
-
-  console.log({ userInfo });
 
   return (
     <>
