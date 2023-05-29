@@ -51,7 +51,9 @@ const SideBar = ({ onProductQuantityChange, setShowPDF, enableViewProduct, enabl
 
     setIsLoadingDiscount(true);
 
-    const { data } = await getDiscount(code);
+    const { data } = await getDiscount(code).catch((e) => {
+      return { data: null };
+    });
 
     if (data?.product) {
       setDiscountError(false);

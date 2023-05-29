@@ -13,6 +13,7 @@ const KlarnaCheckout = ({ product, userToken, iva, userInfo }) => {
   const [error, setError] = React.useState(false);
   const [authorizing, setAuthorizing] = React.useState(false);
   const navigate = useNavigate();
+  const [isProcessingPayment, setIsProcessingPayment] = React.useState(false);
   const { data: checkoutData } = useCheckout({ session: 1 });
 
   const quantity = userInfo?.quantity ?? 1;
@@ -52,6 +53,7 @@ const KlarnaCheckout = ({ product, userToken, iva, userInfo }) => {
     setError(false);
     setMessage(false);
     setAuthorizing(true);
+    setIsProcessingPayment(true);
 
     Klarna.Payments.authorize(
       {
@@ -81,9 +83,10 @@ const KlarnaCheckout = ({ product, userToken, iva, userInfo }) => {
               message: "Pagamento avvenuto con successo a breve verrai reindirizzato",
             });
             setAuthorizing(false);
-            navigate("/thank-you", { replace: true, state: { iva } });
+            navigate("/thank-you", { replace: true, state: { iva, existing_user: false } });
           }
         } else {
+          setIsProcessingPayment(false);
           setAuthorizing(false);
           setMessage({ type: "error", message: "errorr" });
         }
@@ -139,7 +142,7 @@ const KlarnaCheckout = ({ product, userToken, iva, userInfo }) => {
       </Box>
       <Box className="flex flex-row mt-auto w-full">
         <Box className=" !h-fit w-full mt-auto flex items-center flex-row">
-          <LoadingButton loading={false} color="buttonGreen" variant="contained" sx={{ mt: 0, width: "100%", height: "59px" }} size="large" onClick={() => authorizePayment()}>
+          <LoadingButton loading={isProcessingPayment} color="buttonGreen" variant="contained" sx={{ mt: 0, width: "100%", height: "59px" }} size="large" onClick={() => authorizePayment()}>
             Paga
           </LoadingButton>
         </Box>

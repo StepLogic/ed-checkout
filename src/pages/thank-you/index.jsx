@@ -6,6 +6,8 @@ import Bottom from "./Bottom.jsx";
 import { useNavigate, useLocation } from "react-router-dom";
 const ThankYou = () => {
   const location = useLocation();
+
+  console.log({ location });
   return (
     <Box
       sx={{
@@ -42,47 +44,52 @@ Siamo davvero felici che inizierai un percorso con noi!`
             : `    Ti abbiamo inviato via email la ricevuta del pagamento. Siamo davvero
           felici che inizierai un percorso con noi!`}
         </p>
-        <p className="max-w-[63%] text-[#2D224C] mt-[2vh] text-center font-medium text-[16px]  lg:text-[20px] leading-[100%]">
-          Ti faremo qualche domanda per conoscerti meglio.
-          <br className="lg:hidden" /> Ci vogliono solo
-          <b className="text-[#D4145A]"> 2 minuti</b>
-        </p>
-        <h2 className=" text-[24px] lg:text-[32px] text-[#2D224C] font-bold mt-[4vh]">Vogliamo iniziare?</h2>
-        <Button color={"button"} variant="contained" size="large" className="w-[70%]">
-          Let's Go
-        </Button>
-        <Box
-          sx={{
-            ["@media (min-width:736px)"]: {
-              minHeight: "81px",
-            },
-            minHeight: "46px",
-            width: "70%",
-            position: "relative",
-            background: "#FFFFFF",
-            borderRadius: "9px",
-            paddingLeft: "22px",
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "center",
-            alignItems: "center",
-            "&::before": {
-              content: `''`,
-              display: "block",
-              width: "22px",
-              height: "46px",
-              ["@media (min-width:736px)"]: {
-                height: "81px",
-              },
-              background: "#8065C9",
-              position: "absolute",
-              left: 0,
-              borderRadius: "9px 0px 0px 9px",
-            },
-          }}
-        >
-          <p className="text-[#8065C9] text-[12px] leading-[100%] lg:text-[18px] font-medium px-4">Questo step è fondamentale per finalizzare la tua registrazione.</p>
-        </Box>
+
+        {!location?.state?.existing_user ? (
+          <>
+            <p className="max-w-[63%] text-[#2D224C] mt-[2vh] text-center font-medium text-[16px]  lg:text-[20px] leading-[100%]">
+              Ti faremo qualche domanda per conoscerti meglio.
+              <br className="lg:hidden" /> Ci vogliono solo
+              <b className="text-[#D4145A]"> 2 minuti</b>
+            </p>
+            <h2 className=" text-[24px] lg:text-[32px] text-[#2D224C] font-bold mt-[4vh]">Vogliamo iniziare?</h2>
+            <Button onClick={() => (window.location.href = `https://academy.edusogno.com/user/register/${location?.state?.token}`)} color={"button"} variant="contained" size="large" className="w-[70%]">
+              Let's Go
+            </Button>
+            <Box
+              sx={{
+                ["@media (min-width:736px)"]: {
+                  minHeight: "81px",
+                },
+                minHeight: "46px",
+                width: "70%",
+                position: "relative",
+                background: "#FFFFFF",
+                borderRadius: "9px",
+                paddingLeft: "22px",
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "center",
+                alignItems: "center",
+                "&::before": {
+                  content: `''`,
+                  display: "block",
+                  width: "22px",
+                  height: "46px",
+                  ["@media (min-width:736px)"]: {
+                    height: "81px",
+                  },
+                  background: "#8065C9",
+                  position: "absolute",
+                  left: 0,
+                  borderRadius: "9px 0px 0px 9px",
+                },
+              }}
+            >
+              <p className="text-[#8065C9] text-[12px] leading-[100%] lg:text-[18px] font-medium px-4">Questo step è fondamentale per finalizzare la tua registrazione.</p>
+            </Box>
+          </>
+        ) : null}
       </div>
       {/* <div className="flex w-full relative">
         <Bottom className="absolute bottom-0 w-full" />

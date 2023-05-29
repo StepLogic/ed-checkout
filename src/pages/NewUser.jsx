@@ -24,12 +24,14 @@ const NewSubscriber = () => {
   const [productQuantity, setProductQuantity] = React.useState(1);
 
   useEffect(() => {
-    if (user) {
-      if (user?.paid_initial) {
+    if (data?.user) {
+      setUser(data?.user);
+
+      if (data?.user?.paid_initial) {
         navigate(location.pathname.replace("new-user", "existing-user"));
       }
     }
-  }, [user]);
+  }, [data]);
 
   return (
     <>
@@ -40,6 +42,7 @@ const NewSubscriber = () => {
             {step == 0 && (
               <UserInfo
                 product={product}
+                user={user}
                 next={(v, values) => {
                   setUser((prev) => {
                     return {
