@@ -1,6 +1,6 @@
 import { TextField } from "@components/textfield";
 import NearMeIcon from "@mui/icons-material/NearMe";
-import { Box, CircularProgress, FormControl, FormHelperText } from "@mui/material";
+import { Box, FormControl, FormHelperText } from "@mui/material";
 import MuiAlert from "@mui/material/Alert";
 import Autocomplete from "@mui/material/Autocomplete";
 import InputAdornment from "@mui/material/InputAdornment";
@@ -15,51 +15,17 @@ const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-export default function AddressField({ handleChange, value, error, name, handleBlur }) {
+export default function AddressField({
+  handleChange,
+  value,
+  error,
+  name,
+  handleBlur,
+}) {
   const [openSnackbar, setOpenSnackbar] = React.useState(false);
   const [addressLoading, setAddressLoading] = React.useState(false);
   const [autoComplete, setAutoComplete] = React.useState({ status: false });
-
-  // const handleAddressChange = (value) => {
-  //   if (value !== "") {
-  //     const u = () => autoCompleteAddressHandler(value);
-  //     _.delay(u, 1000);
-  //   }
-  // };
-  // const geoLocate = () => {
-  //   setAddressLoading(true);
-  //   if ("geolocation" in navigator) {
-  //     navigator.geolocation.getCurrentPosition(function (position) {
-  //       const url = `https://api.tomtom.com/search/2/nearbySearch/.json?key=${TOMTOM_KEY}&language=it-IT&typeahead=true&limit=10&type=Address&lat=${position.coords.latitude}&lon=${position.coords.longitude}&radius=1000`;
-  //       axios
-  //         .get(url)
-  //         .then((response) => {
-  //           console.log("response", position, response);
-  //           setAutoComplete({
-  //             status: true,
-  //             response: response.data.results,
-  //           });
-  //           const l = response?.data?.results?.map(
-  //             (r) =>
-  //               `${r?.address.freeformAddress}${
-  //                 r?.address?.postalCode ? " , " + r?.address?.postalCode : ""
-  //               }`
-  //           );
-
-  //           if (l.length > 0) {
-  //             //first index has highest score ,hence the closest location
-  //             handleChange(name, l[0]);
-  //           } else {
-  //             setOpenSnackbar(true);
-  //           }
-  //         })
-  //         .catch((er) => setOpenSnackbar(true));
-  //     });
-  //   } else {
-  //     console.log("Not Available");
-  //   }
-  //   setAddressLoading(false);
-  // };
+  const [inputValue, setInputValue] = React.useState("");
 
   const autoCompleteAddressHandler = (v) => {
     axios
@@ -67,16 +33,16 @@ export default function AddressField({ handleChange, value, error, name, handleB
         `https://api.tomtom.com/search/2/geocode/${v}.json?key=${TOMTOM_KEY}&language=it-IT&typeahead=true&limit=10&type=Address&lat=41.9102415&lon=12.395915&radius=100000000`
       )
       .then((response) => {
+        console.log("response", v, response);
         setAutoComplete({
           status: true,
           response: response.data.results,
         });
       })
-      .catch((er) => handleValue(name, v));
+      .catch((er) => formik.setFieldValue("indirizzo", v));
   };
 
   const handleAddressChange = (e) => {
-    if (!e?.target?.value) return;
     handleChange("indirizzo", e.target.value);
     setInputValue(e.target.value);
   };
@@ -97,6 +63,7 @@ export default function AddressField({ handleChange, value, error, name, handleB
         axios
           .get(url)
           .then((response) => {
+            console.log("response", position, response);
             setAutoComplete({
               status: true,
               response: response.data.results,
@@ -126,26 +93,9 @@ export default function AddressField({ handleChange, value, error, name, handleB
     }
   };
 
-<<<<<<< HEAD
-  const autoCompleteAddressHandler = (v) => {
-    axios
-      .get(
-        `https://api.tomtom.com/search/2/geocode/${v}.json?key=${TOMTOM_KEY}&language=it-IT&typeahead=true&limit=10&type=Address&lat=41.9102415&lon=12.395915&radius=100000000`
-      )
-      .then((response) => {
-        console.log("response", v, response);
-        setAutoComplete({
-          status: true,
-          response: response.data.results,
-        });
-      })
-      .catch((er) => handleValue(name, v));
-  };
-=======
   useEffect(() => {
     if (inputValue) fetch(inputValue);
   }, [inputValue]);
->>>>>>> c71e161 (new-subscriber)
 
   return (
     <>
@@ -169,27 +119,8 @@ export default function AddressField({ handleChange, value, error, name, handleB
           value={value}
           onChange={(e, v) => {
             handleChange && handleChange(name, v);
-<<<<<<< HEAD
           }}
-<<<<<<< HEAD
-          onInputChange={(e) => {
-            if (e != null) {
-              handleChange && handleChange(name, e.target.value);
-              handleAddressChange(e.target?.value);
-            }
-          }}
-=======
           onInputChange={handleAddressChange}
->>>>>>> c71e161 (new-subscriber)
-=======
-          }}
-          onInputChange={(e) => {
-            if (e != null) {
-              handleChange && handleChange(name, e.target.value);
-              handleAddressChange(e.target?.value);
-            }
-          }}
->>>>>>> a3bffe4 (AddressField)
           classes={{
             clearIndicator: "!text-[#8065C9] h",
           }}
