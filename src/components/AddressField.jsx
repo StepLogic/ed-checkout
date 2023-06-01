@@ -19,18 +19,60 @@ export default function AddressField({ handleChange, value, error, name, handleB
   const [openSnackbar, setOpenSnackbar] = React.useState(false);
   const [addressLoading, setAddressLoading] = React.useState(false);
   const [autoComplete, setAutoComplete] = React.useState({ status: false });
-  const [inputValue, setInputValue] = React.useState("");
+
+  // const handleAddressChange = (value) => {
+  //   if (value !== "") {
+  //     const u = () => autoCompleteAddressHandler(value);
+  //     _.delay(u, 1000);
+  //   }
+  // };
+  // const geoLocate = () => {
+  //   setAddressLoading(true);
+  //   if ("geolocation" in navigator) {
+  //     navigator.geolocation.getCurrentPosition(function (position) {
+  //       const url = `https://api.tomtom.com/search/2/nearbySearch/.json?key=${TOMTOM_KEY}&language=it-IT&typeahead=true&limit=10&type=Address&lat=${position.coords.latitude}&lon=${position.coords.longitude}&radius=1000`;
+  //       axios
+  //         .get(url)
+  //         .then((response) => {
+  //           console.log("response", position, response);
+  //           setAutoComplete({
+  //             status: true,
+  //             response: response.data.results,
+  //           });
+  //           const l = response?.data?.results?.map(
+  //             (r) =>
+  //               `${r?.address.freeformAddress}${
+  //                 r?.address?.postalCode ? " , " + r?.address?.postalCode : ""
+  //               }`
+  //           );
+
+  //           if (l.length > 0) {
+  //             //first index has highest score ,hence the closest location
+  //             handleChange(name, l[0]);
+  //           } else {
+  //             setOpenSnackbar(true);
+  //           }
+  //         })
+  //         .catch((er) => setOpenSnackbar(true));
+  //     });
+  //   } else {
+  //     console.log("Not Available");
+  //   }
+  //   setAddressLoading(false);
+  // };
 
   const autoCompleteAddressHandler = (v) => {
     axios
-      .get(`https://api.tomtom.com/search/2/geocode/${v}.json?key=${TOMTOM_KEY}&language=it-IT&typeahead=true&limit=10&type=Address&lat=41.9102415&lon=12.395915&radius=100000000`)
+      .get(
+        `https://api.tomtom.com/search/2/geocode/${v}.json?key=${TOMTOM_KEY}&language=it-IT&typeahead=true&limit=10&type=Address&lat=41.9102415&lon=12.395915&radius=100000000`
+      )
       .then((response) => {
         setAutoComplete({
           status: true,
           response: response.data.results,
         });
       })
-      .catch((er) => formik.setFieldValue("indirizzo", v));
+      .catch((er) => handleValue(name, v));
   };
 
   const handleAddressChange = (e) => {
@@ -59,7 +101,12 @@ export default function AddressField({ handleChange, value, error, name, handleB
               status: true,
               response: response.data.results,
             });
-            const l = response?.data?.results?.map((r) => `${r?.address.freeformAddress}${r?.address?.postalCode ? " , " + r?.address?.postalCode : ""}`);
+            const l = response?.data?.results?.map(
+              (r) =>
+                `${r?.address.freeformAddress}${
+                  r?.address?.postalCode ? " , " + r?.address?.postalCode : ""
+                }`
+            );
 
             if (l.length > 0) {
               //first index has highest score ,hence the closest location
@@ -102,8 +149,17 @@ export default function AddressField({ handleChange, value, error, name, handleB
 
   return (
     <>
-      <Snackbar open={openSnackbar} autoHideDuration={2000} onClose={() => setOpenSnackbar(false)} anchorOrigin={{ vertical: "bottom", horizontal: "right" }}>
-        <Alert onClose={() => setOpenSnackbar(false)} severity="primary" sx={{ width: "100%" }}>
+      <Snackbar
+        open={openSnackbar}
+        autoHideDuration={2000}
+        onClose={() => setOpenSnackbar(false)}
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+      >
+        <Alert
+          onClose={() => setOpenSnackbar(false)}
+          severity="primary"
+          sx={{ width: "100%" }}
+        >
           No Address Found
         </Alert>
       </Snackbar>
@@ -113,6 +169,7 @@ export default function AddressField({ handleChange, value, error, name, handleB
           value={value}
           onChange={(e, v) => {
             handleChange && handleChange(name, v);
+<<<<<<< HEAD
           }}
 <<<<<<< HEAD
           onInputChange={(e) => {
@@ -124,10 +181,30 @@ export default function AddressField({ handleChange, value, error, name, handleB
 =======
           onInputChange={handleAddressChange}
 >>>>>>> c71e161 (new-subscriber)
+=======
+          }}
+          onInputChange={(e) => {
+            if (e != null) {
+              handleChange && handleChange(name, e.target.value);
+              handleAddressChange(e.target?.value);
+            }
+          }}
+>>>>>>> a3bffe4 (AddressField)
           classes={{
             clearIndicator: "!text-[#8065C9] h",
           }}
-          options={autoComplete.response?.map((r) => `${r?.address.freeformAddress.split(",")[0]}${r?.address?.municipality ? " , " + r?.address?.municipality : ""}${r?.address?.postalCode ? " , " + r?.address?.postalCode : ""}`) ?? []}
+          options={
+            autoComplete.response?.map(
+              (r) =>
+                `${r?.address.freeformAddress.split(",")[0]}${
+                  r?.address?.municipality
+                    ? " , " + r?.address?.municipality
+                    : ""
+                }${
+                  r?.address?.postalCode ? " , " + r?.address?.postalCode : ""
+                }`
+            ) ?? []
+          }
           renderInput={(params) => (
             <TextField
               {...params}
@@ -173,7 +250,11 @@ export default function AddressField({ handleChange, value, error, name, handleB
                       {addressLoading ? (
                         <CircularProgress className="w-[1.5rem] h-[1.5rem]" />
                       ) : (
-                        <button type="button" className="active:text-[#B4B4B4] active:border-[#B4B4B4]" onClick={() => geoLocate()}>
+                        <button
+                          type="button"
+                          className="active:text-[#B4B4B4] active:border-[#B4B4B4]"
+                          onClick={() => geoLocate()}
+                        >
                           <NearMeIcon
                             sx={{
                               color: "#886FCC",
