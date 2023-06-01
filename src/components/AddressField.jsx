@@ -1,6 +1,11 @@
 import { TextField } from "@components/textfield";
 import NearMeIcon from "@mui/icons-material/NearMe";
-import { Box, FormControl, FormHelperText } from "@mui/material";
+import {
+  Box,
+  CircularProgress,
+  FormControl,
+  FormHelperText,
+} from "@mui/material";
 import MuiAlert from "@mui/material/Alert";
 import Autocomplete from "@mui/material/Autocomplete";
 import InputAdornment from "@mui/material/InputAdornment";
@@ -33,7 +38,6 @@ export default function AddressField({
         `https://api.tomtom.com/search/2/geocode/${v}.json?key=${TOMTOM_KEY}&language=it-IT&typeahead=true&limit=10&type=Address&lat=41.9102415&lon=12.395915&radius=100000000`
       )
       .then((response) => {
-        console.log("response", v, response);
         setAutoComplete({
           status: true,
           response: response.data.results,
@@ -43,6 +47,7 @@ export default function AddressField({
   };
 
   const handleAddressChange = (e) => {
+    if (!e?.target?.value) return;
     handleChange("indirizzo", e.target.value);
     setInputValue(e.target.value);
   };
@@ -63,7 +68,6 @@ export default function AddressField({
         axios
           .get(url)
           .then((response) => {
-            console.log("response", position, response);
             setAutoComplete({
               status: true,
               response: response.data.results,
@@ -76,8 +80,8 @@ export default function AddressField({
             );
 
             if (l.length > 0) {
-              //first index has highest score ,hence the closest location
-              handleChange(name, l[0]);
+              //first index has highest score
+              handleChange("indirizzo", l[0]);
             } else {
               setOpenSnackbar(true);
             }
@@ -118,7 +122,7 @@ export default function AddressField({
           freeSolo
           value={value}
           onChange={(e, v) => {
-            handleChange && handleChange(name, v);
+            handleChange && handleChange("indirizzo", v);
           }}
           onInputChange={handleAddressChange}
           classes={{
