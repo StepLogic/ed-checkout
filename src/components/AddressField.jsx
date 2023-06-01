@@ -53,8 +53,8 @@ export default function AddressField({
             );
 
             if (l.length > 0) {
-              //first index has highest score
-              handleChange("indirizzo", l[0]);
+              //first index has highest score ,hence the closest location
+              handleChange(name, l[0]);
             } else {
               setOpenSnackbar(true);
             }
@@ -79,7 +79,7 @@ export default function AddressField({
           response: response.data.results,
         });
       })
-      .catch((er) => formik.setFieldValue("indirizzo", v));
+      .catch((er) => handleValue(name, v));
   };
 
   return (
@@ -103,11 +103,11 @@ export default function AddressField({
           freeSolo
           value={value}
           onChange={(e, v) => {
-            handleChange && handleChange("indirizzo", v);
+            handleChange && handleChange(name, v);
           }}
           onInputChange={(e) => {
             if (e != null) {
-              handleChange && handleChange("indirizzo", e.target.value);
+              handleChange && handleChange(name, e.target.value);
               handleAddressChange(e.target?.value);
             }
           }}
