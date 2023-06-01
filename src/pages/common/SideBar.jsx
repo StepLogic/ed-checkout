@@ -226,7 +226,9 @@ const SideBar = ({ onProductQuantityChange, setShowPDF, enableViewProduct, enabl
           },
         }}
       >
-        <h1 className="font-semibold leading-none text-white text-[24px] text-center lg:text-start lg:text-3xl 3xl:text-4xl max:text-6xl">Il tuo percorso prevede:</h1>
+        <h1 className="font-semibold leading-none text-white text-[24px] text-center lg:text-start lg:text-3xl 3xl:text-4xl max:text-6xl">
+          Il tuo percorso prevede:
+        </h1>
         <Box
           sx={{
             display: ["grid"],
@@ -238,7 +240,7 @@ const SideBar = ({ onProductQuantityChange, setShowPDF, enableViewProduct, enabl
               gap: "1rem",
             },
             ["@media (min-width:2050px)"]: {
-              gridTemplateRows: ["300px 39px auto"],
+              gridTemplateRows: ["450px 39px auto"],
               paddingBottom: "1rem",
             },
           }}
@@ -252,7 +254,15 @@ const SideBar = ({ onProductQuantityChange, setShowPDF, enableViewProduct, enabl
                     </li>
                   );
                 })
-              : Array.from({ length: 6 }).map((r, i) => <Skeleton key={"sk-" + i} variant="rectangular" width={[200, 400]} height={24} component={"li"} />)}
+              : Array.from({ length: 6 }).map((r, i) => (
+                  <Skeleton
+                    key={"sk-" + i}
+                    variant="rectangular"
+                    width={[200, 400]}
+                    height={24}
+                    component={"li"}
+                  />
+                ))}
           </Box>
 
           <Button
@@ -308,7 +318,9 @@ const SideBar = ({ onProductQuantityChange, setShowPDF, enableViewProduct, enabl
                     ) : (
                       <>
                         {price?.no_iva?.integer}
-                        <Typography component={"em"}>{price?.no_iva?.decimal} €</Typography>
+                        <Typography component={"em"}>
+                          {price?.no_iva?.decimal} €
+                        </Typography>
                       </>
                     )}
                   </b>
@@ -321,7 +333,9 @@ const SideBar = ({ onProductQuantityChange, setShowPDF, enableViewProduct, enabl
                     ) : (
                       <>
                         {price?.iva?.integer}
-                        <Typography component={"em"}>{price?.iva?.decimal} €</Typography>
+                        <Typography component={"em"}>
+                          {price?.iva?.decimal} €
+                        </Typography>
                       </>
                     )}
                   </b>
@@ -336,7 +350,9 @@ const SideBar = ({ onProductQuantityChange, setShowPDF, enableViewProduct, enabl
                       ) : (
                         <>
                           -{price?.discount?.integer}
-                          <Typography component={"em"}>{price?.discount?.decimal} €</Typography>
+                          <Typography component={"em"}>
+                            {price?.discount?.decimal} €
+                          </Typography>
                         </>
                       )}
                     </b>
@@ -387,12 +403,30 @@ const SideBar = ({ onProductQuantityChange, setShowPDF, enableViewProduct, enabl
                       },
                     }}
                   >
-                    <input ref={discountInputRef} className={"mr-auto font-semibold text-2xl text-[#2D224C] uppercase"} defaultValue={data?.product?.discount_code ?? ""} placeholder={"Discount code"} />
+                    <input
+                      ref={discountInputRef}
+                      className={
+                        "mr-auto font-semibold text-2xl text-[#2D224C] uppercase"
+                      }
+                      defaultValue={data?.product?.discount_code ?? ""}
+                      placeholder={"Discount code"}
+                    />
 
-                    <LoadingButton loading={isLoadingDiscount} onClick={() => validateDiscountCode()} className={"font-semibold !text-[#2D224C] active:text-[#B4B4B4] active:border-[#B4B4B4]"}>
+                    <LoadingButton
+                      loading={isLoadingDiscount}
+                      onClick={() => validateDiscountCode()}
+                      color="secondary"
+                      className={
+                        "font-semibold !text-[#2D224C] active:text-[#B4B4B4] active:border-[#B4B4B4]"
+                      }
+                    >
                       APPLICA
                     </LoadingButton>
-                    {discountError && enableDiscount && <p className="text-[#E90000] h-2 absolute bottom-[13px] !text-[12px] !font-semibold pl-4">Codice non valido</p>}
+                    {discountError && enableDiscount && (
+                      <p className="text-[#E90000] h-2 absolute bottom-[13px] !text-[12px] !font-semibold pl-4">
+                        Codice non valido
+                      </p>
+                    )}
                   </Box>
                 </div>
               </>
