@@ -1,5 +1,8 @@
 import { createTheme } from "@mui/material/styles";
 
+import PoppinsMedium from "@font/PoppinsMedium.ttf";
+import PoppinsMediumItalic from "@font/Poppins-MediumItalic.ttf";
+
 export const theme = createTheme({
   typography: {
     fontFamily: "Poppins",
@@ -33,6 +36,10 @@ export const theme = createTheme({
       main: "#E90000 !important",
       contrastText: "#fff !important",
     },
+    buttonGreen: {
+      main: "#74DFAC !important",
+      contrastText: "#31602A !important",
+    },
     green: {
       main: "#74DFAC !important",
       contrastText: "#fff !important",
@@ -47,13 +54,28 @@ export const theme = createTheme({
     white: {
       main: "#fff !important",
     },
-    buttonGreen: {
-      main: "#74DFAC !important",
-      contrastText: "#31602A !important",
-    },
   },
   components: {
-    MuiCssBaseline: {},
+    MuiCssBaseline: {
+      styleOverrides: `
+          @font-face {
+            font-family: 'Poppins';
+            font-style: normal;
+            font-display: swap;
+            font-weight: medium;
+            src: local('Poppins'), url(${PoppinsMedium}) format('ttf');
+            unicodeRange: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF;
+          },
+            @font-face {
+            font-family: 'Poppins';
+            font-style: italic;
+            font-display: swap;
+            font-weight: medium;
+            src: local('Poppins'), url(${PoppinsMediumItalic}) format('ttf');
+            unicodeRange: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF;
+          }
+        `,
+    },
     MuiDesktopDatePicker: {
       styleOverrides: {
         root: {
@@ -103,6 +125,7 @@ export const theme = createTheme({
           marginTop: 0,
           color: "#2D224C",
           fontSize: "19px",
+
           background: "transparent",
           "-webkit-text-fill-color": "#2D224C!important",
           ":-webkit-background-clip": "text",
@@ -143,6 +166,21 @@ export const theme = createTheme({
           background: "transparent!important",
           "-webkit-text-fill-color": "#2D224C!important",
           ":-webkit-background-clip": "text!important",
+        },
+      },
+    },
+    MuiOutlinedInput: {
+      styleOverrides: {
+        root: {
+          // borderColor: "#8065C9",
+          // borderWidth: "1px",
+          height: "59px",
+        },
+        input: {
+          border: "none",
+        },
+        notchedOutline: {
+          borderColor: "#2D224C",
         },
       },
     },
@@ -203,34 +241,38 @@ export const theme = createTheme({
       styleOverrides: {
         disabled: {},
         root: {
+          borderRadius: "11px",
+          fontWeight: "600",
+          fontSize: "20px",
           "&.Mui-disabled": {
             color: " rgba(73, 73, 73, 0.692)!important",
             backgroundColor: "rgba(150, 150, 150, 0.548) !important",
+            borderColor: "rgba(73, 73, 73, 0.692)!important",
           },
         },
         sizeLarge: {
-          fontSize: "15px",
+          fontSize: "20px",
           borderRadius: "11px",
           padding: "14px 22px",
           fontWeight: "600",
-          ["@media (min-width:768px)"]: {
+          ["@media (max-width:768px)"]: {
             // eslint-disable-line no-useless-computed-key
             fontSize: "16px",
           },
-          ["@media (min-width:1024px)"]: {
-            // eslint-disable-line no-useless-computed-key
-          },
-          ["@media (min-width:1280px)"]: {
-            // eslint-disable-line no-useless-computed-key
-            fontSize: "18px",
-          },
+          // ["@media (min-width:1024px)"]: {
+          //   // eslint-disable-line no-useless-computed-key
+          // },
+          // ["@media (min-width:1280px)"]: {
+          //   // eslint-disable-line no-useless-computed-key
+          //   fontSize: "18px",
+          // },
           ["@media (min-width:1920px)"]: {
             // eslint-disable-line no-useless-computed-key
             fontSize: "20px",
-          },
-          ["@media (min-width:2300px)"]: {
+            // },
+            // ["@media (min-width:2300px)"]: {
             // eslint-disable-line no-useless-computed-key
-            fontSize: "22px",
+            // fontSize: "22px",
           },
           ["@media (min-width:3500px)"]: {
             // eslint-disable-line no-useless-computed-key
@@ -323,6 +365,216 @@ export const theme = createTheme({
             "&.check": {
               fontSize: "3rem",
             },
+          },
+        },
+      },
+    },
+    MuiPickerStaticWrapper: {
+      styleOverrides: {
+        content: {
+          backgroundColor: "transparent",
+          minWidth: "265px",
+        },
+      },
+    },
+    MuiPickersCalendarHeader: {
+      styleOverrides: {
+        root: {
+          textTransform: "capitalize",
+          color: "#8065C9",
+          padding: "0 1rem",
+        },
+        label: {
+          marginRight: "0",
+        },
+        labelContainer: {
+          ["@media (min-width:768px)"]: {
+            // eslint-disable-line no-useless-computed-key
+            fontSize: "16px",
+            marginLeft: "0",
+          },
+          ["@media (min-width:1024px)"]: {
+            // eslint-disable-line no-useless-computed-key
+            fontSize: "20px",
+            marginLeft: "0",
+          },
+          ["@media (min-width:1280px)"]: {
+            // eslint-disable-line no-useless-computed-key
+            fontSize: "24px",
+            marginLeft: "0",
+          },
+          fontSize: "28px",
+          fontWeight: "700",
+          marginLeft: "auto",
+        },
+        switchViewButton: {
+          display: "none",
+        },
+      },
+    },
+    MuiPickersArrowSwitcher: {
+      styleOverrides: {
+        root: {
+          position: "absolute",
+          left: "50%",
+          transform: "translateX(-50%)",
+          justifyContent: "space-between",
+          width: "310px",
+
+          ["@media (min-width:768px)"]: {
+            // eslint-disable-line no-useless-computed-key
+            width: "13px",
+
+            position: "static",
+            transform: "translateX(-25px)",
+          },
+          ["@media (min-width:1024px)"]: {
+            // eslint-disable-line no-useless-computed-key
+            width: "20px",
+
+            position: "unset",
+            transform: "translateX(-20px)",
+          },
+          ["@media (min-width:1280px)"]: {
+            position: "static",
+            zIndex: "2",
+            transform: "translateX(-20px)",
+          },
+          "& svg": {
+            fontSize: "2rem",
+            ["@media (min-width:768px)"]: {
+              // eslint-disable-line no-useless-computed-key
+              width: "13px",
+              height: "13px",
+            },
+            ["@media (min-width:1024px)"]: {
+              // eslint-disable-line no-useless-computed-key
+              width: "15px",
+              height: "15px",
+            },
+            ["@media (min-width:1280px)"]: {
+              // eslint-disable-line no-useless-computed-key
+              width: "17px",
+              height: "17px",
+            },
+          },
+        },
+        spacer: {
+          width: "8px",
+        },
+        button: {
+          color: "#8065C9",
+        },
+      },
+    },
+    MuiDayPicker: {
+      styleOverrides: {
+        root: {
+          minHeight: "0",
+        },
+        header: {
+          justifyContent: "space-between",
+        },
+        weekDayLabel: {
+          ["@media (min-width:768px)"]: {
+            // eslint-disable-line no-useless-computed-key
+            fontSize: "10px",
+          },
+          ["@media (min-width:1024px)"]: {
+            // eslint-disable-line no-useless-computed-key
+            fontSize: "12px",
+          },
+          ["@media (min-width:1280px)"]: {
+            // eslint-disable-line no-useless-computed-key
+            fontSize: "14px",
+          },
+          color: "#8065C9",
+          fontSize: "13px",
+        },
+        weekContainer: {
+          marginBottom: "0.5rem",
+          justifyContent: "space-between",
+        },
+      },
+    },
+    MuiCalendarPicker: {
+      styleOverrides: {
+        root: {
+          width: "100%",
+          ["@media (min-width:768px)"]: {
+            // eslint-disable-line no-useless-computed-key
+            paddingRight: "1rem",
+          },
+          ["@media (min-width:1024px)"]: {
+            // eslint-disable-line no-useless-computed-key
+            paddingRight: "1rem",
+          },
+          ["@media (min-width:1280px)"]: {
+            // eslint-disable-line no-useless-computed-key
+            paddingRight: "1rem",
+          },
+        },
+      },
+    },
+
+    MuiPickersDay: {
+      styleOverrides: {
+        root: {
+          textTransform: "capitalize",
+          ["@media (min-width:768px)"]: {
+            // eslint-disable-line no-useless-computed-key
+            fontSize: "9px",
+            width: "28px",
+            height: "28px",
+          },
+          ["@media (min-width:1024px)"]: {
+            // eslint-disable-line no-useless-computed-key
+            fontSize: "11px",
+            width: "32px",
+            height: "32px",
+          },
+          ["@media (min-width:1280px)"]: {
+            // eslint-disable-line no-useless-computed-key
+            fontSize: "14px",
+            width: "36px",
+            height: "36px",
+          },
+
+          color: "#2D224C",
+          "&:not(.Mui-selected)": {
+            border: "none",
+          },
+          "&:not(.Mui-disabled)": {
+            // backgroundColor: "#a283f746",
+          },
+          "&:not(.Mui-disabled):hover": {
+            // backgroundColor: "#9e7df998",
+          },
+          "&.Mui-selected": {
+            // backgroundColor: "#8065C9",
+            willChange: "backgroundColor",
+          },
+          "&.Mui-selected:hover": {
+            backgroundColor: "#8065C9",
+            willChange: "backgroundColor",
+          },
+          "&.Mui-selected:focus": {
+            backgroundColor: "#8065C9",
+            willChange: "backgroundColor",
+          },
+        },
+        today: {
+          border: "none",
+          "&::before": {
+            borderRadius: "100%",
+            position: "absolute",
+            backgroundColor: "#2D224C",
+            height: "5px",
+            width: "5px",
+            left: "50%",
+            bottom: "10%",
+            content: '""',
+            transform: "translateX(-50%)",
           },
         },
       },

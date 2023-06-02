@@ -32,6 +32,9 @@ const SideBar = ({ onProductQuantityChange, setShowPDF, enableViewProduct, enabl
   const [productQuantity, setProductQuantity] = React.useState(1);
   const [discountError, setDiscountError] = React.useState(false);
   const discountInputRef = React.useRef(null);
+
+
+  const [discountCode, setDiscountCode] = React.useState(null);
   const [isLoadingDiscount, setIsLoadingDiscount] = React.useState(false);
   const [iva, setIva] = React.useState(false);
 
@@ -43,15 +46,16 @@ const SideBar = ({ onProductQuantityChange, setShowPDF, enableViewProduct, enabl
     });
   };
 
+  React.useEffect(() => {
+    if (discountError) setDiscountError((r) => !r);
+  }, [discountCode]);
+
   const validateDiscountCode = async () => {
-    let code = discountInputRef.current.value;
-    code = code.toUpperCase();
-
-    if (!code) return false;
-
+    // let code = discountInputRef.current.value;
+    // code = code.toUpperCase();
+    // if (!code) return false;
     setIsLoadingDiscount(true);
-
-    const { data } = await getDiscount(code).catch((e) => {
+    const { data } = await getDiscount(discountCode).catch((e) => {
       return { data: null };
     });
 
@@ -141,7 +145,10 @@ const SideBar = ({ onProductQuantityChange, setShowPDF, enableViewProduct, enabl
       no_iva: product?.original_price_no_iva * productQuantity,
       iva: product?.original_price_iva * productQuantity,
       discount: product?.discount ? product?.discount : null,
-      price: productQuantity > 1 ? product?.original_price * productQuantity - product.discount : product?.price,
+      price:
+        productQuantity > 1
+          ? product?.original_price * productQuantity - product.discount
+          : product?.price,
     };
 
     const priceDataFormatted = {
@@ -404,7 +411,10 @@ const SideBar = ({ onProductQuantityChange, setShowPDF, enableViewProduct, enabl
                     }}
                   >
                     <input
-                      ref={discountInputRef}
+                      // ref={discountInputRef}
+                      onChange={(e) =>
+                        setDiscountCode(e.target.value.toLocaleUpperCase())
+                      }
                       className={
                         "mr-auto font-semibold text-2xl text-[#2D224C] uppercase"
                       }
@@ -415,6 +425,7 @@ const SideBar = ({ onProductQuantityChange, setShowPDF, enableViewProduct, enabl
                     <LoadingButton
                       loading={isLoadingDiscount}
                       onClick={() => validateDiscountCode()}
+                      disabled={!Boolean(discountCode)}
                       color="secondary"
                       className={
                         "font-semibold !text-[#2D224C] active:text-[#B4B4B4] active:border-[#B4B4B4]"
