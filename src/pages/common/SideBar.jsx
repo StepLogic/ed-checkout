@@ -366,79 +366,88 @@ const SideBar = ({ onProductQuantityChange, setShowPDF, enableViewProduct, enabl
                   </Box>
                 )}
                 <div className="flex flex-col">
-                  <Box
-                    sx={{
-                      borderRadius: "9px",
-                      // height: "min(62px,5vh)",
-                      // ["@media (min-height:763px)"]: {
-                      height: "62px",
-                      // },
-                      position: "relative",
-                      pointerEvents: enableDiscount ? "auto" : "none",
-                      opacity: enableDiscount ? "100%" : "30%",
-                      "& input": {
+                  {data?.product?.discount_code ? (
+                    <Box sx={priceItemStyle}>
+                      <p className="!font-normal italic">Discount</p>
+                      <Typography component={"b"} sx={{}} className="">
+                        <>{data?.product?.discount_code}</>
+                      </Typography>
+                    </Box>
+                  ) : (
+                    <Box
+                      sx={{
                         borderRadius: "9px",
-                        background: "#ffffff",
-                        height: "100%",
-                        width: "100%",
-                        paddingLeft: "10px",
-                        paddingRight: "100px",
-                      },
-                      "& input::placeholder": {
-                        fontStyle: "italic",
-                        fontWeight: "400",
-                        fontSize: "24px",
-                        lineHeight: "100%",
-                        display: "flex",
-                        alignItems: "center",
-                        color: "#B4B4B4",
-                      },
-                      "& input:focus": {
-                        outline: "none",
-                        border: "none",
-                      },
-                      "& button": {
-                        width: "79px",
-                        height: "31.76px",
-                        borderRadius: "6px",
-                        border: "2px solid #2D224C",
-                        color: "#2D224C",
-                        fontSize: "14px",
-                        position: "absolute",
-                        right: "14px",
-                        top: "14px",
-                      },
-                    }}
-                  >
-                    <input
-                      // ref={discountInputRef}
-                      onChange={(e) =>
-                        setDiscountCode(e.target.value.toLocaleUpperCase())
-                      }
-                      className={
-                        "mr-auto font-semibold text-2xl text-[#2D224C] uppercase"
-                      }
-                      defaultValue={data?.product?.discount_code ?? ""}
-                      placeholder={"Discount code"}
-                    />
-
-                    <LoadingButton
-                      loading={isLoadingDiscount}
-                      onClick={() => validateDiscountCode()}
-                      disabled={!Boolean(discountCode)}
-                      color="secondary"
-                      className={
-                        "font-semibold !text-[#2D224C] active:text-[#B4B4B4] active:border-[#B4B4B4]"
-                      }
+                        // height: "min(62px,5vh)",
+                        // ["@media (min-height:763px)"]: {
+                        height: "62px",
+                        // },
+                        position: "relative",
+                        pointerEvents: enableDiscount ? "auto" : "none",
+                        opacity: enableDiscount ? "100%" : "30%",
+                        "& input": {
+                          borderRadius: "9px",
+                          background: "#ffffff",
+                          height: "100%",
+                          width: "100%",
+                          paddingLeft: "10px",
+                          paddingRight: "100px",
+                        },
+                        "& input::placeholder": {
+                          fontStyle: "italic",
+                          fontWeight: "400",
+                          fontSize: "24px",
+                          lineHeight: "100%",
+                          display: "flex",
+                          alignItems: "center",
+                          color: "#B4B4B4",
+                        },
+                        "& input:focus": {
+                          outline: "none",
+                          border: "none",
+                        },
+                        "& button": {
+                          width: "79px",
+                          height: "31.76px",
+                          borderRadius: "6px",
+                          border: "2px solid #2D224C",
+                          color: "#2D224C",
+                          fontSize: "14px",
+                          position: "absolute",
+                          right: "14px",
+                          top: "14px",
+                        },
+                      }}
                     >
-                      APPLICA
-                    </LoadingButton>
-                    {discountError && enableDiscount && (
-                      <p className="text-[#E90000] h-2 absolute bottom-[13px] !text-[12px] !font-semibold pl-4">
-                        Codice non valido
-                      </p>
-                    )}
-                  </Box>
+                      <input
+                        // ref={discountInputRef}
+                        onChange={(e) =>
+                          setDiscountCode(e.target.value.toLocaleUpperCase())
+                        }
+                        className={
+                          "mr-auto font-semibold text-2xl text-[#2D224C] uppercase"
+                        }
+                        defaultValue={data?.product?.discount_code ?? ""}
+                        placeholder={"Discount code"}
+                      />
+
+                      <LoadingButton
+                        loading={isLoadingDiscount}
+                        onClick={() => validateDiscountCode()}
+                        disabled={!Boolean(discountCode)}
+                        color="secondary"
+                        className={
+                          "font-semibold !text-[#2D224C] active:text-[#B4B4B4] active:border-[#B4B4B4]"
+                        }
+                      >
+                        APPLICA
+                      </LoadingButton>
+                      {discountError && enableDiscount && (
+                        <p className="text-[#E90000] h-2 absolute bottom-[13px] !text-[12px] !font-semibold pl-4">
+                          Codice non valido
+                        </p>
+                      )}
+                    </Box>
+                  )}
                 </div>
               </>
             )}
