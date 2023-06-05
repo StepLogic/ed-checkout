@@ -1,5 +1,8 @@
 import { createTheme } from "@mui/material/styles";
 
+import PoppinsMedium from "@font/PoppinsMedium.ttf";
+import PoppinsMediumItalic from "@font/Poppins-MediumItalic.ttf";
+
 export const theme = createTheme({
   typography: {
     fontFamily: "Poppins",
