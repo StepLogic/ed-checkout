@@ -22,7 +22,16 @@ Number.prototype.toDecimalsEuro = function () {
     </div>
   );
 };
-const SideBar = ({ onProductQuantityChange, setShowPDF, enableViewProduct, enableDiscount, showCounter = true, enableCounter, isNewSubscriber = false, showPdf = false }) => {
+const SideBar = ({
+  onProductQuantityChange,
+  setShowPDF,
+  enableViewProduct,
+  enableDiscount,
+  showCounter = true,
+  enableCounter,
+  isNewSubscriber = false,
+  showPdf = false,
+}) => {
   const { data, setData } = useCheckout({ session: 1 });
 
   const product = data?.product;
@@ -32,9 +41,6 @@ const SideBar = ({ onProductQuantityChange, setShowPDF, enableViewProduct, enabl
   const [productQuantity, setProductQuantity] = React.useState(1);
   const [discountError, setDiscountError] = React.useState(false);
   const discountInputRef = React.useRef(null);
-
-
-  const [discountCode, setDiscountCode] = React.useState(null);
   const [isLoadingDiscount, setIsLoadingDiscount] = React.useState(false);
   const [iva, setIva] = React.useState(false);
 
@@ -46,16 +52,15 @@ const SideBar = ({ onProductQuantityChange, setShowPDF, enableViewProduct, enabl
     });
   };
 
-  React.useEffect(() => {
-    if (discountError) setDiscountError((r) => !r);
-  }, [discountCode]);
-
   const validateDiscountCode = async () => {
-    // let code = discountInputRef.current.value;
-    // code = code.toUpperCase();
-    // if (!code) return false;
+    let code = discountInputRef.current.value;
+    code = code.toUpperCase();
+
+    if (!code) return false;
+
     setIsLoadingDiscount(true);
-    const { data } = await getDiscount(discountCode).catch((e) => {
+
+    const { data } = await getDiscount(code).catch((e) => {
       return { data: null };
     });
 
@@ -247,7 +252,7 @@ const SideBar = ({ onProductQuantityChange, setShowPDF, enableViewProduct, enabl
               gap: "1rem",
             },
             ["@media (min-width:2050px)"]: {
-              gridTemplateRows: ["450px 39px auto"],
+              gridTemplateRows: ["300px 39px auto"],
               paddingBottom: "1rem",
             },
           }}
@@ -368,7 +373,7 @@ const SideBar = ({ onProductQuantityChange, setShowPDF, enableViewProduct, enabl
                 <div className="flex flex-col">
                   {data?.product?.discount_code ? (
                     <Box sx={priceItemStyle}>
-                      <p className="!font-normal italic">Discount</p>
+                      <p>Discount</p>
                       <Typography component={"b"} sx={{}} className="">
                         <>{data?.product?.discount_code}</>
                       </Typography>
@@ -419,10 +424,7 @@ const SideBar = ({ onProductQuantityChange, setShowPDF, enableViewProduct, enabl
                       }}
                     >
                       <input
-                        // ref={discountInputRef}
-                        onChange={(e) =>
-                          setDiscountCode(e.target.value.toLocaleUpperCase())
-                        }
+                        ref={discountInputRef}
                         className={
                           "mr-auto font-semibold text-2xl text-[#2D224C] uppercase"
                         }
@@ -432,9 +434,8 @@ const SideBar = ({ onProductQuantityChange, setShowPDF, enableViewProduct, enabl
 
                       <LoadingButton
                         loading={isLoadingDiscount}
-                        onClick={() => validateDiscountCode()}
-                        disabled={!Boolean(discountCode)}
                         color="secondary"
+                        onClick={() => validateDiscountCode()}
                         className={
                           "font-semibold !text-[#2D224C] active:text-[#B4B4B4] active:border-[#B4B4B4]"
                         }
