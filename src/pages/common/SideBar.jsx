@@ -35,6 +35,7 @@ const SideBar = ({
   const { data, setData } = useCheckout({ session: 1 });
 
   const product = data?.product;
+  // console.log("🚀 ~ file: SideBar.jsx:38 ~ product:", product);
 
   const [width] = useWindowSize();
   const [price, setPrice] = React.useState(null);
@@ -145,11 +146,13 @@ const SideBar = ({
   };
   React.useEffect(() => {
     if (!product) return;
-
     const priceData = {
       no_iva: product?.original_price_no_iva * productQuantity,
       iva: product?.original_price_iva * productQuantity,
       discount: product?.discount ? product?.discount : null,
+      discountCodeAmount: product?.discount_code_amount
+        ? product?.discount_code_amount
+        : null,
       price:
         productQuantity > 1
           ? product?.original_price * productQuantity - product.discount
@@ -169,6 +172,12 @@ const SideBar = ({
         integer: Math.floor(Number(priceData.discount) / 100),
         decimal: (Number(priceData.discount) % 100).toString().padStart(2, "0"),
       },
+      discountCodeAmount: {
+        integer: Math.floor(Number(priceData.discountCodeAmount) / 100),
+        decimal: (Number(priceData.discountCodeAmount) % 100)
+          .toString()
+          .padStart(2, "0"),
+      },
       price: {
         integer: Math.floor(Number(priceData.price) / 100),
         decimal: (Number(priceData.price) % 100).toString().padStart(2, "0"),
@@ -176,7 +185,7 @@ const SideBar = ({
     };
 
     setPrice(priceDataFormatted);
-  }, [product, productQuantity]);
+  }, [product, productQuantity, data]);
 
   return (
     <Box
@@ -375,7 +384,10 @@ const SideBar = ({
                     <Box sx={priceItemStyle}>
                       <p>Discount</p>
                       <Typography component={"b"} sx={{}} className="">
-                        <>{data?.product?.discount_code}</>
+                        -{price?.discountCodeAmount?.integer}
+                        <Typography component={"em"}>
+                          {price?.discountCodeAmount?.decimal} €
+                        </Typography>
                       </Typography>
                     </Box>
                   ) : (
@@ -477,9 +489,8 @@ const SideBar = ({
                     <Skeleton />
                   ) : (
                     <>
-                      € {price?.price?.integer}
-                      {","}
-                      {price?.price?.decimal}
+                      {price?.price?.integer}
+                      <em> {price?.price?.decimal} €</em>
                     </>
                   )}
                 </Typography>

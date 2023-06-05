@@ -72,11 +72,12 @@ export default function AddressField({
               status: true,
               response: response.data.results,
             });
+            console.log(
+              "🚀 ~ file: AddressField.jsx:75 ~ .then ~ response:",
+              response.data.results
+            );
             const l = response?.data?.results?.map(
-              (r) =>
-                `${r?.address.freeformAddress}${
-                  r?.address?.postalCode ? " , " + r?.address?.postalCode : ""
-                }`
+              (r) => `${r?.address.freeformAddress}`
             );
 
             if (l.length > 0) {
@@ -130,14 +131,7 @@ export default function AddressField({
           }}
           options={
             autoComplete.response?.map(
-              (r) =>
-                `${r?.address.freeformAddress.split(",")[0]}${
-                  r?.address?.municipality
-                    ? " , " + r?.address?.municipality
-                    : ""
-                }${
-                  r?.address?.postalCode ? " , " + r?.address?.postalCode : ""
-                }`
+              (r) => `${r?.address.freeformAddress}`
             ) ?? []
           }
           renderInput={(params) => (
