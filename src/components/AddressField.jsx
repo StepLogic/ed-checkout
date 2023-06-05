@@ -77,7 +77,7 @@ export default function AddressField({
               response.data.results
             );
             const l = response?.data?.results?.map(
-              (r) => `${r?.address.freeformAddress}`
+              (r) => `${r?.address.freeformAddress},${r?.address.country}`
             );
 
             if (l.length > 0) {
@@ -131,7 +131,7 @@ export default function AddressField({
           }}
           options={
             autoComplete.response?.map(
-              (r) => `${r?.address.freeformAddress}`
+              (r) => `${r?.address.freeformAddress},${r?.address.country}`
             ) ?? []
           }
           renderInput={(params) => (
