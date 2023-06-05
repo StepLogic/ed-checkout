@@ -56,12 +56,18 @@ const App = () => {
             <Route path="not-found" element={<NoPage />} />
             <Route path="/" element={<LayoutPage />}>
               {/* <Route path="existing-subscriber/:productTk/:userTk" element={<ExistingSubscriber />} /> */}
-              <Route path="new-subscriber/:productTk/:userTk" element={<NewSubscriber />} />
+              <Route
+                path="new-subscriber/:productTk/:userTk"
+                element={<NewSubscriber />}
+              />
               <Route path="new-user/" element={<NewUser />}>
                 <Route path=":productTk/:userTk" element={<NewUser />} />
                 <Route path=":productTk" element={<NewUser />} />
               </Route>
-              <Route path="existing-user/:productTk/:userTk" element={<ExistingUser />} />
+              <Route
+                path="existing-user/:productTk/:userTk"
+                element={<ExistingUser />}
+              />
             </Route>
           </Routes>
         </ThemeProvider>

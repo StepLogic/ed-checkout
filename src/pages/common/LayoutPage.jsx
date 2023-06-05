@@ -22,7 +22,7 @@ const LayoutPage = () => {
           height: "fit-content",
           overflow: "hidden",
           ["@media (min-width:1180px)"]: {
-            height: "calc(var(--vh, 1vh) * 100)",
+            height: "calc(var(--vh, 1vh) * 99.99998)",
           },
         }}
         className="w-full  text-white bg-edu-900"
