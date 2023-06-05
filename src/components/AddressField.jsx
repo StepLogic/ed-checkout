@@ -72,10 +72,10 @@ export default function AddressField({
               status: true,
               response: response.data.results,
             });
-            console.log(
-              "🚀 ~ file: AddressField.jsx:75 ~ .then ~ response:",
-              response.data.results
-            );
+            // console.log(
+            //   "🚀 ~ file: AddressField.jsx:75 ~ .then ~ response:",
+            //   response.data.results
+            // );
             const l = response?.data?.results?.map(
               (r) => `${r?.address.freeformAddress},${r?.address.country}`
             );
