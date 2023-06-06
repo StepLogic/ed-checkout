@@ -51,7 +51,8 @@ export default function AddressField({
     left: "50%",
     transform: "translate(-50%, -50%)",
     width: 662,
-    height: 434,
+    padding: "2rem  1rem",
+    // height: ,
     bgcolor: "background.paper",
     // border: "2px solid #000",
     boxShadow: 24,
@@ -216,7 +217,7 @@ export default function AddressField({
                       {addressLoading ? (
                         <CircularProgress className="w-[1.5rem] h-[1.5rem]" />
                       ) : (
-                        <div className="relative right-4 gap-2">
+                        <div className="relative right-8 flex-row flex gap-3">
                           <button
                             type="button"
                             className="active:text-[#B4B4B4] text-[#886FCC] active:border-[#B4B4B4]"
@@ -279,7 +280,7 @@ export default function AddressField({
             height: "0px!important",
           },
         }}
-        className="flex flex-col gap-10 h-full justify-center"
+        className="grid grid-row-[auto_auto_59px] gap-8 py-5  h-full place-items-center"
       >
         <div className="flex flex-row gap-4">
           <TextField
