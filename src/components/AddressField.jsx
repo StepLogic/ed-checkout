@@ -1,7 +1,7 @@
-import { TextField } from "@components/textfield";
+import TextField from "@components/textfield";
 import NearMeIcon from "@mui/icons-material/NearMe";
 import {
-  Box,
+  // Box,
   CircularProgress,
   FormControl,
   FormHelperText,
@@ -13,6 +13,15 @@ import Snackbar from "@mui/material/Snackbar";
 import axios from "axios";
 import debounce from "lodash/debounce";
 import React, { useCallback, useEffect, useMemo } from "react";
+
+import * as Yup from "yup";
+
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
+import Modal from "@mui/material/Modal";
+import { CaWriting } from "./Icons";
+import { useFormik } from "formik";
 
 const TOMTOM_KEY = import.meta.env.VITE_TOMTOM_API;
 
@@ -31,6 +40,24 @@ export default function AddressField({
   const [addressLoading, setAddressLoading] = React.useState(false);
   const [autoComplete, setAutoComplete] = React.useState({ status: false });
   const [inputValue, setInputValue] = React.useState("");
+
+  const [openModal, setOpenModal] = React.useState(false);
+  const handleOpen = () => setOpenModal(true);
+  const handleClose = () => setOpenModal(false);
+
+  const style = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: 662,
+    height: 434,
+    bgcolor: "background.paper",
+    // border: "2px solid #000",
+    boxShadow: 24,
+    borderRadius: 9,
+    p: 4,
+  };
 
   const autoCompleteAddressHandler = (v) => {
     axios
@@ -118,6 +145,16 @@ export default function AddressField({
           No Address Found
         </Alert>
       </Snackbar>
+      <Modal
+        open={openModal}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <Form />
+        </Box>
+      </Modal>
       <FormControl>
         <Autocomplete
           freeSolo
@@ -179,19 +216,28 @@ export default function AddressField({
                       {addressLoading ? (
                         <CircularProgress className="w-[1.5rem] h-[1.5rem]" />
                       ) : (
-                        <button
-                          type="button"
-                          className="active:text-[#B4B4B4] active:border-[#B4B4B4]"
-                          onClick={() => geoLocate()}
-                        >
-                          <NearMeIcon
-                            sx={{
-                              color: "#886FCC",
-                              fontSize: "2rem",
-                              marginRight: "1rem",
-                            }}
-                          />
-                        </button>
+                        <div className="relative right-4 gap-2">
+                          <button
+                            type="button"
+                            className="active:text-[#B4B4B4] text-[#886FCC] active:border-[#B4B4B4]"
+                            onClick={() => handleOpen()}
+                          >
+                            <CaWriting />
+                          </button>
+                          <button
+                            type="button"
+                            className="active:text-[#B4B4B4] active:border-[#B4B4B4]"
+                            onClick={() => geoLocate()}
+                          >
+                            <NearMeIcon
+                              sx={{
+                                color: "#886FCC",
+                                fontSize: "2rem",
+                                marginRight: "1rem",
+                              }}
+                            />
+                          </button>
+                        </div>
                       )}
                     </div>
                   </InputAdornment>
@@ -204,4 +250,96 @@ export default function AddressField({
       </FormControl>
     </>
   );
+
+  function Form() {
+    const formik = useFormik({
+      initialValues: {
+        indirizzo: "",
+        civico: "",
+        CAP: "",
+        provincia: "",
+        stato: "",
+      },
+
+      initialErrors: true,
+      validateOnChange: true,
+      validateOnMount: true,
+      validationSchema: Yup.object({
+        indirizzo: Yup.string().required("Campo richiesto"),
+        civico: Yup.string().required("Campo richiesto"),
+        CAP: Yup.string().required("Campo richiesto"),
+        provincia: Yup.string().required("Campo richiesto"),
+        stato: Yup.string().required("Campo richiesto"),
+      }),
+    });
+    return (
+      <Box
+        sx={{
+          ".MuiFormHelperText-root": {
+            height: "0px!important",
+          },
+        }}
+        className="flex flex-col gap-10 h-full justify-center"
+      >
+        <div className="flex flex-row gap-4">
+          <TextField
+            variant="outlined"
+            placeholder="Via Roma"
+            label="Indirizzo"
+            name="indirizzo"
+            onChange={formik.handleChange}
+            // value={formik.values.indirizzo}3
+            onBlur={formik.handleBlur}
+            error={formik.errors.indirizzo && formik.touched.indirizzo}
+            helperText={formik.touched.indirizzo && formik.errors.indirizzo}
+          />
+          <TextField
+            variant="outlined"
+            placeholder="10"
+            label="Civico"
+            name="civico"
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={formik.errors.civico && formik.touched.civico}
+            helperText={formik.touched.civico && formik.errors.civico}
+          />
+          <TextField
+            variant="outlined"
+            placeholder="12345"
+            label="CAP"
+            name="CAP"
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={formik.errors.CAP && formik.touched.CAP}
+            helperText={formik.touched.CAP && formik.errors.CAP}
+          />
+        </div>
+        <div className="flex flex-row gap-4">
+          <TextField
+            variant="outlined"
+            placeholder="Roma"
+            label="Provincia"
+            name="provincia"
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={formik.errors.provincia && formik.touched.provincia}
+            helperText={formik.touched.provincia && formik.errors.provincia}
+          />
+          <TextField
+            variant="outlined"
+            placeholder="Roma"
+            label="Stato"
+            name="stato"
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={formik.errors.stato && formik.touched.stato}
+            helperText={formik.touched.stato && formik.errors.stato}
+          />
+        </div>
+        <Button variant="contained" size="medium" className="w-[151px] mx-auto">
+          Salva
+        </Button>
+      </Box>
+    );
+  }
 }

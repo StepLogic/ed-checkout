@@ -244,6 +244,7 @@ export const theme = createTheme({
           borderRadius: "11px",
           fontWeight: "600",
           fontSize: "20px",
+          height: 59,
           "&.Mui-disabled": {
             color: " rgba(73, 73, 73, 0.692)!important",
             backgroundColor: "rgba(150, 150, 150, 0.548) !important",

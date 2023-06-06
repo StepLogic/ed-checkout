@@ -1,7 +1,10 @@
 .root {
   display: grid;
   grid-template-columns: 1fr;
+  /* grid-template-rows: ; */
   height: fit-content;
+  gap: 0.5rem;
+  /* width:100%; */
 }
 .root input:-webkit-autofill,
 .root input:-webkit-autofill:hover,
@@ -37,12 +40,77 @@
   line-height: 99.5% !important;
   color: #2d224c !important;
 }
+.outlined {
+  font-style: normal;
+  font-weight: 600 !important;
+  font-size: 20px !important;
+  line-height: 111.5%;
+  color: #2d224c;
+}
 
-/* @media only screen and (min-width: 763px) {
-  .fieldInput,
-  .fieldInput::placeholder {
-    font-weight: 400;
-    font-size: min(calc(var(--vh, 1vh) * 2.4), 32px) !important;
+@media only screen and (max-width: 520px) {
+  .outlined {
+    font-size: 18px !important;
   }
+  .root {
+    gap: 0.5rem;
+  }
+}
+.root {
+  display: grid;
+  grid-template-columns: 1fr;
+  /* grid-template-rows: ; */
+  height: fit-content;
+  gap: 0.5rem;
+  /* width:100%; */
+}
+.root input:-webkit-autofill,
+.root input:-webkit-autofill:hover,
+.root input:-webkit-autofill:focus,
+.root input:-webkit-autofill:active {
+  transition: background-color 5000s ease-in-out 0s, color 5000s ease-in-out 0s;
+  transition-delay: background-color 5000s, color 5000s;
+}
+
+/* .fieldInput::placeholder {
+  font-family: "DM Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 1.25rem;
+  line-height: 99.5%;
+  color: black !important;
 } */
-/*  */
+/* .fieldInput {
+  padding: 8px 0 5px !important;
+  font-family: "Poppins" !important;
+  font-style: normal !important;
+  font-weight: 400 !important;
+  font-size: 20px !important;
+  line-height: 99.5% !important;
+  color: #8065c9 !important;
+  opacity: 1 !important;
+} */
+.label {
+  font-family: "Poppins" !important;
+  font-style: normal !important;
+  font-weight: 500 !important;
+  font-size: 13px !important;
+  line-height: 99.5% !important;
+  color: #2d224c !important;
+}
+.outlined {
+  font-style: normal;
+  font-weight: 600 !important;
+  font-size: 20px !important;
+  line-height: 111.5%;
+  color: #2d224c;
+}
+
+@media only screen and (max-width: 520px) {
+  .outlined {
+    font-size: 18px !important;
+  }
+  .root {
+    gap: 0.5rem;
+  }
+}
