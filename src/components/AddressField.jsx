@@ -265,7 +265,7 @@ export default function AddressField({
         indirizzo: "",
         civico: "",
         CAP: "",
-        provincia: "",
+        citta: "",
         stato: "",
       },
 
@@ -276,7 +276,7 @@ export default function AddressField({
         indirizzo: Yup.string().required("Campo richiesto"),
         civico: Yup.string().required("Campo richiesto"),
         CAP: Yup.string().required("Campo richiesto"),
-        provincia: Yup.string().required("Campo richiesto"),
+        citta: Yup.string().required("Campo richiesto"),
         stato: Yup.string().required("Campo richiesto"),
       }),
     });
@@ -326,12 +326,12 @@ export default function AddressField({
           <TextField
             variant="outlined"
             placeholder="Roma"
-            label="Provincia"
-            name="provincia"
+            label="Città"
+            name="citta"
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            error={formik.errors.provincia && formik.touched.provincia}
-            helperText={formik.touched.provincia && formik.errors.provincia}
+            error={formik.errors.citta && formik.touched.citta}
+            helperText={formik.touched.citta && formik.errors.citta}
           />
           <TextField
             variant="outlined"

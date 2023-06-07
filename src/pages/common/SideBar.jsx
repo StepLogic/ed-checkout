@@ -382,7 +382,7 @@ const SideBar = ({
                 <div className="flex flex-col">
                   {data?.product?.discount_code ? (
                     <Box sx={priceItemStyle}>
-                      <p>Discount</p>
+                      <p>Sconto</p>
                       <Typography component={"b"} sx={{}} className="">
                         -{price?.discountCodeAmount?.integer}
                         <Typography component={"em"}>
