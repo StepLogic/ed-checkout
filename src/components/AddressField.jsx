@@ -175,8 +175,11 @@ export default function AddressField({
               {...params}
               placeholder="Città, indirizzo e CAP"
               name={name}
-              className="overflow-hidden"
+              className="overflow-hidden !pr-0"
               sx={{
+                ".MuiAutocomplete-inputRoot": {
+                  paddingRight: "0!important",
+                },
                 ".MuiFormHelperText-root ": {
                   minHeight: "23px!important",
                 },
@@ -187,35 +190,18 @@ export default function AddressField({
                 ...params.InputProps,
                 endAdornment: (
                   <InputAdornment position="end">
-                    <div className="flex flex-row items-center relative">
-                      <Box
-                        sx={{
-                          "&>div": {
-                            top: "0!important",
-                            width: "2rem",
-                            height: "2rem",
-                          },
-                          "&>div>button": {
-                            top: "0!important",
-                            width: "2rem",
-                            height: "2rem",
-                            fontSize: "2rem",
-                            padding: "0",
-                            marginBottom: "1rem",
-                          },
-                          "&>div>button>svg": {
-                            fontSize: "2rem",
-                          },
-                        }}
-                        className="my-auto left-[2rem] absolute h-[2rem] w-[2rem] top-0 bottom-0"
-                      >
-                        {params.InputProps.endAdornment}
-                      </Box>
-
+                    <div className="flex flex-row items-center justify-center relative gap-2">
+                      {/* <div className="relative flex-row flex gap-3 bg-white z-10"> */}
                       {addressLoading ? (
-                        <CircularProgress className="w-[2rem] h-[2rem]" />
+                        <CircularProgress
+                          className="w-[20px]  text-[#886FCC] mx-auto"
+                          sx={{
+                            maxWidth: "20px!important",
+                            maxHeight: "20px!important",
+                          }}
+                        />
                       ) : (
-                        <div className="relative right-6 flex-row flex gap-3">
+                        <>
                           <button
                             type="button"
                             className="active:text-[#B4B4B4] text-[#886FCC] active:border-[#B4B4B4]"
@@ -230,8 +216,37 @@ export default function AddressField({
                           >
                             <CaNearMe className="w-[20px]" />
                           </button>
-                        </div>
+                        </>
                       )}
+                      {/* </div> */}
+                      <Box
+                        sx={{
+                          ".MuiAutocomplete-endAdornment": {
+                            position: "relative!important",
+                            right: "0!important",
+                            top: "0!important",
+                          },
+                          // "&>div": {
+                          //   top: "0!important",
+                          //   width: "2rem",
+                          //   height: "2rem",
+                          // },
+                          // "&>div>button": {
+                          //   top: "0!important",
+                          //   width: "2rem",
+                          //   height: "2rem",
+                          //   fontSize: "2rem",
+                          //   padding: "0",
+                          //   marginBottom: "1rem",
+                          // },
+                          "&>div>button>svg": {
+                            fontSize: "2rem",
+                          },
+                        }}
+                        // className="my-auto right-[0.5rem] h-[2rem] w-[2rem] top-0 bottom-0"
+                      >
+                        {params.InputProps.endAdornment}
+                      </Box>
                     </div>
                   </InputAdornment>
                 ),
