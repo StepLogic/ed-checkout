@@ -3,6 +3,8 @@
   grid-template-columns: 1fr;
   /* grid-template-rows: ; */
   height: fit-content;
+  gap: 0.5rem;
+  width: 100%;
 }
 .root > div {
   margin-top: 0 !important;
@@ -44,6 +46,14 @@
   line-height: 99.5% !important;
   color: #2d224c !important;
 }
+.outlined {
+  font-style: normal;
+  font-weight: 600 !important;
+  font-size: 20px !important;
+  line-height: 111.5%;
+  color: #2d224c;
+}
+
 .fieldInput {
   margin-top: 0 !important;
 }
@@ -71,3 +81,12 @@
     background: red;
   }
 } */
+
+@media only screen and (max-width: 520px) {
+  .outlined {
+    font-size: 18px !important;
+  }
+  .root {
+    gap: 0.5rem;
+  }
+}

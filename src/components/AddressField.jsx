@@ -1,4 +1,5 @@
 import TextField from "@components/textfield";
+import Select from "@components/select";
 import {
   // Box,
   CircularProgress,
@@ -14,12 +15,14 @@ import debounce from "lodash/debounce";
 import React, { useEffect } from "react";
 
 import * as Yup from "yup";
+import countryList from "react-select-country-list";
 
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Modal from "@mui/material/Modal";
 import { CaNearMe, CaWriting } from "./Icons";
 import { useFormik } from "formik";
+import { Close } from "@mui/icons-material";
 
 const TOMTOM_KEY = import.meta.env.VITE_TOMTOM_API;
 
@@ -51,12 +54,13 @@ export default function AddressField({
     maxWidth: 662,
     width: "90vw",
     padding: "2rem  1rem",
-    // height: ,
     bgcolor: "background.paper",
-    // border: "2px solid #000",
     boxShadow: 24,
     borderRadius: 9,
     p: 4,
+    ["@media (max-width:763px)"]: {
+      borderRadius: 0,
+    },
   };
 
   const autoCompleteAddressHandler = (v) => {
@@ -152,7 +156,16 @@ export default function AddressField({
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <Form />
+          <Form
+            onSave={(v) => {
+              console.log("hd", v);
+              handleAddressChange({ target: { value: v } });
+              setOpenModal(false);
+            }}
+            onClose={() => {
+              setOpenModal(false);
+            }}
+          />
         </Box>
       </Modal>
       <FormControl>
@@ -260,14 +273,14 @@ export default function AddressField({
     </>
   );
 
-  function Form() {
+  function Form({ onClose, onSave }) {
     const formik = useFormik({
       initialValues: {
         indirizzo: "",
         civico: "",
         CAP: "",
         citta: "",
-        stato: "",
+        stato: "IT",
       },
 
       initialErrors: true,
@@ -281,6 +294,8 @@ export default function AddressField({
         stato: Yup.string().required("Campo richiesto"),
       }),
     });
+    const options = React.useMemo(() => countryList().getData(), []);
+
     return (
       <Box
         sx={{
@@ -288,9 +303,15 @@ export default function AddressField({
             height: "0px!important",
           },
         }}
-        className="grid grid-row-[auto_auto_59px] gap-8 py-5  h-full place-items-center"
+        className="grid grid-row-[auto_auto_auto_59px] lg:grid-row-[auto_auto_59px] gap-8 py-5  h-full place-items-center"
+        // component={"form"}
       >
-        <div className="flex flex-row row-wrap gap-4">
+        <div className="flex flex-row justify-end ml-auto lg:hidden">
+          <button onClick={() => onClose && onClose()}>
+            <Close />
+          </button>
+        </div>
+        <div className="flex flex-row flex-wrap lg:flex-nowrap gap-4">
           <TextField
             variant="outlined"
             placeholder="Via Roma"
@@ -302,28 +323,30 @@ export default function AddressField({
             error={formik.errors.indirizzo && formik.touched.indirizzo}
             helperText={formik.touched.indirizzo && formik.errors.indirizzo}
           />
-          <TextField
-            variant="outlined"
-            placeholder="10"
-            label="Civico"
-            name="civico"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            error={formik.errors.civico && formik.touched.civico}
-            helperText={formik.touched.civico && formik.errors.civico}
-          />
-          <TextField
-            variant="outlined"
-            placeholder="12345"
-            label="CAP"
-            name="CAP"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            error={formik.errors.CAP && formik.touched.CAP}
-            helperText={formik.touched.CAP && formik.errors.CAP}
-          />
+          <div className="flex flex-row gap-4">
+            <TextField
+              variant="outlined"
+              placeholder="10"
+              label="Civico"
+              name="civico"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              error={formik.errors.civico && formik.touched.civico}
+              helperText={formik.touched.civico && formik.errors.civico}
+            />
+            <TextField
+              variant="outlined"
+              placeholder="12345"
+              label="CAP"
+              name="CAP"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              error={formik.errors.CAP && formik.touched.CAP}
+              helperText={formik.touched.CAP && formik.errors.CAP}
+            />
+          </div>
         </div>
-        <div className="flex flex-row  flex-row-wrap gap-4">
+        <div className="flex flex-row  flex-wrap  lg:flex-nowrap gap-4">
           <TextField
             variant="outlined"
             placeholder="Roma"
@@ -334,18 +357,37 @@ export default function AddressField({
             error={formik.errors.citta && formik.touched.citta}
             helperText={formik.touched.citta && formik.errors.citta}
           />
-          <TextField
+          <Select
             variant="outlined"
             placeholder="Italia"
             label="Stato"
             name="stato"
+            value={formik.values.stato}
+            options={options}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             error={formik.errors.stato && formik.touched.stato}
             helperText={formik.touched.stato && formik.errors.stato}
           />
         </div>
-        <Button variant="contained" size="medium" className="w-[151px] mx-auto">
+        <Button
+          variant="contained"
+          size="medium"
+          type="button"
+          className="w-[151px] mx-auto"
+          disabled={Object.values(formik.errors).length !== 0}
+          onClick={() => {
+            // onSave();
+            onSave &&
+              onSave(
+                `${formik.values.indirizzo},${formik.values.citta},${
+                  formik.values.civico
+                },${formik.values.CAP},${countryList().getLabel(
+                  formik.values.stato
+                )}`
+              );
+          }}
+        >
           Salva
         </Button>
       </Box>

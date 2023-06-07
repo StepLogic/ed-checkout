@@ -1,5 +1,11 @@
 import { ExpandMore } from "@mui/icons-material";
-import { FormControl, FormLabel, MenuItem, Select as S, TextField } from "@mui/material";
+import {
+  FormControl,
+  FormLabel,
+  MenuItem,
+  Select as S,
+  TextField,
+} from "@mui/material";
 import cn from "classnames";
 import React from "react";
 
@@ -7,25 +13,39 @@ import { uuid } from "../../pages/utils/Utils";
 import s from "./index.module.css";
 
 export const Select = (props) => {
-  const { className, placeholder, label, options = [], sx, ...rest } = props;
+  const {
+    className,
+    label,
+    placeholder,
+    variant = "standard",
+    options = [],
+    sx,
+    ...rest
+  } = props;
 
   return (
     <>
       <FormControl className={cn(s.root, className)}>
-        {label && <FormLabel className={s.label}>{label}</FormLabel>}
+        {label && (
+          <FormLabel
+            className={cn(s.label, { [s.outlined]: variant === "outlined" })}
+          >
+            {label}
+          </FormLabel>
+        )}
         <TextField
           select
+          displayEmpty={true}
           {...rest}
-          // IconComponent={}
+          placeholder="Hello"
           inputProps={{
             className: cn(s.fieldInput),
-            // endAdornment: e,
           }}
           SelectProps={{
             IconComponent: ExpandMore,
           }}
           sx={{ marginTop: 0, ...sx }}
-          variant="standard"
+          variant={variant}
         >
           {options.map((item) => (
             <MenuItem key={uuid()} value={item.value}>
@@ -37,3 +57,4 @@ export const Select = (props) => {
     </>
   );
 };
+export default Select;
