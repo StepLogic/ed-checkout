@@ -335,7 +335,7 @@ export default function AddressField({
           />
           <TextField
             variant="outlined"
-            placeholder="Roma"
+            placeholder="Italia"
             label="Stato"
             name="stato"
             onChange={formik.handleChange}
