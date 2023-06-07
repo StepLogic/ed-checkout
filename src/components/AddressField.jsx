@@ -48,7 +48,8 @@ export default function AddressField({
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    width: 662,
+    maxWidth: 662,
+    width: "90vw",
     padding: "2rem  1rem",
     // height: ,
     bgcolor: "background.paper",
@@ -289,7 +290,7 @@ export default function AddressField({
         }}
         className="grid grid-row-[auto_auto_59px] gap-8 py-5  h-full place-items-center"
       >
-        <div className="flex flex-row gap-4">
+        <div className="flex flex-row row-wrap gap-4">
           <TextField
             variant="outlined"
             placeholder="Via Roma"
@@ -322,7 +323,7 @@ export default function AddressField({
             helperText={formik.touched.CAP && formik.errors.CAP}
           />
         </div>
-        <div className="flex flex-row gap-4">
+        <div className="flex flex-row  flex-row-wrap gap-4">
           <TextField
             variant="outlined"
             placeholder="Roma"
