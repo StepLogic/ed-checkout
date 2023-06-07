@@ -1,5 +1,4 @@
 import TextField from "@components/textfield";
-import NearMeIcon from "@mui/icons-material/NearMe";
 import {
   // Box,
   CircularProgress,
@@ -12,15 +11,14 @@ import InputAdornment from "@mui/material/InputAdornment";
 import Snackbar from "@mui/material/Snackbar";
 import axios from "axios";
 import debounce from "lodash/debounce";
-import React, { useCallback, useEffect, useMemo } from "react";
+import React, { useEffect } from "react";
 
 import * as Yup from "yup";
 
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
-import { CaWriting } from "./Icons";
+import { CaNearMe, CaWriting } from "./Icons";
 import { useFormik } from "formik";
 
 const TOMTOM_KEY = import.meta.env.VITE_TOMTOM_API;
@@ -215,28 +213,22 @@ export default function AddressField({
                       </Box>
 
                       {addressLoading ? (
-                        <CircularProgress className="w-[1.5rem] h-[1.5rem]" />
+                        <CircularProgress className="w-[2rem] h-[2rem]" />
                       ) : (
-                        <div className="relative right-8 flex-row flex gap-3">
+                        <div className="relative right-6 flex-row flex gap-3">
                           <button
                             type="button"
                             className="active:text-[#B4B4B4] text-[#886FCC] active:border-[#B4B4B4]"
                             onClick={() => handleOpen()}
                           >
-                            <CaWriting />
+                            <CaWriting className="w-[20px]" />
                           </button>
                           <button
                             type="button"
                             className="active:text-[#B4B4B4] active:border-[#B4B4B4]"
                             onClick={() => geoLocate()}
                           >
-                            <NearMeIcon
-                              sx={{
-                                color: "#886FCC",
-                                fontSize: "2rem",
-                                marginRight: "1rem",
-                              }}
-                            />
+                            <CaNearMe className="w-[20px]" />
                           </button>
                         </div>
                       )}
