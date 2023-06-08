@@ -311,7 +311,7 @@ export default function AddressField({
             <Close />
           </button>
         </div>
-        <div className="flex flex-row flex-wrap lg:flex-nowrap gap-4">
+        <div className="flex flex-row flex-wrap lg:flex-nowrap gap-4 w-full">
           <TextField
             variant="outlined"
             placeholder="Via Roma"
@@ -323,7 +323,7 @@ export default function AddressField({
             error={formik.errors.indirizzo && formik.touched.indirizzo}
             helperText={formik.touched.indirizzo && formik.errors.indirizzo}
           />
-          <div className="flex flex-row gap-4">
+          <div className="flex flex-row gap-4 w-full lg:w-auto">
             <TextField
               variant="outlined"
               placeholder="10"
@@ -346,7 +346,7 @@ export default function AddressField({
             />
           </div>
         </div>
-        <div className="flex flex-row  flex-wrap  lg:flex-nowrap gap-4">
+        <div className="flex flex-row  flex-wrap  lg:flex-nowrap gap-4 w-full">
           <TextField
             variant="outlined"
             placeholder="Roma"
