@@ -303,7 +303,7 @@ export default function AddressField({
             height: "0px!important",
           },
         }}
-        className="grid grid-row-[auto_auto_auto_59px] lg:grid-row-[auto_auto_59px] gap-8 py-5  h-full place-items-center"
+        className="grid grid-row-[auto_auto_auto_59px] lg:grid-row-[auto_auto_59px] lg:gap-8 gap-4 py-5  h-full place-items-center"
         // component={"form"}
       >
         <div className="flex flex-row justify-end ml-auto lg:hidden">
@@ -311,7 +311,7 @@ export default function AddressField({
             <Close />
           </button>
         </div>
-        <div className="flex flex-row flex-wrap lg:flex-nowrap gap-4 w-full">
+        <div className="flex flex-col  lg:flex-row gap-4  w-full">
           <TextField
             variant="outlined"
             placeholder="Via Roma"
@@ -346,7 +346,7 @@ export default function AddressField({
             />
           </div>
         </div>
-        <div className="flex flex-row  flex-wrap  lg:flex-nowrap gap-4 w-full">
+        <div className="flex flex-col  lg:flex-row gap-4  w-full">
           <TextField
             variant="outlined"
             placeholder="Roma"
