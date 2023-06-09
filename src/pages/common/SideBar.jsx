@@ -228,7 +228,7 @@ const SideBar = ({
           //   flexDirection: "row",
           // },
         }}
-        hiddenLink={width > 1024 ? true : false}
+        hiddenLink={width >= 1024 ? true : false}
         className={""}
       />
       <Box

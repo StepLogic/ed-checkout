@@ -24,15 +24,15 @@ const Content = ({ children, showPDF = false }) => {
         backgroundSize: "cover",
         backgroundPosition: "top  center",
         flexDirection: "column",
-        paddingTop: "15vh",
+        paddingTop: "10vh",
         backgroundImage: `url('${bgCheckoutMobile}')`,
         ["@media (min-width:1180px)"]: {
           gridTemplateRows: "70px auto!important",
           paddingLeft: "calc(10vw + 10vh)",
         },
-        ["@media (min-width:763px)"]: {
-          paddingLeft: "16vh",
-        },
+        // ["@media (min-width:763px)"]: {
+        //   paddingLeft: "16vh",
+        // },
         // ["@media (min-width:1180px) and (min-height:763px)"]: {
         //   gridTemplateRows: "90px auto!important",
         // },
@@ -48,7 +48,7 @@ const Content = ({ children, showPDF = false }) => {
           height: "100%",
           paddingLeft: "calc(5vw + 10vh)!important",
           borderRadius: 0,
-          paddingTop: "10vh",
+          paddingTop: "3rem",
         },
         // ["@media (min-width:763px)  and (max-width:1180px)"]: {
         //   gridTemplateRows: ["124px 10.8fr"],
@@ -60,7 +60,7 @@ const Content = ({ children, showPDF = false }) => {
     >
       <TopNav
         hiddenLogo={true}
-        hiddenLink={width > 768 ? false : true}
+        hiddenLink={width > 1024 ? false : true}
         className=" !mb-0 !h-[2rem] lg:mb-auto "
         sx={{
           maxHeight: "94px",

@@ -27,7 +27,7 @@ const TopNav = ({
       <div
         className={classNames(
           hiddenLink && "opacity-0",
-          "relative ml-auto h-fit w-fit help 3xl:text-2xl max:text-4xl text-white no-underline md:text-edu-900"
+          "relative ml-auto h-fit w-fit help 3xl:text-2xl max:text-4xl text-white no-underline lg:text-edu-900"
         )}
       >
         <a
