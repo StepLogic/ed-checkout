@@ -24,36 +24,35 @@ const Content = ({ children, showPDF = false }) => {
         backgroundSize: "cover",
         backgroundPosition: "top  center",
         flexDirection: "column",
-        paddingTop: "10vh",
+        paddingTop: "14vh",
         backgroundImage: `url('${bgCheckoutMobile}')`,
-
         ["@media (min-width:1180px)"]: {
           gridTemplateRows: "70px auto!important",
           paddingLeft: "calc(10vw + 10vh)",
         },
-        ["@media (min-width:1180px) and (min-height:763px)"]: {
-          gridTemplateRows: "90px auto!important",
-        },
-        ["@media (min-width:1180px) and (min-height:790px)"]: {
-          gridTemplateRows: "124px auto!important",
-        },
+        // ["@media (min-width:1180px) and (min-height:763px)"]: {
+        //   gridTemplateRows: "90px auto!important",
+        // },
+        // ["@media (min-width:1180px) and (min-height:790px)"]: {
+        //   gridTemplateRows: "124px auto!important",
+        // },
 
-        ["@media (min-width:763px)"]: {
+        ["@media (min-width:1024px)"]: {
           display: "grid",
           gridTemplateRows: ["1fr 10fr"],
-          paddingLeft: "calc(10vw + 5vh)!important",
           backgroundImage: `url('${bgCheckout}')`,
           backgroundPosition: "center left",
-          paddingTop: "40px",
           height: "100%",
+          paddingLeft: "calc(5vw + 10vh)!important",
           borderRadius: 0,
+          paddingTop: "10vh",
         },
-        ["@media (min-width:763px)  and (max-width:1180px)"]: {
-          gridTemplateRows: ["124px 10.8fr"],
-          backgroundImage: `url('${bgCheckoutIpad}')`,
-          // backgroundPosition: "center left",
-          paddingLeft: "calc(6vw + 5vh)!important",
-        },
+        // ["@media (min-width:763px)  and (max-width:1180px)"]: {
+        //   gridTemplateRows: ["124px 10.8fr"],
+        //   backgroundImage: `url('${bgCheckoutIpad}')`,
+        //   // backgroundPosition: "center left",
+        //   paddingLeft: "calc(6vw + 5vh)!important",
+        // },
       }}
     >
       <TopNav
@@ -79,9 +78,9 @@ const Content = ({ children, showPDF = false }) => {
           ["@media (min-width:1180px)"]: {
             gap: "2rem",
           },
-          ["@media (min-width:763px)  and (max-width:1180px)"]: {
-            paddingBottom: "unset",
-          },
+          // ["@media (min-width:763px)  and (max-width:1180px)"]: {
+          //   paddingBottom: "unset",
+          // },
           ["@media (min-width:2050px)"]: {
             // maxWidth: ",
             height: "50vh",

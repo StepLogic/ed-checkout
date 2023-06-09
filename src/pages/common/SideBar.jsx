@@ -131,11 +131,9 @@ const SideBar = ({
       lineHeight: "100%",
       ["@media (min-width:1180px)"]: {
         fontSize: "24px!important",
-        // fontSize: "24px!important",
       },
       "& em": {
         fontSize: "16px",
-        // fontSize: "calc(8px + 0.2vh)",
         mb: "auto",
         lineHeight: "100%",
         fontWeight: "600",
@@ -209,7 +207,8 @@ const SideBar = ({
         height: ["auto", "100%"],
         flexDirection: ["column"],
       }}
-      className="pt-[3rem] px-[1rem] w-full lg:pb-0 md:p-10 lg:max-w-[42vw] md:max-w-[550px]"
+      className="pt-[3rem] px-[1rem] w-full lg:pb-0 md:p-10"
+      // className="pt-[3rem] px-[1rem] w-full lg:pb-0 md:p-10 lg:max-w-[42vw] md:max-w-[550px]"
     >
       <TopNav
         sx={{
@@ -224,12 +223,12 @@ const SideBar = ({
             // mb: "3vh!important",
             flexDirection: "row",
           },
-          ["@media (min-width:763px)"]: {
-            // mb: "3vh!important",
-            flexDirection: "row",
-          },
+          // ["@media (min-width:763px)"]: {
+          //   // mb: "3vh!important",
+          //   flexDirection: "row",
+          // },
         }}
-        hiddenLink={width > 768 ? true : false}
+        hiddenLink={width > 1024 ? true : false}
         className={""}
       />
       <Box
@@ -309,7 +308,7 @@ const SideBar = ({
               py: "min(2vh,8px)",
               px: "min(2vw,1.5rem)",
               gap: "1vh",
-              ["@media (min-height:763px)"]: {
+              ["@media (min-height:1024px)"]: {
                 gap: "0.5rem",
               },
               ["@media (min-width:2050px)"]: {
