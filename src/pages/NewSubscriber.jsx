@@ -33,7 +33,15 @@ const NewSubscriber = () => {
 
   return (
     <>
-      <SideBar enableViewProduct={true} setShowPDF={setShowPDF} showPdf={showPDF} enableDiscount={false} enableCounter={false} isNewSubscriber={true} showCounter={false} />
+      <SideBar
+        enableViewProduct={true}
+        setShowPDF={setShowPDF}
+        showPdf={showPDF}
+        enableDiscount={false}
+        enableCounter={false}
+        isNewSubscriber={true}
+        showCounter={false}
+      />
       <Content showPDF={showPDF}>
         <>
           <>
@@ -69,7 +77,14 @@ const NewSubscriber = () => {
                 }}
               />
             )}
-            {step == 2 && <PaymentForm iva={iva} product={product} user={user} paymentType={"Stripe"} />}
+            {step == 2 && (
+              <PaymentForm
+                iva={iva}
+                product={product}
+                user={user}
+                paymentType={"Stripe"}
+              />
+            )}
           </>
         </>
       </Content>

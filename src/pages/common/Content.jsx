@@ -2,6 +2,7 @@ import { Box } from "@mui/material";
 import React from "react";
 import bgCheckout from "@assets/img/bgCheckout.svg";
 import bgCheckoutMobile from "@assets/img/bgCheckoutMobile.svg";
+import bgCheckoutIpad from "@assets/img/bgCheckoutIpad.svg";
 import { useWindowSize } from "../hooks/useWindowSize.jsx";
 import PDFviewer from "../common/pdf/PDFviewer";
 import TopNav from "./TopNav.jsx";
@@ -16,20 +17,16 @@ const Content = ({ children, showPDF = false }) => {
   return (
     <Box
       className="pb-8 lg:pb-0 px-4"
-      style={{
-        backgroundImage: `url('${
-          width < 768 ? bgCheckoutMobile : bgCheckout
-        }')`,
-        // paddingTop: width < 768 ? 0 : 0,
-        backgroundRepeat: "no",
-        backgroundSize: "cover",
-        backgroundPosition: width < 768 ? "top  center" : "center left",
-        backgroundColor: "#fffff",
-      }}
       sx={{
         display: "flex",
+
+        backgroundRepeat: "no",
+        backgroundSize: "cover",
+        backgroundPosition: "top  center",
         flexDirection: "column",
         paddingTop: "10vh",
+        backgroundImage: `url('${bgCheckoutMobile}')`,
+
         ["@media (min-width:1180px)"]: {
           gridTemplateRows: "70px auto!important",
           paddingLeft: "calc(10vw + 10vh)",
@@ -40,12 +37,22 @@ const Content = ({ children, showPDF = false }) => {
         ["@media (min-width:1180px) and (min-height:790px)"]: {
           gridTemplateRows: "124px auto!important",
         },
+
         ["@media (min-width:763px)"]: {
           display: "grid",
           gridTemplateRows: ["1fr 10fr"],
           paddingLeft: "calc(10vw + 5vh)!important",
+          backgroundImage: `url('${bgCheckout}')`,
+          backgroundPosition: "center left",
           paddingTop: "40px",
-          height: ["calc(var(--vh, 1vh) * 100)"],
+          height: "100%",
+          borderRadius: 0,
+        },
+        ["@media (min-width:763px)  and (max-width:1180px)"]: {
+          gridTemplateRows: ["124px 10.8fr"],
+          backgroundImage: `url('${bgCheckoutIpad}')`,
+          // backgroundPosition: "center left",
+          paddingLeft: "calc(6vw + 5vh)!important",
         },
       }}
     >
@@ -71,9 +78,10 @@ const Content = ({ children, showPDF = false }) => {
           paddingBottom: "2rem",
           ["@media (min-width:1180px)"]: {
             gap: "2rem",
+          },
+          ["@media (min-width:763px)  and (max-width:1180px)"]: {
             paddingBottom: "unset",
           },
-
           ["@media (min-width:2050px)"]: {
             // maxWidth: ",
             height: "50vh",

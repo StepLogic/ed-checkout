@@ -206,7 +206,7 @@ const SideBar = ({
           gridTemplateRows: ["124px 10.8fr"],
           paddingLeft: "calc(10vw + 10vh)",
         },
-        height: ["auto", "100vh"],
+        height: ["auto", "100%"],
         flexDirection: ["column"],
       }}
       className="pt-[3rem] px-[1rem] w-full lg:pb-0 md:p-10 lg:max-w-[42vw] md:max-w-[550px]"

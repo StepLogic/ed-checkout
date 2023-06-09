@@ -1,6 +1,6 @@
 import { Grid } from "@mui/material";
 import React from "react";
-
+import cn from "classnames";
 const PALETTE = {
   COMMON: {
     darken: "rgba(128, 101, 201, .8)",
@@ -43,11 +43,15 @@ const defaultStyle = {
   borderRadius: "10px",
 };
 
-const MessageBox = ({ message, type }) => {
-  const typeMessage = type === "error" ? error : type === "success" ? success : common;
+const MessageBox = ({ message, type, className }) => {
+  const typeMessage =
+    type === "error" ? error : type === "success" ? success : common;
   return (
-    <Grid item xs={12} className={"my-3 w-full"}>
-      <div style={{ ...typeMessage, ...defaultStyle }} className="text-xs md:text-sm xl:text-base 3xl:text-xl max:text-4xl">
+    <Grid item xs={12} className={cn("my-3 w-full", className)}>
+      <div
+        style={{ ...typeMessage, ...defaultStyle }}
+        className="text-xs md:text-sm xl:text-base 3xl:text-xl max:text-4xl"
+      >
         {message}
       </div>
     </Grid>

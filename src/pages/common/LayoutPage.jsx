@@ -19,24 +19,26 @@ const LayoutPage = () => {
       <Box
         component={"section"}
         sx={{
-          height: "fit-content",
-          overflow: "hidden",
+          height: "100%",
           ["@media (min-width:1180px)"]: {
-            height: "calc(var(--vh, 1vh) * 99.99998)",
+            minHeight: "calc(var(--vh, 1vh) * 99.99998)",
           },
         }}
-        className="w-full  text-white bg-edu-900"
+        className="w-full grid text-white bg-edu-900"
       >
         <Box
           sx={{
             display: ["grid"],
             gridTemplateColumns: ["1fr"],
-            ["@media (min-width:763px)"]: {
-              gridTemplateColumns: ["4fr 7fr"],
+            ["@media (min-width:1024px)"]: {
+              gridTemplateColumns: "4fr 7fr!important2",
             },
-            height: "fit-content",
+            ["@media (min-width:763px)"]: {
+              gridTemplateColumns: "3fr 7fr",
+            },
+
+            height: "100%",
           }}
-          className=""
         >
           <Outlet />
         </Box>

@@ -19,7 +19,9 @@ const KlarnaCheckout = ({ product, userToken, iva, userInfo }) => {
   const quantity = userInfo?.quantity ?? 1;
 
   const priceData = {
-    no_iva: product?.discount ? product?.original_price_no_iva : product?.no_iva,
+    no_iva: product?.discount
+      ? product?.original_price_no_iva
+      : product?.no_iva,
     iva: product?.discount ? product?.original_price_iva : product?.iva,
     discount: product?.discount ? product?.discount : 0,
     price: product?.price,
@@ -44,7 +46,8 @@ const KlarnaCheckout = ({ product, userToken, iva, userInfo }) => {
         total_discount_amount: 0,
         total_tax_amount: 0,
         product_url: "https://www.edusogno.com/",
-        image_url: "https://edusogno.com/wp-content/uploads/2021/02/website-image-squared.png",
+        image_url:
+          "https://edusogno.com/wp-content/uploads/2021/02/website-image-squared.png",
       },
     ],
   };
@@ -66,24 +69,31 @@ const KlarnaCheckout = ({ product, userToken, iva, userInfo }) => {
         if (res.approved == true) {
           var auth = res.authorization_token;
 
-          const { error, data } = await Api.post("v2/checkout/klarna/create-order", {
-            product: product.token,
-            auth,
-            token: userToken,
-            user: userInfo,
-            post,
-            discount_code: checkoutData?.product?.discount_code,
-          }).catch(function (error) {
+          const { error, data } = await Api.post(
+            "v2/checkout/klarna/create-order",
+            {
+              product: product.token,
+              auth,
+              token: userToken,
+              user: userInfo,
+              post,
+              discount_code: checkoutData?.product?.discount_code,
+            }
+          ).catch(function (error) {
             return { error: error.response.data.error };
           });
 
           if (data?.success) {
             setMessage({
               type: "success",
-              message: "Pagamento avvenuto con successo a breve verrai reindirizzato",
+              message:
+                "Pagamento avvenuto con successo a breve verrai reindirizzato",
             });
             setAuthorizing(false);
-            navigate("/thank-you", { replace: true, state: { iva, existing_user: false } });
+            navigate("/thank-you", {
+              replace: true,
+              state: { iva, existing_user: false },
+            });
           }
         } else {
           setIsProcessingPayment(false);
@@ -138,15 +148,30 @@ const KlarnaCheckout = ({ product, userToken, iva, userInfo }) => {
           justifyContent: "start",
         }}
       >
-        <div id="klarna_container">{isLoadingCheckout ? <CircularProgress /> : null}</div>
+        <div id="klarna_container">
+          {isLoadingCheckout ? <CircularProgress /> : null}
+        </div>
       </Box>
-      <Box className="flex flex-row mt-auto w-full">
+      <Box className="flex flex-row mt-auto w-full relative">
         <Box className=" !h-fit w-full mt-auto flex items-center flex-row">
-          <LoadingButton loading={isProcessingPayment} color="buttonGreen" variant="contained" sx={{ mt: 0, width: "100%", height: "59px" }} size="large" onClick={() => authorizePayment()}>
+          <LoadingButton
+            loading={isProcessingPayment}
+            color="buttonGreen"
+            variant="contained"
+            sx={{ mt: 0, width: "100%", height: "59px" }}
+            size="large"
+            onClick={() => authorizePayment()}
+          >
             Paga
           </LoadingButton>
         </Box>
-        {message ? <MessageBox type={message.type} message={message.message} /> : null}
+        {message && (
+          <MessageBox
+            className="absolute left-2 bottom-2"
+            type={message.type}
+            message={message.message}
+          />
+        )}
       </Box>
     </div>
   );
