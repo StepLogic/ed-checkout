@@ -246,7 +246,7 @@ const SideBar = ({
           },
         }}
       >
-        <h1 className="font-semibold leading-none text-white text-[24px] text-center lg:text-start lg:text-3xl 3xl:text-4xl max:text-6xl">
+        <h1 className="font-semibold leading-none text-white text-[24px] md:text-xl truncate text-center lg:text-start lg:text-3xl 3xl:text-4xl max:text-6xl">
           Il tuo percorso prevede:
         </h1>
         <Box

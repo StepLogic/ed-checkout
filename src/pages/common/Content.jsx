@@ -24,11 +24,14 @@ const Content = ({ children, showPDF = false }) => {
         backgroundSize: "cover",
         backgroundPosition: "top  center",
         flexDirection: "column",
-        paddingTop: "14vh",
+        paddingTop: "15vh",
         backgroundImage: `url('${bgCheckoutMobile}')`,
         ["@media (min-width:1180px)"]: {
           gridTemplateRows: "70px auto!important",
           paddingLeft: "calc(10vw + 10vh)",
+        },
+        ["@media (min-width:763px)"]: {
+          paddingLeft: "16vh",
         },
         // ["@media (min-width:1180px) and (min-height:763px)"]: {
         //   gridTemplateRows: "90px auto!important",
@@ -100,33 +103,42 @@ const Content = ({ children, showPDF = false }) => {
               width: "80vw!important",
               maxHeight: "calc(300px + 5vw)",
             },
-            ["@media (min-width:1280px)"]: {
-              "& .swiper": {
-                width: "30vw!important",
-              },
-              "& .react-pdf__Page__canvas": {
-                width: "30vw!important",
-              },
-            },
-
             ["@media (min-width:736px)"]: {
               "& .swiper": {
-                width: "43vw!important",
+                width: "63vw!important",
                 "& .thumbnail": {
-                  maxWidth: "9.5rem!important",
+                  maxWidth: "10.5rem!important",
                 },
               },
               "& .react-pdf__Page__canvas": {
+                width: "63vw!important",
+              },
+            },
+            ["@media (min-width:1022px)"]: {
+              "& .swiper": {
+                width: "43vw!important",
+              },
+              "&  .swiper .thumbnail .react-pdf__Page__canvas": {
+                maxWidth: "10.5rem!important",
+              },
+
+              "& .react-pdf__Page__canvas": {
                 width: "43vw!important",
               },
             },
+            ["@media (min-width:1280px)"]: {
+              "&  .swiper .thumbnail .react-pdf__Page__canvas": {
+                maxWidth: "9.5rem!important",
+              },
+            },
+
             ["@media (min-width:1600px)"]: {
               my: "auto",
               "& .swiper": {
                 width: "600px!important",
-                "& .thumbnail": {
-                  maxWidth: "9.5rem!important",
-                },
+              },
+              "&  .swiper .thumbnail .react-pdf__Page__canvas": {
+                maxWidth: "9.5rem!important",
               },
               "& .react-pdf__Page__canvas": {
                 width: "600px!important",
