@@ -10,6 +10,7 @@ import { ReactQueryDevtools } from "react-query/devtools";
 import LayoutPage from "./pages/common/LayoutPage.jsx";
 // import ExistingSubscriber from "./pages/ExistingSubscriber.jsx";
 import NewSubscriber from "./pages/NewSubscriber.jsx";
+import NewPageWithoutProductCounter from "./pages/NewPageWithoutProductCounter";
 import NewUser from "./pages/NewUser.jsx";
 import ExistingUser from "./pages/ExistingUser.jsx";
 import ThankYou from "./pages/thank-you";
@@ -67,6 +68,10 @@ const App = () => {
               <Route
                 path="existing-user/:productTk/:userTk"
                 element={<ExistingUser />}
+              />
+              <Route
+                path="new-page/:productTk/:userTk"
+                element={<NewPageWithoutProductCounter />}
               />
             </Route>
           </Routes>
