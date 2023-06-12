@@ -241,7 +241,7 @@ const SideBar = ({
           //   my: "auto",
           // },
           ["@media (min-width:2050px)"]: {
-            height: "50vh",
+            height: "55vh",
             my: "auto",
           },
         }}
@@ -260,7 +260,7 @@ const SideBar = ({
               gap: "1rem",
             },
             ["@media (min-width:2050px)"]: {
-              gridTemplateRows: ["300px 39px auto"],
+              gridTemplateRows: ["350px 39px auto"],
               paddingBottom: "1rem",
             },
           }}
