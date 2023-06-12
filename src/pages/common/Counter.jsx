@@ -32,6 +32,7 @@ function Counter({
         height: "62px",
         paddingRight: "min(2vw,1.5rem)",
         paddingLeft: "min(2vw,1.5rem)",
+        display: showCounter ? "grid!important" : "none!important",
       }}
       className=" h-[62px]  max-w-[100%] grid gap-2  items-center w-full relative"
     >

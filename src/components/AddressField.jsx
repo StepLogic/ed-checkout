@@ -277,7 +277,7 @@ export default function AddressField({
     const formik = useFormik({
       initialValues: {
         indirizzo: "",
-        civico: "",
+        // civico: "",
         CAP: "",
         citta: "",
         stato: "IT",
@@ -288,7 +288,7 @@ export default function AddressField({
       validateOnMount: true,
       validationSchema: Yup.object({
         indirizzo: Yup.string().required("Campo richiesto"),
-        civico: Yup.string().required("Campo richiesto"),
+        // civico: Yup.string().required("Campo richiesto"),
         CAP: Yup.string().required("Campo richiesto"),
         citta: Yup.string().required("Campo richiesto"),
         stato: Yup.string().required("Campo richiesto"),
@@ -311,7 +311,7 @@ export default function AddressField({
             <Close />
           </button>
         </div>
-        <div className="flex flex-col  lg:flex-row gap-4  w-full">
+        <div className="grid grid-cols-1  lg:grid-cols-2 gap-4  w-full">
           <TextField
             variant="outlined"
             placeholder="Via Roma"
@@ -323,8 +323,8 @@ export default function AddressField({
             error={formik.errors.indirizzo && formik.touched.indirizzo}
             helperText={formik.touched.indirizzo && formik.errors.indirizzo}
           />
-          <div className="flex flex-row gap-4 w-full lg:w-auto">
-            <TextField
+          {/* <div className="flex flex-row gap-4 w-full lg:w-auto"> */}
+          {/* <TextField
               variant="outlined"
               placeholder="10"
               label="Civico"
@@ -333,20 +333,20 @@ export default function AddressField({
               onBlur={formik.handleBlur}
               error={formik.errors.civico && formik.touched.civico}
               helperText={formik.touched.civico && formik.errors.civico}
-            />
-            <TextField
-              variant="outlined"
-              placeholder="12345"
-              label="CAP"
-              name="CAP"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={formik.errors.CAP && formik.touched.CAP}
-              helperText={formik.touched.CAP && formik.errors.CAP}
-            />
-          </div>
+            /> */}
+          <TextField
+            variant="outlined"
+            placeholder="12345"
+            label="CAP"
+            name="CAP"
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={formik.errors.CAP && formik.touched.CAP}
+            helperText={formik.touched.CAP && formik.errors.CAP}
+          />
+          {/* </div> */}
         </div>
-        <div className="flex flex-col  lg:flex-row gap-4  w-full">
+        <div className="grid grid-cols-1  lg:grid-cols-2 gap-4  w-full">
           <TextField
             variant="outlined"
             placeholder="Roma"
