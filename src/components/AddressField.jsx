@@ -311,12 +311,13 @@ export default function AddressField({
             <Close />
           </button>
         </div>
-        <div className="grid grid-cols-1  lg:grid-cols-2 gap-4  w-full">
+        <div className="grid grid-cols-1 lg:grid-cols-6 gap-4  w-full">
           <TextField
             variant="outlined"
             placeholder="Via Roma"
             label="Indirizzo"
             name="indirizzo"
+            className="col-span-4"
             onChange={formik.handleChange}
             // value={formik.values.indirizzo}3
             onBlur={formik.handleBlur}
@@ -339,6 +340,7 @@ export default function AddressField({
             placeholder="12345"
             label="CAP"
             name="CAP"
+            className="col-span-2"
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             error={formik.errors.CAP && formik.touched.CAP}
@@ -346,7 +348,7 @@ export default function AddressField({
           />
           {/* </div> */}
         </div>
-        <div className="grid grid-cols-1  lg:grid-cols-2 gap-4  w-full">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4  w-full">
           <TextField
             variant="outlined"
             placeholder="Roma"
